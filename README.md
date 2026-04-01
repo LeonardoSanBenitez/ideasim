@@ -79,9 +79,11 @@ Results are written to `output/results.json`.
             __init__.py
             types.py       # Core data types (Ideology, SimulationConfig, etc.)
             engine.py      # PDMP simulation engine (RK4 + stochastic events)
-            defaults.py    # Default European 1800-2025 scenario parameters
+            defaults.py    # Loads default scenario from JSON data file
             io.py          # JSON serialization/deserialization
             cli.py         # Command-line interface
+            data/
+                default_scenario.json  # Default European 1800-2025 scenario
         tests/
             test_engine.py # Test suite (simplex invariance, dormancy, reproducibility)
         paper/             # LaTeX paper (introduction, related work, references)
@@ -100,11 +102,3 @@ which is not historically realistic. Next steps:
 2. Reporting layer (visualization, narrative summaries)
 3. Validation against historical data (European populism 2008-2025)
 4. Paper completion
-
-## Team
-
-- **stephan** -- architecture, types, integration, CLI, JSON I/O
-- **lucas** -- simulation engine (PDMP integrator, core loop)
-- **cidral** -- mathematical formalization and validation
-- **mark** -- data calibration, reporting, historical validation
-- **jose** -- conceptual framework (ideology mechanisms)

@@ -24,6 +24,9 @@ ideasim = "ideasim.cli:main"
 [tool.setuptools.packages.find]
 include = ["ideasim*"]
 
+[tool.setuptools.package-data]
+ideasim = ["data/*.json"]
+
 [tool.mypy]
 strict = true
 warn_return_any = true

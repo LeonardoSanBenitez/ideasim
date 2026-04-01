@@ -17,12 +17,26 @@ from ideasim.types import (
 )
 
 
+def _sanitize_for_json(obj: Any) -> Any:
+    """Replace inf/-inf with None for JSON compatibility."""
+    if isinstance(obj, float):
+        if obj == float("inf") or obj == float("-inf"):
+            return None
+        return obj
+    if isinstance(obj, list):
+        return [_sanitize_for_json(item) for item in obj]
+    return obj
+
+
 class _NumpyEncoder(json.JSONEncoder):
     def default(self, obj: Any) -> Any:
         if isinstance(obj, np.ndarray):
-            return obj.tolist()
+            return _sanitize_for_json(obj.tolist())
         if isinstance(obj, np.floating):
-            return float(obj)
+            v = float(obj)
+            if v == float("inf") or v == float("-inf"):
+                return None
+            return v
         if isinstance(obj, np.integer):
             return int(obj)
         return super().default(obj)
@@ -141,6 +155,18 @@ def save_result(result: SimulationResult, path: str | Path) -> None:
         json.dump(data, f, indent=2, cls=_NumpyEncoder)
 
 
+def _deserialize_with_inf(obj: Any) -> Any:
+    """Replace None with float('inf') when loading JSON arrays.
+
+    This is the inverse of _sanitize_for_json: JSON null -> Python inf.
+    """
+    if obj is None:
+        return float("inf")
+    if isinstance(obj, list):
+        return [_deserialize_with_inf(item) for item in obj]
+    return obj
+
+
 def load_config(path: str | Path) -> SimulationConfig:
     """Load simulation config from JSON file."""
     with open(path) as f:
@@ -182,7 +208,9 @@ def load_config(path: str | Path) -> SimulationConfig:
     stoch_data = data.get("stochastic", {})
     stochastic = StochasticParams(
         hybridization_rates=np.array(stoch_data.get("hybridization_rates", np.full((n, n), 0.005))),
-        hybridization_thresholds=np.array(stoch_data.get("hybridization_thresholds", np.full((n, n), 0.1))),
+        hybridization_thresholds=np.array(
+            _deserialize_with_inf(stoch_data.get("hybridization_thresholds", np.full((n, n), 0.1)))
+        ),
         charisma_rate=stoch_data.get("charisma_rate", 0.02),
         charisma_decay=stoch_data.get("charisma_decay", 20.0),
         charisma_amplitude_mean=stoch_data.get("charisma_amplitude_mean", 0.3),
@@ -244,7 +272,9 @@ def save_config(config: SimulationConfig, path: str | Path) -> None:
         },
         "stochastic": {
             "hybridization_rates": config.stochastic.hybridization_rates.tolist(),
-            "hybridization_thresholds": config.stochastic.hybridization_thresholds.tolist(),
+            "hybridization_thresholds": _sanitize_for_json(
+                config.stochastic.hybridization_thresholds.tolist()
+            ),
             "charisma_rate": config.stochastic.charisma_rate,
             "charisma_decay": config.stochastic.charisma_decay,
             "charisma_amplitude_mean": config.stochastic.charisma_amplitude_mean,
