@@ -9,6 +9,7 @@ description = "Simulator for ideological competition dynamics — replicator-mut
 requires-python = ">=3.11"
 dependencies = [
     "numpy>=1.26",
+    "scipy>=1.11",
 ]
 
 [project.optional-dependencies]
@@ -16,6 +17,7 @@ dev = [
     "pytest>=7.4",
     "mypy>=1.8",
     "numpy>=1.26",
+    "scipy>=1.11",
 ]
 
 [project.scripts]
@@ -34,3 +36,6 @@ warn_unused_configs = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+markers = [
+    "slow: marks tests as slow (run with --run-slow or -m slow)",
+]

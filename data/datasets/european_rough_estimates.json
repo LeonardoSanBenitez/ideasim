@@ -1,0 +1,77 @@
+{
+  "name": "european_rough_estimates",
+  "description": "Rough historical estimates of European ideological share 1850-2020, based on parliamentary representation patterns and scholarly consensus. This is a synthetic dataset for framework development -- to be replaced with proper ParlGov/MARPOR data.",
+  "ideology_names": ["liberalism", "marxism", "traditionalism", "nationalism"],
+  "ideology_mapping": {},
+  "metadata": {
+    "source": "Manual estimates based on historical scholarship",
+    "version": "0.1",
+    "notes": "Shares are approximate and represent broad ideological blocs, not specific parties. Intended as a framework development placeholder."
+  },
+  "observations": [
+    {"year": 1850, "ideology": "liberalism", "share": 0.20},
+    {"year": 1850, "ideology": "marxism", "share": 0.05},
+    {"year": 1850, "ideology": "traditionalism", "share": 0.55},
+    {"year": 1850, "ideology": "nationalism", "share": 0.20},
+
+    {"year": 1870, "ideology": "liberalism", "share": 0.30},
+    {"year": 1870, "ideology": "marxism", "share": 0.08},
+    {"year": 1870, "ideology": "traditionalism", "share": 0.42},
+    {"year": 1870, "ideology": "nationalism", "share": 0.20},
+
+    {"year": 1890, "ideology": "liberalism", "share": 0.28},
+    {"year": 1890, "ideology": "marxism", "share": 0.15},
+    {"year": 1890, "ideology": "traditionalism", "share": 0.35},
+    {"year": 1890, "ideology": "nationalism", "share": 0.22},
+
+    {"year": 1910, "ideology": "liberalism", "share": 0.25},
+    {"year": 1910, "ideology": "marxism", "share": 0.22},
+    {"year": 1910, "ideology": "traditionalism", "share": 0.28},
+    {"year": 1910, "ideology": "nationalism", "share": 0.25},
+
+    {"year": 1920, "ideology": "liberalism", "share": 0.20},
+    {"year": 1920, "ideology": "marxism", "share": 0.28},
+    {"year": 1920, "ideology": "traditionalism", "share": 0.22},
+    {"year": 1920, "ideology": "nationalism", "share": 0.30},
+
+    {"year": 1930, "ideology": "liberalism", "share": 0.15},
+    {"year": 1930, "ideology": "marxism", "share": 0.25},
+    {"year": 1930, "ideology": "traditionalism", "share": 0.20},
+    {"year": 1930, "ideology": "nationalism", "share": 0.40},
+
+    {"year": 1945, "ideology": "liberalism", "share": 0.25},
+    {"year": 1945, "ideology": "marxism", "share": 0.30},
+    {"year": 1945, "ideology": "traditionalism", "share": 0.25},
+    {"year": 1945, "ideology": "nationalism", "share": 0.20},
+
+    {"year": 1960, "ideology": "liberalism", "share": 0.30},
+    {"year": 1960, "ideology": "marxism", "share": 0.28},
+    {"year": 1960, "ideology": "traditionalism", "share": 0.27},
+    {"year": 1960, "ideology": "nationalism", "share": 0.15},
+
+    {"year": 1975, "ideology": "liberalism", "share": 0.32},
+    {"year": 1975, "ideology": "marxism", "share": 0.30},
+    {"year": 1975, "ideology": "traditionalism", "share": 0.23},
+    {"year": 1975, "ideology": "nationalism", "share": 0.15},
+
+    {"year": 1990, "ideology": "liberalism", "share": 0.38},
+    {"year": 1990, "ideology": "marxism", "share": 0.22},
+    {"year": 1990, "ideology": "traditionalism", "share": 0.22},
+    {"year": 1990, "ideology": "nationalism", "share": 0.18},
+
+    {"year": 2000, "ideology": "liberalism", "share": 0.40},
+    {"year": 2000, "ideology": "marxism", "share": 0.18},
+    {"year": 2000, "ideology": "traditionalism", "share": 0.22},
+    {"year": 2000, "ideology": "nationalism", "share": 0.20},
+
+    {"year": 2010, "ideology": "liberalism", "share": 0.35},
+    {"year": 2010, "ideology": "marxism", "share": 0.15},
+    {"year": 2010, "ideology": "traditionalism", "share": 0.22},
+    {"year": 2010, "ideology": "nationalism", "share": 0.28},
+
+    {"year": 2020, "ideology": "liberalism", "share": 0.30},
+    {"year": 2020, "ideology": "marxism", "share": 0.15},
+    {"year": 2020, "ideology": "traditionalism", "share": 0.20},
+    {"year": 2020, "ideology": "nationalism", "share": 0.35}
+  ]
+}
