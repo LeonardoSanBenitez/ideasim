@@ -1,0 +1,6708 @@
+{
+  "config": {
+    "ideologies": [
+      "liberalism",
+      "marxism",
+      "traditionalism",
+      "nationalism"
+    ],
+    "t_start": 1800.0,
+    "t_end": 2025.0,
+    "dt": 0.05,
+    "rho": 0.015,
+    "seed": 42,
+    "n_env_vars": 5,
+    "env_var_names": [
+      "gdp_growth",
+      "inequality",
+      "media_freedom",
+      "social_media",
+      "conflict"
+    ]
+  },
+  "metadata": {
+    "total_steps": 4501,
+    "total_events": 21,
+    "final_n_ideologies": 4
+  },
+  "ideology_names": [
+    "liberalism",
+    "marxism",
+    "traditionalism",
+    "nationalism"
+  ],
+  "history": [
+    {
+      "time": 1800.0,
+      "shares": {
+        "liberalism": 0.15,
+        "marxism": 0.05,
+        "traditionalism": 0.6,
+        "nationalism": 0.2
+      },
+      "latent": {
+        "liberalism": 0.4,
+        "marxism": 0.3,
+        "traditionalism": 0.5,
+        "nationalism": 0.4
+      },
+      "environment": {
+        "gdp_growth": 0.02,
+        "inequality": 0.6,
+        "media_freedom": 0.3,
+        "social_media": 0.0,
+        "conflict": 0.2
+      },
+      "fitness": {
+        "liberalism": 0.0078,
+        "marxism": 0.0334,
+        "traditionalism": 0.0302,
+        "nationalism": 0.0608
+      }
+    },
+    {
+      "time": 1801.0,
+      "shares": {
+        "liberalism": 0.148444,
+        "marxism": 0.053242,
+        "traditionalism": 0.591682,
+        "nationalism": 0.206632
+      },
+      "latent": {
+        "liberalism": 0.403222,
+        "marxism": 0.302811,
+        "traditionalism": 0.555653,
+        "nationalism": 0.409201
+      },
+      "environment": {
+        "gdp_growth": 0.0184,
+        "inequality": 0.6004,
+        "media_freedom": 0.2961,
+        "social_media": -0.0004,
+        "conflict": 0.2028
+      },
+      "fitness": {
+        "liberalism": 0.007471,
+        "marxism": 0.033958,
+        "traditionalism": 0.032136,
+        "nationalism": 0.061616
+      }
+    },
+    {
+      "time": 1802.0,
+      "shares": {
+        "liberalism": 0.146592,
+        "marxism": 0.05634,
+        "traditionalism": 0.584009,
+        "nationalism": 0.21306
+      },
+      "latent": {
+        "liberalism": 0.40594,
+        "marxism": 0.30584,
+        "traditionalism": 0.608716,
+        "nationalism": 0.418728
+      },
+      "environment": {
+        "gdp_growth": 0.0169,
+        "inequality": 0.6009,
+        "media_freedom": 0.2921,
+        "social_media": -0.0008,
+        "conflict": 0.2054
+      },
+      "fitness": {
+        "liberalism": 0.00712,
+        "marxism": 0.034523,
+        "traditionalism": 0.034007,
+        "nationalism": 0.062472
+      }
+    },
+    {
+      "time": 1803.0,
+      "shares": {
+        "liberalism": 0.144469,
+        "marxism": 0.059293,
+        "traditionalism": 0.576946,
+        "nationalism": 0.219292
+      },
+      "latent": {
+        "liberalism": 0.408147,
+        "marxism": 0.30907,
+        "traditionalism": 0.659341,
+        "nationalism": 0.42854
+      },
+      "environment": {
+        "gdp_growth": 0.0153,
+        "inequality": 0.6014,
+        "media_freedom": 0.2882,
+        "social_media": -0.0012,
+        "conflict": 0.208
+      },
+      "fitness": {
+        "liberalism": 0.006746,
+        "marxism": 0.035095,
+        "traditionalism": 0.035816,
+        "nationalism": 0.063364
+      }
+    },
+    {
+      "time": 1804.0,
+      "shares": {
+        "liberalism": 0.142102,
+        "marxism": 0.062103,
+        "traditionalism": 0.570459,
+        "nationalism": 0.225336
+      },
+      "latent": {
+        "liberalism": 0.409854,
+        "marxism": 0.312487,
+        "traditionalism": 0.707669,
+        "nationalism": 0.4386
+      },
+      "environment": {
+        "gdp_growth": 0.0137,
+        "inequality": 0.602,
+        "media_freedom": 0.2842,
+        "social_media": -0.0015,
+        "conflict": 0.2105
+      },
+      "fitness": {
+        "liberalism": 0.006351,
+        "marxism": 0.035671,
+        "traditionalism": 0.037567,
+        "nationalism": 0.064287
+      }
+    },
+    {
+      "time": 1805.0,
+      "shares": {
+        "liberalism": 0.139518,
+        "marxism": 0.06477,
+        "traditionalism": 0.564511,
+        "nationalism": 0.231201
+      },
+      "latent": {
+        "liberalism": 0.41106,
+        "marxism": 0.316075,
+        "traditionalism": 0.753834,
+        "nationalism": 0.448872
+      },
+      "environment": {
+        "gdp_growth": 0.0121,
+        "inequality": 0.6026,
+        "media_freedom": 0.2801,
+        "social_media": -0.0018,
+        "conflict": 0.2129
+      },
+      "fitness": {
+        "liberalism": 0.005933,
+        "marxism": 0.036253,
+        "traditionalism": 0.039264,
+        "nationalism": 0.065238
+      }
+    },
+    {
+      "time": 1806.0,
+      "shares": {
+        "liberalism": 0.136741,
+        "marxism": 0.067296,
+        "traditionalism": 0.55907,
+        "nationalism": 0.236894
+      },
+      "latent": {
+        "liberalism": 0.411765,
+        "marxism": 0.319819,
+        "traditionalism": 0.797962,
+        "nationalism": 0.459327
+      },
+      "environment": {
+        "gdp_growth": 0.0105,
+        "inequality": 0.6032,
+        "media_freedom": 0.276,
+        "social_media": -0.0021,
+        "conflict": 0.2153
+      },
+      "fitness": {
+        "liberalism": 0.005493,
+        "marxism": 0.036839,
+        "traditionalism": 0.04091,
+        "nationalism": 0.066214
+      }
+    },
+    {
+      "time": 1807.0,
+      "shares": {
+        "liberalism": 0.133794,
+        "marxism": 0.069684,
+        "traditionalism": 0.5541,
+        "nationalism": 0.242422
+      },
+      "latent": {
+        "liberalism": 0.41197,
+        "marxism": 0.323701,
+        "traditionalism": 0.840171,
+        "nationalism": 0.469934
+      },
+      "environment": {
+        "gdp_growth": 0.0088,
+        "inequality": 0.6039,
+        "media_freedom": 0.2719,
+        "social_media": -0.0024,
+        "conflict": 0.2176
+      },
+      "fitness": {
+        "liberalism": 0.005031,
+        "marxism": 0.037428,
+        "traditionalism": 0.042507,
+        "nationalism": 0.067212
+      }
+    },
+    {
+      "time": 1808.0,
+      "shares": {
+        "liberalism": 0.130701,
+        "marxism": 0.071937,
+        "traditionalism": 0.549569,
+        "nationalism": 0.247793
+      },
+      "latent": {
+        "liberalism": 0.411682,
+        "marxism": 0.327708,
+        "traditionalism": 0.880571,
+        "nationalism": 0.480666
+      },
+      "environment": {
+        "gdp_growth": 0.0071,
+        "inequality": 0.6046,
+        "media_freedom": 0.2678,
+        "social_media": -0.0027,
+        "conflict": 0.2198
+      },
+      "fitness": {
+        "liberalism": 0.004545,
+        "marxism": 0.03802,
+        "traditionalism": 0.044058,
+        "nationalism": 0.06823
+      }
+    },
+    {
+      "time": 1809.0,
+      "shares": {
+        "liberalism": 0.127481,
+        "marxism": 0.074056,
+        "traditionalism": 0.54543,
+        "nationalism": 0.253034
+      },
+      "latent": {
+        "liberalism": 0.410908,
+        "marxism": 0.331824,
+        "traditionalism": 0.919266,
+        "nationalism": 0.4915
+      },
+      "environment": {
+        "gdp_growth": 0.0055,
+        "inequality": 0.6054,
+        "media_freedom": 0.2636,
+        "social_media": -0.0029,
+        "conflict": 0.222
+      },
+      "fitness": {
+        "liberalism": 0.004038,
+        "marxism": 0.038615,
+        "traditionalism": 0.045565,
+        "nationalism": 0.069627
+      }
+    },
+    {
+      "time": 1810.0,
+      "shares": {
+        "liberalism": 0.124139,
+        "marxism": 0.076036,
+        "traditionalism": 0.541586,
+        "nationalism": 0.258239
+      },
+      "latent": {
+        "liberalism": 0.409656,
+        "marxism": 0.33603,
+        "traditionalism": 0.956346,
+        "nationalism": 0.502422
+      },
+      "environment": {
+        "gdp_growth": 0.0037,
+        "inequality": 0.6062,
+        "media_freedom": 0.2594,
+        "social_media": -0.0031,
+        "conflict": 0.2241
+      },
+      "fitness": {
+        "liberalism": 0.003506,
+        "marxism": 0.039214,
+        "traditionalism": 0.047028,
+        "nationalism": 0.071298
+      }
+    },
+    {
+      "time": 1811.0,
+      "shares": {
+        "liberalism": 0.120695,
+        "marxism": 0.07788,
+        "traditionalism": 0.538,
+        "nationalism": 0.263425
+      },
+      "latent": {
+        "liberalism": 0.407936,
+        "marxism": 0.340307,
+        "traditionalism": 0.991892,
+        "nationalism": 0.513426
+      },
+      "environment": {
+        "gdp_growth": 0.002,
+        "inequality": 0.6071,
+        "media_freedom": 0.2551,
+        "social_media": -0.0034,
+        "conflict": 0.2262
+      },
+      "fitness": {
+        "liberalism": 0.00295,
+        "marxism": 0.039817,
+        "traditionalism": 0.048448,
+        "nationalism": 0.072978
+      }
+    },
+    {
+      "time": 1812.0,
+      "shares": {
+        "liberalism": 0.117169,
+        "marxism": 0.079591,
+        "traditionalism": 0.53464,
+        "nationalism": 0.268601
+      },
+      "latent": {
+        "liberalism": 0.405759,
+        "marxism": 0.344637,
+        "traditionalism": 1.025977,
+        "nationalism": 0.524509
+      },
+      "environment": {
+        "gdp_growth": 0.0002,
+        "inequality": 0.608,
+        "media_freedom": 0.2508,
+        "social_media": -0.0036,
+        "conflict": 0.2282
+      },
+      "fitness": {
+        "liberalism": 0.00237,
+        "marxism": 0.040423,
+        "traditionalism": 0.049826,
+        "nationalism": 0.074667
+      }
+    },
+    {
+      "time": 1813.0,
+      "shares": {
+        "liberalism": 0.11358,
+        "marxism": 0.081172,
+        "traditionalism": 0.531477,
+        "nationalism": 0.273772
+      },
+      "latent": {
+        "liberalism": 0.403139,
+        "marxism": 0.349001,
+        "traditionalism": 1.058669,
+        "nationalism": 0.535667
+      },
+      "environment": {
+        "gdp_growth": -0.0016,
+        "inequality": 0.6089,
+        "media_freedom": 0.2464,
+        "social_media": -0.0038,
+        "conflict": 0.2302
+      },
+      "fitness": {
+        "liberalism": 0.001768,
+        "marxism": 0.041031,
+        "traditionalism": 0.051163,
+        "nationalism": 0.076365
+      }
+    },
+    {
+      "time": 1814.0,
+      "shares": {
+        "liberalism": 0.109947,
+        "marxism": 0.082627,
+        "traditionalism": 0.528481,
+        "nationalism": 0.278945
+      },
+      "latent": {
+        "liberalism": 0.400091,
+        "marxism": 0.353381,
+        "traditionalism": 1.090031,
+        "nationalism": 0.546897
+      },
+      "environment": {
+        "gdp_growth": -0.0034,
+        "inequality": 0.6099,
+        "media_freedom": 0.242,
+        "social_media": -0.004,
+        "conflict": 0.2321
+      },
+      "fitness": {
+        "liberalism": 0.001143,
+        "marxism": 0.041641,
+        "traditionalism": 0.05246,
+        "nationalism": 0.078072
+      }
+    },
+    {
+      "time": 1815.0,
+      "shares": {
+        "liberalism": 0.106286,
+        "marxism": 0.083961,
+        "traditionalism": 0.525627,
+        "nationalism": 0.284126
+      },
+      "latent": {
+        "liberalism": 0.396632,
+        "marxism": 0.35776,
+        "traditionalism": 1.120121,
+        "nationalism": 0.558197
+      },
+      "environment": {
+        "gdp_growth": -0.0052,
+        "inequality": 0.6109,
+        "media_freedom": 0.2376,
+        "social_media": -0.0042,
+        "conflict": 0.234
+      },
+      "fitness": {
+        "liberalism": 0.000497,
+        "marxism": 0.042251,
+        "traditionalism": 0.053718,
+        "nationalism": 0.079788
+      }
+    },
+    {
+      "time": 1816.0,
+      "shares": {
+        "liberalism": 0.102613,
+        "marxism": 0.085176,
+        "traditionalism": 0.522887,
+        "nationalism": 0.289324
+      },
+      "latent": {
+        "liberalism": 0.392781,
+        "marxism": 0.362121,
+        "traditionalism": 1.148991,
+        "nationalism": 0.569567
+      },
+      "environment": {
+        "gdp_growth": -0.0071,
+        "inequality": 0.612,
+        "media_freedom": 0.2331,
+        "social_media": -0.0044,
+        "conflict": 0.2358
+      },
+      "fitness": {
+        "liberalism": -0.00017,
+        "marxism": 0.042861,
+        "traditionalism": 0.054936,
+        "nationalism": 0.081512
+      }
+    },
+    {
+      "time": 1817.0,
+      "shares": {
+        "liberalism": 0.098944,
+        "marxism": 0.086277,
+        "traditionalism": 0.520237,
+        "nationalism": 0.294543
+      },
+      "latent": {
+        "liberalism": 0.388557,
+        "marxism": 0.366448,
+        "traditionalism": 1.176689,
+        "nationalism": 0.581007
+      },
+      "environment": {
+        "gdp_growth": -0.009,
+        "inequality": 0.6131,
+        "media_freedom": 0.2286,
+        "social_media": -0.0046,
+        "conflict": 0.2377
+      },
+      "fitness": {
+        "liberalism": -0.000856,
+        "marxism": 0.043469,
+        "traditionalism": 0.056115,
+        "nationalism": 0.083244
+      }
+    },
+    {
+      "time": 1818.0,
+      "shares": {
+        "liberalism": 0.095292,
+        "marxism": 0.087267,
+        "traditionalism": 0.517651,
+        "nationalism": 0.299791
+      },
+      "latent": {
+        "liberalism": 0.38398,
+        "marxism": 0.370725,
+        "traditionalism": 1.20326,
+        "nationalism": 0.592516
+      },
+      "environment": {
+        "gdp_growth": -0.0109,
+        "inequality": 0.6142,
+        "media_freedom": 0.2241,
+        "social_media": -0.0048,
+        "conflict": 0.2394
+      },
+      "fitness": {
+        "liberalism": -0.001562,
+        "marxism": 0.044076,
+        "traditionalism": 0.057256,
+        "nationalism": 0.084985
+      }
+    },
+    {
+      "time": 1819.0,
+      "shares": {
+        "liberalism": 0.09167,
+        "marxism": 0.08815,
+        "traditionalism": 0.515106,
+        "nationalism": 0.305074
+      },
+      "latent": {
+        "liberalism": 0.379071,
+        "marxism": 0.374936,
+        "traditionalism": 1.228743,
+        "nationalism": 0.604095
+      },
+      "environment": {
+        "gdp_growth": -0.0128,
+        "inequality": 0.6153,
+        "media_freedom": 0.2195,
+        "social_media": -0.0049,
+        "conflict": 0.2412
+      },
+      "fitness": {
+        "liberalism": -0.002284,
+        "marxism": 0.044681,
+        "traditionalism": 0.058358,
+        "nationalism": 0.086735
+      }
+    },
+    {
+      "time": 1820.0,
+      "shares": {
+        "liberalism": 0.088089,
+        "marxism": 0.08893,
+        "traditionalism": 0.512581,
+        "nationalism": 0.3104
+      },
+      "latent": {
+        "liberalism": 0.373853,
+        "marxism": 0.379068,
+        "traditionalism": 1.253172,
+        "nationalism": 0.615747
+      },
+      "environment": {
+        "gdp_growth": -0.0147,
+        "inequality": 0.6165,
+        "media_freedom": 0.2148,
+        "social_media": -0.0051,
+        "conflict": 0.2429
+      },
+      "fitness": {
+        "liberalism": -0.003024,
+        "marxism": 0.045283,
+        "traditionalism": 0.059422,
+        "nationalism": 0.088495
+      }
+    },
+    {
+      "time": 1821.0,
+      "shares": {
+        "liberalism": 0.084559,
+        "marxism": 0.089611,
+        "traditionalism": 0.510054,
+        "nationalism": 0.315776
+      },
+      "latent": {
+        "liberalism": 0.368346,
+        "marxism": 0.383106,
+        "traditionalism": 1.276582,
+        "nationalism": 0.627473
+      },
+      "environment": {
+        "gdp_growth": -0.0167,
+        "inequality": 0.6178,
+        "media_freedom": 0.2102,
+        "social_media": -0.0053,
+        "conflict": 0.2446
+      },
+      "fitness": {
+        "liberalism": -0.003778,
+        "marxism": 0.045881,
+        "traditionalism": 0.060448,
+        "nationalism": 0.090264
+      }
+    },
+    {
+      "time": 1822.0,
+      "shares": {
+        "liberalism": 0.081091,
+        "marxism": 0.090195,
+        "traditionalism": 0.507506,
+        "nationalism": 0.321209
+      },
+      "latent": {
+        "liberalism": 0.362574,
+        "marxism": 0.387037,
+        "traditionalism": 1.299,
+        "nationalism": 0.639277
+      },
+      "environment": {
+        "gdp_growth": -0.0187,
+        "inequality": 0.619,
+        "media_freedom": 0.2055,
+        "social_media": -0.0054,
+        "conflict": 0.2463
+      },
+      "fitness": {
+        "liberalism": -0.004547,
+        "marxism": 0.046474,
+        "traditionalism": 0.061435,
+        "nationalism": 0.092044
+      }
+    },
+    {
+      "time": 1823.0,
+      "shares": {
+        "liberalism": 0.077691,
+        "marxism": 0.090686,
+        "traditionalism": 0.504916,
+        "nationalism": 0.326707
+      },
+      "latent": {
+        "liberalism": 0.356559,
+        "marxism": 0.390848,
+        "traditionalism": 1.320451,
+        "nationalism": 0.651162
+      },
+      "environment": {
+        "gdp_growth": -0.0207,
+        "inequality": 0.6203,
+        "media_freedom": 0.2007,
+        "social_media": -0.0056,
+        "conflict": 0.2479
+      },
+      "fitness": {
+        "liberalism": -0.00533,
+        "marxism": 0.047063,
+        "traditionalism": 0.062383,
+        "nationalism": 0.093835
+      }
+    },
+    {
+      "time": 1824.0,
+      "shares": {
+        "liberalism": 0.074367,
+        "marxism": 0.091088,
+        "traditionalism": 0.502266,
+        "nationalism": 0.332279
+      },
+      "latent": {
+        "liberalism": 0.350321,
+        "marxism": 0.394526,
+        "traditionalism": 1.340959,
+        "nationalism": 0.663132
+      },
+      "environment": {
+        "gdp_growth": -0.0227,
+        "inequality": 0.6217,
+        "media_freedom": 0.196,
+        "social_media": -0.0057,
+        "conflict": 0.2495
+      },
+      "fitness": {
+        "liberalism": -0.006125,
+        "marxism": 0.047647,
+        "traditionalism": 0.063293,
+        "nationalism": 0.095638
+      }
+    },
+    {
+      "time": 1825.0,
+      "shares": {
+        "liberalism": 0.071126,
+        "marxism": 0.091403,
+        "traditionalism": 0.499539,
+        "nationalism": 0.337932
+      },
+      "latent": {
+        "liberalism": 0.343885,
+        "marxism": 0.398062,
+        "traditionalism": 1.360544,
+        "nationalism": 0.675194
+      },
+      "environment": {
+        "gdp_growth": -0.0248,
+        "inequality": 0.623,
+        "media_freedom": 0.1912,
+        "social_media": -0.0058,
+        "conflict": 0.2511
+      },
+      "fitness": {
+        "liberalism": -0.00693,
+        "marxism": 0.048225,
+        "traditionalism": 0.064164,
+        "nationalism": 0.097454
+      }
+    },
+    {
+      "time": 1826.0,
+      "shares": {
+        "liberalism": 0.067972,
+        "marxism": 0.091635,
+        "traditionalism": 0.496717,
+        "nationalism": 0.343676
+      },
+      "latent": {
+        "liberalism": 0.337286,
+        "marxism": 0.401495,
+        "traditionalism": 1.379221,
+        "nationalism": 0.687374
+      },
+      "environment": {
+        "gdp_growth": -0.0268,
+        "inequality": 0.6244,
+        "media_freedom": 0.1864,
+        "social_media": -0.006,
+        "conflict": 0.2526
+      },
+      "fitness": {
+        "liberalism": -0.007746,
+        "marxism": 0.048801,
+        "traditionalism": 0.064995,
+        "nationalism": 0.099285
+      }
+    },
+    {
+      "time": 1827.0,
+      "shares": {
+        "liberalism": 0.064909,
+        "marxism": 0.091788,
+        "traditionalism": 0.493784,
+        "nationalism": 0.34952
+      },
+      "latent": {
+        "liberalism": 0.330555,
+        "marxism": 0.404844,
+        "traditionalism": 1.397007,
+        "nationalism": 0.699689
+      },
+      "environment": {
+        "gdp_growth": -0.0289,
+        "inequality": 0.6258,
+        "media_freedom": 0.1815,
+        "social_media": -0.0061,
+        "conflict": 0.2542
+      },
+      "fitness": {
+        "liberalism": -0.008569,
+        "marxism": 0.049374,
+        "traditionalism": 0.065786,
+        "nationalism": 0.101134
+      }
+    },
+    {
+      "time": 1828.0,
+      "shares": {
+        "liberalism": 0.06194,
+        "marxism": 0.091865,
+        "traditionalism": 0.490721,
+        "nationalism": 0.355474
+      },
+      "latent": {
+        "liberalism": 0.32371,
+        "marxism": 0.408099,
+        "traditionalism": 1.413913,
+        "nationalism": 0.712147
+      },
+      "environment": {
+        "gdp_growth": -0.0309,
+        "inequality": 0.6273,
+        "media_freedom": 0.1766,
+        "social_media": -0.0062,
+        "conflict": 0.2557
+      },
+      "fitness": {
+        "liberalism": -0.009399,
+        "marxism": 0.049946,
+        "traditionalism": 0.066536,
+        "nationalism": 0.103001
+      }
+    },
+    {
+      "time": 1829.0,
+      "shares": {
+        "liberalism": 0.057454,
+        "marxism": 0.089342,
+        "traditionalism": 0.501723,
+        "nationalism": 0.351482
+      },
+      "latent": {
+        "liberalism": 0.316724,
+        "marxism": 0.411162,
+        "traditionalism": 1.430289,
+        "nationalism": 0.724461
+      },
+      "environment": {
+        "gdp_growth": -0.033,
+        "inequality": 0.6288,
+        "media_freedom": 0.1717,
+        "social_media": -0.0063,
+        "conflict": 0.2571
+      },
+      "fitness": {
+        "liberalism": -0.010027,
+        "marxism": 0.050158,
+        "traditionalism": 0.068003,
+        "nationalism": 0.103925
+      }
+    },
+    {
+      "time": 1830.0,
+      "shares": {
+        "liberalism": 0.051299,
+        "marxism": 0.083468,
+        "traditionalism": 0.532254,
+        "nationalism": 0.332979
+      },
+      "latent": {
+        "liberalism": 0.309369,
+        "marxism": 0.41376,
+        "traditionalism": 1.449168,
+        "nationalism": 0.734223
+      },
+      "environment": {
+        "gdp_growth": -0.0351,
+        "inequality": 0.6302,
+        "media_freedom": 0.1669,
+        "social_media": -0.0065,
+        "conflict": 0.2585
+      },
+      "fitness": {
+        "liberalism": -0.010363,
+        "marxism": 0.04983,
+        "traditionalism": 0.070572,
+        "nationalism": 0.103272
+      }
+    },
+    {
+      "time": 1831.0,
+      "shares": {
+        "liberalism": 0.046064,
+        "marxism": 0.078237,
+        "traditionalism": 0.560356,
+        "nationalism": 0.315343
+      },
+      "latent": {
+        "liberalism": 0.301799,
+        "marxism": 0.416174,
+        "traditionalism": 1.470954,
+        "nationalism": 0.741197
+      },
+      "environment": {
+        "gdp_growth": -0.0371,
+        "inequality": 0.6315,
+        "media_freedom": 0.1621,
+        "social_media": -0.007,
+        "conflict": 0.2598
+      },
+      "fitness": {
+        "liberalism": -0.010718,
+        "marxism": 0.049521,
+        "traditionalism": 0.073103,
+        "nationalism": 0.102456
+      }
+    },
+    {
+      "time": 1832.0,
+      "shares": {
+        "liberalism": 0.041617,
+        "marxism": 0.073616,
+        "traditionalism": 0.586131,
+        "nationalism": 0.298636
+      },
+      "latent": {
+        "liberalism": 0.294129,
+        "marxism": 0.418448,
+        "traditionalism": 1.495278,
+        "nationalism": 0.745646
+      },
+      "environment": {
+        "gdp_growth": -0.0392,
+        "inequality": 0.6327,
+        "media_freedom": 0.1574,
+        "social_media": -0.0075,
+        "conflict": 0.261
+      },
+      "fitness": {
+        "liberalism": -0.011088,
+        "marxism": 0.049233,
+        "traditionalism": 0.075591,
+        "nationalism": 0.101508
+      }
+    },
+    {
+      "time": 1833.0,
+      "shares": {
+        "liberalism": 0.037838,
+        "marxism": 0.069562,
+        "traditionalism": 0.609715,
+        "nationalism": 0.282885
+      },
+      "latent": {
+        "liberalism": 0.286449,
+        "marxism": 0.420623,
+        "traditionalism": 1.521799,
+        "nationalism": 0.747825
+      },
+      "environment": {
+        "gdp_growth": -0.0412,
+        "inequality": 0.6338,
+        "media_freedom": 0.1528,
+        "social_media": -0.0083,
+        "conflict": 0.262
+      },
+      "fitness": {
+        "liberalism": -0.011469,
+        "marxism": 0.048969,
+        "traditionalism": 0.078033,
+        "nationalism": 0.100455
+      }
+    },
+    {
+      "time": 1834.0,
+      "shares": {
+        "liberalism": 0.034622,
+        "marxism": 0.066028,
+        "traditionalism": 0.631263,
+        "nationalism": 0.268087
+      },
+      "latent": {
+        "liberalism": 0.278831,
+        "marxism": 0.422734,
+        "traditionalism": 1.550202,
+        "nationalism": 0.747978
+      },
+      "environment": {
+        "gdp_growth": -0.0431,
+        "inequality": 0.6349,
+        "media_freedom": 0.1482,
+        "social_media": -0.0091,
+        "conflict": 0.263
+      },
+      "fitness": {
+        "liberalism": -0.01186,
+        "marxism": 0.048731,
+        "traditionalism": 0.080428,
+        "nationalism": 0.099317
+      }
+    },
+    {
+      "time": 1835.0,
+      "shares": {
+        "liberalism": 0.031878,
+        "marxism": 0.062964,
+        "traditionalism": 0.650937,
+        "nationalism": 0.254221
+      },
+      "latent": {
+        "liberalism": 0.271331,
+        "marxism": 0.424811,
+        "traditionalism": 1.580199,
+        "nationalism": 0.746334
+      },
+      "environment": {
+        "gdp_growth": -0.0451,
+        "inequality": 0.6359,
+        "media_freedom": 0.1438,
+        "social_media": -0.0101,
+        "conflict": 0.2639
+      },
+      "fitness": {
+        "liberalism": -0.012256,
+        "marxism": 0.048519,
+        "traditionalism": 0.082775,
+        "nationalism": 0.098113
+      }
+    },
+    {
+      "time": 1836.0,
+      "shares": {
+        "liberalism": 0.029527,
+        "marxism": 0.060316,
+        "traditionalism": 0.668843,
+        "nationalism": 0.241313
+      },
+      "latent": {
+        "liberalism": 0.26399,
+        "marxism": 0.426878,
+        "traditionalism": 1.611531,
+        "nationalism": 0.743109
+      },
+      "environment": {
+        "gdp_growth": -0.047,
+        "inequality": 0.6368,
+        "media_freedom": 0.1394,
+        "social_media": -0.0112,
+        "conflict": 0.2646
+      },
+      "fitness": {
+        "liberalism": -0.012656,
+        "marxism": 0.048335,
+        "traditionalism": 0.085074,
+        "nationalism": 0.097907
+      }
+    },
+    {
+      "time": 1837.0,
+      "shares": {
+        "liberalism": 0.027499,
+        "marxism": 0.058029,
+        "traditionalism": 0.684981,
+        "nationalism": 0.229492
+      },
+      "latent": {
+        "liberalism": 0.256837,
+        "marxism": 0.42895,
+        "traditionalism": 1.643948,
+        "nationalism": 0.738521
+      },
+      "environment": {
+        "gdp_growth": -0.0488,
+        "inequality": 0.6376,
+        "media_freedom": 0.1351,
+        "social_media": -0.0124,
+        "conflict": 0.2653
+      },
+      "fitness": {
+        "liberalism": -0.013062,
+        "marxism": 0.048183,
+        "traditionalism": 0.087319,
+        "nationalism": 0.098066
+      }
+    },
+    {
+      "time": 1838.0,
+      "shares": {
+        "liberalism": 0.025741,
+        "marxism": 0.056064,
+        "traditionalism": 0.699529,
+        "nationalism": 0.218666
+      },
+      "latent": {
+        "liberalism": 0.249891,
+        "marxism": 0.431035,
+        "traditionalism": 1.677218,
+        "nationalism": 0.732779
+      },
+      "environment": {
+        "gdp_growth": -0.0507,
+        "inequality": 0.6384,
+        "media_freedom": 0.1309,
+        "social_media": -0.0136,
+        "conflict": 0.266
+      },
+      "fitness": {
+        "liberalism": -0.013472,
+        "marxism": 0.048061,
+        "traditionalism": 0.089511,
+        "nationalism": 0.098101
+      }
+    },
+    {
+      "time": 1839.0,
+      "shares": {
+        "liberalism": 0.024211,
+        "marxism": 0.054388,
+        "traditionalism": 0.712664,
+        "nationalism": 0.208737
+      },
+      "latent": {
+        "liberalism": 0.243165,
+        "marxism": 0.433141,
+        "traditionalism": 1.711139,
+        "nationalism": 0.726066
+      },
+      "environment": {
+        "gdp_growth": -0.0524,
+        "inequality": 0.6391,
+        "media_freedom": 0.1267,
+        "social_media": -0.015,
+        "conflict": 0.2665
+      },
+      "fitness": {
+        "liberalism": -0.013883,
+        "marxism": 0.047965,
+        "traditionalism": 0.091651,
+        "nationalism": 0.09803
+      }
+    },
+    {
+      "time": 1840.0,
+      "shares": {
+        "liberalism": 0.022872,
+        "marxism": 0.052969,
+        "traditionalism": 0.724549,
+        "nationalism": 0.19961
+      },
+      "latent": {
+        "liberalism": 0.236668,
+        "marxism": 0.435274,
+        "traditionalism": 1.745534,
+        "nationalism": 0.718545
+      },
+      "environment": {
+        "gdp_growth": -0.0542,
+        "inequality": 0.6398,
+        "media_freedom": 0.1227,
+        "social_media": -0.0164,
+        "conflict": 0.267
+      },
+      "fitness": {
+        "liberalism": -0.014293,
+        "marxism": 0.047894,
+        "traditionalism": 0.093743,
+        "nationalism": 0.097869
+      }
+    },
+    {
+      "time": 1841.0,
+      "shares": {
+        "liberalism": 0.021694,
+        "marxism": 0.051776,
+        "traditionalism": 0.73533,
+        "nationalism": 0.1912
+      },
+      "latent": {
+        "liberalism": 0.230403,
+        "marxism": 0.43744,
+        "traditionalism": 1.780251,
+        "nationalism": 0.710356
+      },
+      "environment": {
+        "gdp_growth": -0.0559,
+        "inequality": 0.6404,
+        "media_freedom": 0.1187,
+        "social_media": -0.0179,
+        "conflict": 0.2674
+      },
+      "fitness": {
+        "liberalism": -0.014701,
+        "marxism": 0.047845,
+        "traditionalism": 0.095787,
+        "nationalism": 0.09763
+      }
+    },
+    {
+      "time": 1842.0,
+      "shares": {
+        "liberalism": 0.020651,
+        "marxism": 0.050782,
+        "traditionalism": 0.745139,
+        "nationalism": 0.183428
+      },
+      "latent": {
+        "liberalism": 0.224372,
+        "marxism": 0.439644,
+        "traditionalism": 1.815157,
+        "nationalism": 0.701621
+      },
+      "environment": {
+        "gdp_growth": -0.0576,
+        "inequality": 0.641,
+        "media_freedom": 0.1147,
+        "social_media": -0.0195,
+        "conflict": 0.2678
+      },
+      "fitness": {
+        "liberalism": -0.015104,
+        "marxism": 0.047815,
+        "traditionalism": 0.097787,
+        "nationalism": 0.097327
+      }
+    },
+    {
+      "time": 1843.0,
+      "shares": {
+        "liberalism": 0.019722,
+        "marxism": 0.049962,
+        "traditionalism": 0.754093,
+        "nationalism": 0.176224
+      },
+      "latent": {
+        "liberalism": 0.218573,
+        "marxism": 0.441889,
+        "traditionalism": 1.85014,
+        "nationalism": 0.692448
+      },
+      "environment": {
+        "gdp_growth": -0.0592,
+        "inequality": 0.6415,
+        "media_freedom": 0.1108,
+        "social_media": -0.0211,
+        "conflict": 0.2682
+      },
+      "fitness": {
+        "liberalism": -0.015503,
+        "marxism": 0.047803,
+        "traditionalism": 0.099744,
+        "nationalism": 0.09697
+      }
+    },
+    {
+      "time": 1844.0,
+      "shares": {
+        "liberalism": 0.018888,
+        "marxism": 0.049293,
+        "traditionalism": 0.762294,
+        "nationalism": 0.169524
+      },
+      "latent": {
+        "liberalism": 0.213003,
+        "marxism": 0.444176,
+        "traditionalism": 1.885101,
+        "nationalism": 0.682927
+      },
+      "environment": {
+        "gdp_growth": -0.0608,
+        "inequality": 0.642,
+        "media_freedom": 0.107,
+        "social_media": -0.0227,
+        "conflict": 0.2685
+      },
+      "fitness": {
+        "liberalism": -0.015896,
+        "marxism": 0.047806,
+        "traditionalism": 0.101659,
+        "nationalism": 0.096566
+      }
+    },
+    {
+      "time": 1845.0,
+      "shares": {
+        "liberalism": 0.018136,
+        "marxism": 0.048756,
+        "traditionalism": 0.769835,
+        "nationalism": 0.163274
+      },
+      "latent": {
+        "liberalism": 0.207659,
+        "marxism": 0.446509,
+        "traditionalism": 1.919959,
+        "nationalism": 0.673139
+      },
+      "environment": {
+        "gdp_growth": -0.0623,
+        "inequality": 0.6425,
+        "media_freedom": 0.1033,
+        "social_media": -0.0244,
+        "conflict": 0.2687
+      },
+      "fitness": {
+        "liberalism": -0.016282,
+        "marxism": 0.047824,
+        "traditionalism": 0.103535,
+        "nationalism": 0.096125
+      }
+    },
+    {
+      "time": 1846.0,
+      "shares": {
+        "liberalism": 0.017452,
+        "marxism": 0.048333,
+        "traditionalism": 0.776794,
+        "nationalism": 0.157422
+      },
+      "latent": {
+        "liberalism": 0.202533,
+        "marxism": 0.448887,
+        "traditionalism": 1.954643,
+        "nationalism": 0.663151
+      },
+      "environment": {
+        "gdp_growth": -0.0639,
+        "inequality": 0.6429,
+        "media_freedom": 0.0996,
+        "social_media": -0.0262,
+        "conflict": 0.2689
+      },
+      "fitness": {
+        "liberalism": -0.016661,
+        "marxism": 0.047854,
+        "traditionalism": 0.105373,
+        "nationalism": 0.095652
+      }
+    },
+    {
+      "time": 1847.0,
+      "shares": {
+        "liberalism": 0.016826,
+        "marxism": 0.048009,
+        "traditionalism": 0.783241,
+        "nationalism": 0.151924
+      },
+      "latent": {
+        "liberalism": 0.197621,
+        "marxism": 0.451311,
+        "traditionalism": 1.989096,
+        "nationalism": 0.653022
+      },
+      "environment": {
+        "gdp_growth": -0.0654,
+        "inequality": 0.6433,
+        "media_freedom": 0.0959,
+        "social_media": -0.028,
+        "conflict": 0.2691
+      },
+      "fitness": {
+        "liberalism": -0.017032,
+        "marxism": 0.047895,
+        "traditionalism": 0.107175,
+        "nationalism": 0.095154
+      }
+    },
+    {
+      "time": 1848.0,
+      "shares": {
+        "liberalism": 0.016251,
+        "marxism": 0.047769,
+        "traditionalism": 0.789238,
+        "nationalism": 0.146742
+      },
+      "latent": {
+        "liberalism": 0.192915,
+        "marxism": 0.453781,
+        "traditionalism": 2.023268,
+        "nationalism": 0.642802
+      },
+      "environment": {
+        "gdp_growth": -0.0668,
+        "inequality": 0.6437,
+        "media_freedom": 0.0924,
+        "social_media": -0.0298,
+        "conflict": 0.2693
+      },
+      "fitness": {
+        "liberalism": -0.017396,
+        "marxism": 0.047946,
+        "traditionalism": 0.108943,
+        "nationalism": 0.094635
+      }
+    },
+    {
+      "time": 1849.0,
+      "shares": {
+        "liberalism": 0.015442,
+        "marxism": 0.047801,
+        "traditionalism": 0.793374,
+        "nationalism": 0.143382
+      },
+      "latent": {
+        "liberalism": 0.188381,
+        "marxism": 0.457491,
+        "traditionalism": 2.057169,
+        "nationalism": 0.634269
+      },
+      "environment": {
+        "gdp_growth": -0.0682,
+        "inequality": 0.8421,
+        "media_freedom": 0.0888,
+        "social_media": -0.0317,
+        "conflict": 0.5548
+      },
+      "fitness": {
+        "liberalism": -0.028329,
+        "marxism": 0.060883,
+        "traditionalism": 0.117199,
+        "nationalism": 0.113538
+      }
+    },
+    {
+      "time": 1850.0,
+      "shares": {
+        "liberalism": 0.014749,
+        "marxism": 0.047903,
+        "traditionalism": 0.797236,
+        "nationalism": 0.140113
+      },
+      "latent": {
+        "liberalism": 0.183993,
+        "marxism": 0.461169,
+        "traditionalism": 2.090533,
+        "nationalism": 0.625765
+      },
+      "environment": {
+        "gdp_growth": -0.0696,
+        "inequality": 0.8404,
+        "media_freedom": 0.0853,
+        "social_media": -0.0336,
+        "conflict": 0.541
+      },
+      "fitness": {
+        "liberalism": -0.028276,
+        "marxism": 0.060827,
+        "traditionalism": 0.118437,
+        "nationalism": 0.112462
+      }
+    },
+    {
+      "time": 1851.0,
+      "shares": {
+        "liberalism": 0.014148,
+        "marxism": 0.048061,
+        "traditionalism": 0.800865,
+        "nationalism": 0.136926
+      },
+      "latent": {
+        "liberalism": 0.179758,
+        "marxism": 0.464818,
+        "traditionalism": 2.123345,
+        "nationalism": 0.617299
+      },
+      "environment": {
+        "gdp_growth": -0.071,
+        "inequality": 0.8388,
+        "media_freedom": 0.0819,
+        "social_media": -0.0355,
+        "conflict": 0.5278
+      },
+      "fitness": {
+        "liberalism": -0.028233,
+        "marxism": 0.060778,
+        "traditionalism": 0.119659,
+        "nationalism": 0.111407
+      }
+    },
+    {
+      "time": 1852.0,
+      "shares": {
+        "liberalism": 0.013621,
+        "marxism": 0.048267,
+        "traditionalism": 0.804297,
+        "nationalism": 0.133814
+      },
+      "latent": {
+        "liberalism": 0.175678,
+        "marxism": 0.468443,
+        "traditionalism": 2.155597,
+        "nationalism": 0.608879
+      },
+      "environment": {
+        "gdp_growth": -0.0724,
+        "inequality": 0.8372,
+        "media_freedom": 0.0785,
+        "social_media": -0.0374,
+        "conflict": 0.5153
+      },
+      "fitness": {
+        "liberalism": -0.028201,
+        "marxism": 0.060736,
+        "traditionalism": 0.120865,
+        "nationalism": 0.110374
+      }
+    },
+    {
+      "time": 1853.0,
+      "shares": {
+        "liberalism": 0.013154,
+        "marxism": 0.048512,
+        "traditionalism": 0.807562,
+        "nationalism": 0.130772
+      },
+      "latent": {
+        "liberalism": 0.171753,
+        "marxism": 0.472047,
+        "traditionalism": 2.187286,
+        "nationalism": 0.600513
+      },
+      "environment": {
+        "gdp_growth": -0.0737,
+        "inequality": 0.8355,
+        "media_freedom": 0.0751,
+        "social_media": -0.0393,
+        "conflict": 0.5034
+      },
+      "fitness": {
+        "liberalism": -0.028177,
+        "marxism": 0.0607,
+        "traditionalism": 0.122056,
+        "nationalism": 0.109363
+      }
+    },
+    {
+      "time": 1854.0,
+      "shares": {
+        "liberalism": 0.012735,
+        "marxism": 0.048789,
+        "traditionalism": 0.810683,
+        "nationalism": 0.127793
+      },
+      "latent": {
+        "liberalism": 0.167984,
+        "marxism": 0.475634,
+        "traditionalism": 2.218409,
+        "nationalism": 0.592207
+      },
+      "environment": {
+        "gdp_growth": -0.075,
+        "inequality": 0.8339,
+        "media_freedom": 0.0717,
+        "social_media": -0.0413,
+        "conflict": 0.4921
+      },
+      "fitness": {
+        "liberalism": -0.028162,
+        "marxism": 0.06067,
+        "traditionalism": 0.123233,
+        "nationalism": 0.108373
+      }
+    },
+    {
+      "time": 1855.0,
+      "shares": {
+        "liberalism": 0.012243,
+        "marxism": 0.048643,
+        "traditionalism": 0.81538,
+        "nationalism": 0.123734
+      },
+      "latent": {
+        "liberalism": 0.164367,
+        "marxism": 0.479204,
+        "traditionalism": 2.248974,
+        "nationalism": 0.58396
+      },
+      "environment": {
+        "gdp_growth": -0.0763,
+        "inequality": 0.8323,
+        "media_freedom": 0.0685,
+        "social_media": -0.0433,
+        "conflict": 0.4813
+      },
+      "fitness": {
+        "liberalism": -0.028127,
+        "marxism": 0.060602,
+        "traditionalism": 0.124491,
+        "nationalism": 0.107432
+      }
+    },
+    {
+      "time": 1856.0,
+      "shares": {
+        "liberalism": 0.010095,
+        "marxism": 0.041297,
+        "traditionalism": 0.847347,
+        "nationalism": 0.101262
+      },
+      "latent": {
+        "liberalism": 0.16089,
+        "marxism": 0.48249,
+        "traditionalism": 2.280981,
+        "nationalism": 0.574362
+      },
+      "environment": {
+        "gdp_growth": -0.0775,
+        "inequality": 0.8306,
+        "media_freedom": 0.0653,
+        "social_media": -0.0454,
+        "conflict": 0.4709
+      },
+      "fitness": {
+        "liberalism": -0.027671,
+        "marxism": 0.059818,
+        "traditionalism": 0.127324,
+        "nationalism": 0.106839
+      }
+    },
+    {
+      "time": 1857.0,
+      "shares": {
+        "liberalism": 0.008636,
+        "marxism": 0.036009,
+        "traditionalism": 0.8713,
+        "nationalism": 0.084055
+      },
+      "latent": {
+        "liberalism": 0.157566,
+        "marxism": 0.485371,
+        "traditionalism": 2.315307,
+        "nationalism": 0.562831
+      },
+      "environment": {
+        "gdp_growth": -0.0787,
+        "inequality": 0.8289,
+        "media_freedom": 0.0622,
+        "social_media": -0.0477,
+        "conflict": 0.461
+      },
+      "fitness": {
+        "liberalism": -0.027333,
+        "marxism": 0.059202,
+        "traditionalism": 0.129824,
+        "nationalism": 0.105981
+      }
+    },
+    {
+      "time": 1858.0,
+      "shares": {
+        "liberalism": 0.007648,
+        "marxism": 0.032277,
+        "traditionalism": 0.88911,
+        "nationalism": 0.070966
+      },
+      "latent": {
+        "liberalism": 0.15441,
+        "marxism": 0.487965,
+        "traditionalism": 2.351056,
+        "nationalism": 0.550054
+      },
+      "environment": {
+        "gdp_growth": -0.0798,
+        "inequality": 0.827,
+        "media_freedom": 0.0592,
+        "social_media": -0.05,
+        "conflict": 0.4515
+      },
+      "fitness": {
+        "liberalism": -0.027086,
+        "marxism": 0.05872,
+        "traditionalism": 0.132059,
+        "nationalism": 0.104941
+      }
+    },
+    {
+      "time": 1859.0,
+      "shares": {
+        "liberalism": 0.006978,
+        "marxism": 0.029699,
+        "traditionalism": 0.902292,
+        "nationalism": 0.06103
+      },
+      "latent": {
+        "liberalism": 0.151423,
+        "marxism": 0.490356,
+        "traditionalism": 2.387556,
+        "nationalism": 0.53655
+      },
+      "environment": {
+        "gdp_growth": -0.0809,
+        "inequality": 0.8251,
+        "media_freedom": 0.0563,
+        "social_media": -0.0525,
+        "conflict": 0.4425
+      },
+      "fitness": {
+        "liberalism": -0.02691,
+        "marxism": 0.058342,
+        "traditionalism": 0.134086,
+        "nationalism": 0.103782
+      }
+    },
+    {
+      "time": 1860.0,
+      "shares": {
+        "liberalism": 0.006524,
+        "marxism": 0.027968,
+        "traditionalism": 0.912028,
+        "nationalism": 0.053481
+      },
+      "latent": {
+        "liberalism": 0.1486,
+        "marxism": 0.492605,
+        "traditionalism": 2.424314,
+        "nationalism": 0.522703
+      },
+      "environment": {
+        "gdp_growth": -0.082,
+        "inequality": 0.8232,
+        "media_freedom": 0.0535,
+        "social_media": -0.055,
+        "conflict": 0.4338
+      },
+      "fitness": {
+        "liberalism": -0.026789,
+        "marxism": 0.058044,
+        "traditionalism": 0.135952,
+        "nationalism": 0.102554
+      }
+    },
+    {
+      "time": 1861.0,
+      "shares": {
+        "liberalism": 0.006215,
+        "marxism": 0.026853,
+        "traditionalism": 0.919209,
+        "nationalism": 0.047723
+      },
+      "latent": {
+        "liberalism": 0.145933,
+        "marxism": 0.494755,
+        "traditionalism": 2.460973,
+        "nationalism": 0.508789
+      },
+      "environment": {
+        "gdp_growth": -0.083,
+        "inequality": 0.8213,
+        "media_freedom": 0.0507,
+        "social_media": -0.0576,
+        "conflict": 0.4255
+      },
+      "fitness": {
+        "liberalism": -0.026708,
+        "marxism": 0.057806,
+        "traditionalism": 0.137689,
+        "nationalism": 0.10129
+      }
+    },
+    {
+      "time": 1862.0,
+      "shares": {
+        "liberalism": 0.006003,
+        "marxism": 0.026188,
+        "traditionalism": 0.9245,
+        "nationalism": 0.043308
+      },
+      "latent": {
+        "liberalism": 0.143413,
+        "marxism": 0.496835,
+        "traditionalism": 2.497276,
+        "nationalism": 0.495009
+      },
+      "environment": {
+        "gdp_growth": -0.084,
+        "inequality": 0.8194,
+        "media_freedom": 0.048,
+        "social_media": -0.0602,
+        "conflict": 0.4176
+      },
+      "fitness": {
+        "liberalism": -0.026659,
+        "marxism": 0.057615,
+        "traditionalism": 0.139323,
+        "nationalism": 0.100016
+      }
+    },
+    {
+      "time": 1863.0,
+      "shares": {
+        "liberalism": 0.005858,
+        "marxism": 0.02585,
+        "traditionalism": 0.928393,
+        "nationalism": 0.039899
+      },
+      "latent": {
+        "liberalism": 0.141031,
+        "marxism": 0.498867,
+        "traditionalism": 2.533041,
+        "nationalism": 0.481499
+      },
+      "environment": {
+        "gdp_growth": -0.0849,
+        "inequality": 0.8175,
+        "media_freedom": 0.0454,
+        "social_media": -0.0628,
+        "conflict": 0.4101
+      },
+      "fitness": {
+        "liberalism": -0.026635,
+        "marxism": 0.057459,
+        "traditionalism": 0.140872,
+        "nationalism": 0.098751
+      }
+    },
+    {
+      "time": 1864.0,
+      "shares": {
+        "liberalism": 0.005758,
+        "marxism": 0.025752,
+        "traditionalism": 0.931248,
+        "nationalism": 0.037242
+      },
+      "latent": {
+        "liberalism": 0.138776,
+        "marxism": 0.500865,
+        "traditionalism": 2.568143,
+        "nationalism": 0.468353
+      },
+      "environment": {
+        "gdp_growth": -0.0859,
+        "inequality": 0.8155,
+        "media_freedom": 0.0427,
+        "social_media": -0.0655,
+        "conflict": 0.4029
+      },
+      "fitness": {
+        "liberalism": -0.026629,
+        "marxism": 0.057331,
+        "traditionalism": 0.142351,
+        "nationalism": 0.097506
+      }
+    },
+    {
+      "time": 1865.0,
+      "shares": {
+        "liberalism": 0.00569,
+        "marxism": 0.025828,
+        "traditionalism": 0.933332,
+        "nationalism": 0.035151
+      },
+      "latent": {
+        "liberalism": 0.13664,
+        "marxism": 0.502841,
+        "traditionalism": 2.602496,
+        "nationalism": 0.455634
+      },
+      "environment": {
+        "gdp_growth": -0.0868,
+        "inequality": 0.8136,
+        "media_freedom": 0.0402,
+        "social_media": -0.0681,
+        "conflict": 0.3961
+      },
+      "fitness": {
+        "liberalism": -0.026638,
+        "marxism": 0.057224,
+        "traditionalism": 0.14377,
+        "nationalism": 0.09629
+      }
+    },
+    {
+      "time": 1866.0,
+      "shares": {
+        "liberalism": 0.005642,
+        "marxism": 0.026032,
+        "traditionalism": 0.934838,
+        "nationalism": 0.033487
+      },
+      "latent": {
+        "liberalism": 0.134616,
+        "marxism": 0.5048,
+        "traditionalism": 2.636042,
+        "nationalism": 0.443378
+      },
+      "environment": {
+        "gdp_growth": -0.0877,
+        "inequality": 0.8117,
+        "media_freedom": 0.0376,
+        "social_media": -0.0708,
+        "conflict": 0.3895
+      },
+      "fitness": {
+        "liberalism": -0.026659,
+        "marxism": 0.057135,
+        "traditionalism": 0.145136,
+        "nationalism": 0.09511
+      }
+    },
+    {
+      "time": 1867.0,
+      "shares": {
+        "liberalism": 0.00561,
+        "marxism": 0.026331,
+        "traditionalism": 0.935913,
+        "nationalism": 0.032146
+      },
+      "latent": {
+        "liberalism": 0.132696,
+        "marxism": 0.506748,
+        "traditionalism": 2.668748,
+        "nationalism": 0.431608
+      },
+      "environment": {
+        "gdp_growth": -0.0886,
+        "inequality": 0.8098,
+        "media_freedom": 0.0351,
+        "social_media": -0.0735,
+        "conflict": 0.3833
+      },
+      "fitness": {
+        "liberalism": -0.026689,
+        "marxism": 0.057059,
+        "traditionalism": 0.146455,
+        "nationalism": 0.093967
+      }
+    },
+    {
+      "time": 1868.0,
+      "shares": {
+        "liberalism": 0.005587,
+        "marxism": 0.0267,
+        "traditionalism": 0.936662,
+        "nationalism": 0.03105
+      },
+      "latent": {
+        "liberalism": 0.130874,
+        "marxism": 0.50869,
+        "traditionalism": 2.700593,
+        "nationalism": 0.42033
+      },
+      "environment": {
+        "gdp_growth": -0.0895,
+        "inequality": 0.8079,
+        "media_freedom": 0.0326,
+        "social_media": -0.0761,
+        "conflict": 0.3774
+      },
+      "fitness": {
+        "liberalism": -0.026728,
+        "marxism": 0.056994,
+        "traditionalism": 0.147731,
+        "nationalism": 0.092865
+      }
+    },
+    {
+      "time": 1869.0,
+      "shares": {
+        "liberalism": 0.005572,
+        "marxism": 0.027119,
+        "traditionalism": 0.937166,
+        "nationalism": 0.030142
+      },
+      "latent": {
+        "liberalism": 0.129143,
+        "marxism": 0.510627,
+        "traditionalism": 2.73157,
+        "nationalism": 0.409544
+      },
+      "environment": {
+        "gdp_growth": -0.0903,
+        "inequality": 0.8061,
+        "media_freedom": 0.0301,
+        "social_media": -0.0788,
+        "conflict": 0.3718
+      },
+      "fitness": {
+        "liberalism": -0.026772,
+        "marxism": 0.056938,
+        "traditionalism": 0.148968,
+        "nationalism": 0.091804
+      }
+    },
+    {
+      "time": 1870.0,
+      "shares": {
+        "liberalism": 0.005561,
+        "marxism": 0.027576,
+        "traditionalism": 0.937485,
+        "nationalism": 0.029378
+      },
+      "latent": {
+        "liberalism": 0.127498,
+        "marxism": 0.51256,
+        "traditionalism": 2.76168,
+        "nationalism": 0.399243
+      },
+      "environment": {
+        "gdp_growth": -0.0911,
+        "inequality": 0.8042,
+        "media_freedom": 0.0277,
+        "social_media": -0.0815,
+        "conflict": 0.3665
+      },
+      "fitness": {
+        "liberalism": -0.026822,
+        "marxism": 0.056889,
+        "traditionalism": 0.150169,
+        "nationalism": 0.090784
+      }
+    },
+    {
+      "time": 1871.0,
+      "shares": {
+        "liberalism": 0.005572,
+        "marxism": 0.028347,
+        "traditionalism": 0.937053,
+        "nationalism": 0.029028
+      },
+      "latent": {
+        "liberalism": 0.125933,
+        "marxism": 0.515506,
+        "traditionalism": 2.790882,
+        "nationalism": 0.39042
+      },
+      "environment": {
+        "gdp_growth": 0.0551,
+        "inequality": 1.0994,
+        "media_freedom": 0.0253,
+        "social_media": -0.0842,
+        "conflict": 0.3614
+      },
+      "fitness": {
+        "liberalism": -0.023975,
+        "marxism": 0.067363,
+        "traditionalism": 0.149794,
+        "nationalism": 0.100279
+      }
+    },
+    {
+      "time": 1872.0,
+      "shares": {
+        "liberalism": 0.00558,
+        "marxism": 0.029096,
+        "traditionalism": 0.936608,
+        "nationalism": 0.028716
+      },
+      "latent": {
+        "liberalism": 0.124442,
+        "marxism": 0.518434,
+        "traditionalism": 2.819169,
+        "nationalism": 0.382023
+      },
+      "environment": {
+        "gdp_growth": 0.0514,
+        "inequality": 1.0947,
+        "media_freedom": 0.0229,
+        "social_media": -0.0869,
+        "conflict": 0.3565
+      },
+      "fitness": {
+        "liberalism": -0.024128,
+        "marxism": 0.067339,
+        "traditionalism": 0.150891,
+        "nationalism": 0.099314
+      }
+    },
+    {
+      "time": 1873.0,
+      "shares": {
+        "liberalism": 0.005586,
+        "marxism": 0.029828,
+        "traditionalism": 0.936153,
+        "nationalism": 0.028433
+      },
+      "latent": {
+        "liberalism": 0.123021,
+        "marxism": 0.521341,
+        "traditionalism": 2.846568,
+        "nationalism": 0.374032
+      },
+      "environment": {
+        "gdp_growth": 0.0477,
+        "inequality": 1.0899,
+        "media_freedom": 0.0205,
+        "social_media": -0.0896,
+        "conflict": 0.3519
+      },
+      "fitness": {
+        "liberalism": -0.024282,
+        "marxism": 0.067316,
+        "traditionalism": 0.15196,
+        "nationalism": 0.098386
+      }
+    },
+    {
+      "time": 1874.0,
+      "shares": {
+        "liberalism": 0.00559,
+        "marxism": 0.030544,
+        "traditionalism": 0.935693,
+        "nationalism": 0.028173
+      },
+      "latent": {
+        "liberalism": 0.121665,
+        "marxism": 0.524225,
+        "traditionalism": 2.873103,
+        "nationalism": 0.366428
+      },
+      "environment": {
+        "gdp_growth": 0.0442,
+        "inequality": 1.0853,
+        "media_freedom": 0.0182,
+        "social_media": -0.0923,
+        "conflict": 0.3475
+      },
+      "fitness": {
+        "liberalism": -0.024437,
+        "marxism": 0.067294,
+        "traditionalism": 0.153001,
+        "nationalism": 0.097494
+      }
+    },
+    {
+      "time": 1875.0,
+      "shares": {
+        "liberalism": 0.005592,
+        "marxism": 0.031248,
+        "traditionalism": 0.935229,
+        "nationalism": 0.02793
+      },
+      "latent": {
+        "liberalism": 0.120373,
+        "marxism": 0.527085,
+        "traditionalism": 2.898799,
+        "nationalism": 0.359192
+      },
+      "environment": {
+        "gdp_growth": 0.0407,
+        "inequality": 1.0806,
+        "media_freedom": 0.0159,
+        "social_media": -0.095,
+        "conflict": 0.3434
+      },
+      "fitness": {
+        "liberalism": -0.024591,
+        "marxism": 0.067274,
+        "traditionalism": 0.154015,
+        "nationalism": 0.096637
+      }
+    },
+    {
+      "time": 1876.0,
+      "shares": {
+        "liberalism": 0.005593,
+        "marxism": 0.03194,
+        "traditionalism": 0.934766,
+        "nationalism": 0.027701
+      },
+      "latent": {
+        "liberalism": 0.119139,
+        "marxism": 0.529919,
+        "traditionalism": 2.923682,
+        "nationalism": 0.352306
+      },
+      "environment": {
+        "gdp_growth": 0.0373,
+        "inequality": 1.0761,
+        "media_freedom": 0.0136,
+        "social_media": -0.0977,
+        "conflict": 0.3394
+      },
+      "fitness": {
+        "liberalism": -0.024746,
+        "marxism": 0.067254,
+        "traditionalism": 0.155003,
+        "nationalism": 0.095813
+      }
+    },
+    {
+      "time": 1877.0,
+      "shares": {
+        "liberalism": 0.005593,
+        "marxism": 0.03262,
+        "traditionalism": 0.934304,
+        "nationalism": 0.027483
+      },
+      "latent": {
+        "liberalism": 0.117961,
+        "marxism": 0.532728,
+        "traditionalism": 2.947775,
+        "nationalism": 0.345753
+      },
+      "environment": {
+        "gdp_growth": 0.0339,
+        "inequality": 1.0715,
+        "media_freedom": 0.0113,
+        "social_media": -0.1004,
+        "conflict": 0.3356
+      },
+      "fitness": {
+        "liberalism": -0.024901,
+        "marxism": 0.067235,
+        "traditionalism": 0.155966,
+        "nationalism": 0.09502
+      }
+    },
+    {
+      "time": 1878.0,
+      "shares": {
+        "liberalism": 0.005592,
+        "marxism": 0.033289,
+        "traditionalism": 0.933846,
+        "nationalism": 0.027272
+      },
+      "latent": {
+        "liberalism": 0.116837,
+        "marxism": 0.53551,
+        "traditionalism": 2.971102,
+        "nationalism": 0.339513
+      },
+      "environment": {
+        "gdp_growth": 0.0306,
+        "inequality": 1.067,
+        "media_freedom": 0.009,
+        "social_media": -0.1031,
+        "conflict": 0.332
+      },
+      "fitness": {
+        "liberalism": -0.025056,
+        "marxism": 0.067216,
+        "traditionalism": 0.156904,
+        "nationalism": 0.094258
+      }
+    },
+    {
+      "time": 1879.0,
+      "shares": {
+        "liberalism": 0.005591,
+        "marxism": 0.033948,
+        "traditionalism": 0.933393,
+        "nationalism": 0.027069
+      },
+      "latent": {
+        "liberalism": 0.115764,
+        "marxism": 0.538266,
+        "traditionalism": 2.993686,
+        "nationalism": 0.333572
+      },
+      "environment": {
+        "gdp_growth": 0.0274,
+        "inequality": 1.0626,
+        "media_freedom": 0.0068,
+        "social_media": -0.1058,
+        "conflict": 0.3286
+      },
+      "fitness": {
+        "liberalism": -0.02521,
+        "marxism": 0.067198,
+        "traditionalism": 0.157818,
+        "nationalism": 0.093523
+      }
+    },
+    {
+      "time": 1880.0,
+      "shares": {
+        "liberalism": 0.005588,
+        "marxism": 0.034595,
+        "traditionalism": 0.932947,
+        "nationalism": 0.02687
+      },
+      "latent": {
+        "liberalism": 0.114738,
+        "marxism": 0.540993,
+        "traditionalism": 3.01555,
+        "nationalism": 0.327913
+      },
+      "environment": {
+        "gdp_growth": 0.0242,
+        "inequality": 1.0582,
+        "media_freedom": 0.0046,
+        "social_media": -0.1085,
+        "conflict": 0.3253
+      },
+      "fitness": {
+        "liberalism": -0.025365,
+        "marxism": 0.067179,
+        "traditionalism": 0.158709,
+        "nationalism": 0.092815
+      }
+    },
+    {
+      "time": 1881.0,
+      "shares": {
+        "liberalism": 0.005585,
+        "marxism": 0.035232,
+        "traditionalism": 0.932508,
+        "nationalism": 0.026675
+      },
+      "latent": {
+        "liberalism": 0.113759,
+        "marxism": 0.543693,
+        "traditionalism": 3.036717,
+        "nationalism": 0.322522
+      },
+      "environment": {
+        "gdp_growth": 0.0211,
+        "inequality": 1.0539,
+        "media_freedom": 0.0024,
+        "social_media": -0.1112,
+        "conflict": 0.3222
+      },
+      "fitness": {
+        "liberalism": -0.025518,
+        "marxism": 0.067161,
+        "traditionalism": 0.159577,
+        "nationalism": 0.092133
+      }
+    },
+    {
+      "time": 1882.0,
+      "shares": {
+        "liberalism": 0.00558,
+        "marxism": 0.035858,
+        "traditionalism": 0.932078,
+        "nationalism": 0.026484
+      },
+      "latent": {
+        "liberalism": 0.112822,
+        "marxism": 0.546365,
+        "traditionalism": 3.057207,
+        "nationalism": 0.317383
+      },
+      "environment": {
+        "gdp_growth": 0.0181,
+        "inequality": 1.0496,
+        "media_freedom": 0.0002,
+        "social_media": -0.1139,
+        "conflict": 0.3193
+      },
+      "fitness": {
+        "liberalism": -0.025671,
+        "marxism": 0.067143,
+        "traditionalism": 0.160424,
+        "nationalism": 0.091475
+      }
+    },
+    {
+      "time": 1883.0,
+      "shares": {
+        "liberalism": 0.005575,
+        "marxism": 0.036472,
+        "traditionalism": 0.931657,
+        "nationalism": 0.026295
+      },
+      "latent": {
+        "liberalism": 0.111927,
+        "marxism": 0.549008,
+        "traditionalism": 3.077042,
+        "nationalism": 0.312484
+      },
+      "environment": {
+        "gdp_growth": 0.0151,
+        "inequality": 1.0453,
+        "media_freedom": -0.0019,
+        "social_media": -0.1165,
+        "conflict": 0.3165
+      },
+      "fitness": {
+        "liberalism": -0.025824,
+        "marxism": 0.067124,
+        "traditionalism": 0.161249,
+        "nationalism": 0.09084
+      }
+    },
+    {
+      "time": 1884.0,
+      "shares": {
+        "liberalism": 0.00557,
+        "marxism": 0.037075,
+        "traditionalism": 0.931247,
+        "nationalism": 0.026108
+      },
+      "latent": {
+        "liberalism": 0.111071,
+        "marxism": 0.551622,
+        "traditionalism": 3.096242,
+        "nationalism": 0.307811
+      },
+      "environment": {
+        "gdp_growth": 0.0122,
+        "inequality": 1.0411,
+        "media_freedom": -0.004,
+        "social_media": -0.1192,
+        "conflict": 0.3138
+      },
+      "fitness": {
+        "liberalism": -0.025976,
+        "marxism": 0.067105,
+        "traditionalism": 0.162053,
+        "nationalism": 0.090227
+      }
+    },
+    {
+      "time": 1885.0,
+      "shares": {
+        "liberalism": 0.005564,
+        "marxism": 0.037665,
+        "traditionalism": 0.930847,
+        "nationalism": 0.025924
+      },
+      "latent": {
+        "liberalism": 0.110253,
+        "marxism": 0.554207,
+        "traditionalism": 3.114828,
+        "nationalism": 0.303352
+      },
+      "environment": {
+        "gdp_growth": 0.0093,
+        "inequality": 1.0369,
+        "media_freedom": -0.0061,
+        "social_media": -0.1219,
+        "conflict": 0.3113
+      },
+      "fitness": {
+        "liberalism": -0.026127,
+        "marxism": 0.067085,
+        "traditionalism": 0.162838,
+        "nationalism": 0.089635
+      }
+    },
+    {
+      "time": 1886.0,
+      "shares": {
+        "liberalism": 0.005557,
+        "marxism": 0.038244,
+        "traditionalism": 0.930459,
+        "nationalism": 0.02574
+      },
+      "latent": {
+        "liberalism": 0.10947,
+        "marxism": 0.556762,
+        "traditionalism": 3.132818,
+        "nationalism": 0.299096
+      },
+      "environment": {
+        "gdp_growth": 0.0065,
+        "inequality": 1.0328,
+        "media_freedom": -0.0082,
+        "social_media": -0.1246,
+        "conflict": 0.3088
+      },
+      "fitness": {
+        "liberalism": -0.026277,
+        "marxism": 0.067066,
+        "traditionalism": 0.163603,
+        "nationalism": 0.089062
+      }
+    },
+    {
+      "time": 1887.0,
+      "shares": {
+        "liberalism": 0.00555,
+        "marxism": 0.038811,
+        "traditionalism": 0.930081,
+        "nationalism": 0.025558
+      },
+      "latent": {
+        "liberalism": 0.108721,
+        "marxism": 0.559287,
+        "traditionalism": 3.150233,
+        "nationalism": 0.295031
+      },
+      "environment": {
+        "gdp_growth": 0.0037,
+        "inequality": 1.0287,
+        "media_freedom": -0.0103,
+        "social_media": -0.1273,
+        "conflict": 0.3065
+      },
+      "fitness": {
+        "liberalism": -0.026427,
+        "marxism": 0.067045,
+        "traditionalism": 0.16435,
+        "nationalism": 0.088508
+      }
+    },
+    {
+      "time": 1888.0,
+      "shares": {
+        "liberalism": 0.005542,
+        "marxism": 0.039365,
+        "traditionalism": 0.929716,
+        "nationalism": 0.025377
+      },
+      "latent": {
+        "liberalism": 0.108004,
+        "marxism": 0.561782,
+        "traditionalism": 3.167089,
+        "nationalism": 0.291147
+      },
+      "environment": {
+        "gdp_growth": 0.001,
+        "inequality": 1.0246,
+        "media_freedom": -0.0123,
+        "social_media": -0.13,
+        "conflict": 0.3044
+      },
+      "fitness": {
+        "liberalism": -0.026576,
+        "marxism": 0.067024,
+        "traditionalism": 0.165078,
+        "nationalism": 0.087971
+      }
+    },
+    {
+      "time": 1889.0,
+      "shares": {
+        "liberalism": 0.005534,
+        "marxism": 0.039906,
+        "traditionalism": 0.929363,
+        "nationalism": 0.025197
+      },
+      "latent": {
+        "liberalism": 0.107317,
+        "marxism": 0.564245,
+        "traditionalism": 3.183406,
+        "nationalism": 0.287435
+      },
+      "environment": {
+        "gdp_growth": -0.0016,
+        "inequality": 1.0206,
+        "media_freedom": -0.0144,
+        "social_media": -0.1327,
+        "conflict": 0.3023
+      },
+      "fitness": {
+        "liberalism": -0.026723,
+        "marxism": 0.067002,
+        "traditionalism": 0.165789,
+        "nationalism": 0.087452
+      }
+    },
+    {
+      "time": 1890.0,
+      "shares": {
+        "liberalism": 0.005525,
+        "marxism": 0.040434,
+        "traditionalism": 0.929023,
+        "nationalism": 0.025018
+      },
+      "latent": {
+        "liberalism": 0.10666,
+        "marxism": 0.566677,
+        "traditionalism": 3.199201,
+        "nationalism": 0.283885
+      },
+      "environment": {
+        "gdp_growth": -0.0042,
+        "inequality": 1.0166,
+        "media_freedom": -0.0164,
+        "social_media": -0.1353,
+        "conflict": 0.3003
+      },
+      "fitness": {
+        "liberalism": -0.02687,
+        "marxism": 0.066979,
+        "traditionalism": 0.166483,
+        "nationalism": 0.086948
+      }
+    },
+    {
+      "time": 1891.0,
+      "shares": {
+        "liberalism": 0.005516,
+        "marxism": 0.040949,
+        "traditionalism": 0.928695,
+        "nationalism": 0.024839
+      },
+      "latent": {
+        "liberalism": 0.106031,
+        "marxism": 0.569077,
+        "traditionalism": 3.21449,
+        "nationalism": 0.280488
+      },
+      "environment": {
+        "gdp_growth": -0.0068,
+        "inequality": 1.0127,
+        "media_freedom": -0.0184,
+        "social_media": -0.138,
+        "conflict": 0.2984
+      },
+      "fitness": {
+        "liberalism": -0.027016,
+        "marxism": 0.066956,
+        "traditionalism": 0.16716,
+        "nationalism": 0.08646
+      }
+    },
+    {
+      "time": 1892.0,
+      "shares": {
+        "liberalism": 0.005507,
+        "marxism": 0.041451,
+        "traditionalism": 0.92838,
+        "nationalism": 0.024662
+      },
+      "latent": {
+        "liberalism": 0.105428,
+        "marxism": 0.571444,
+        "traditionalism": 3.22929,
+        "nationalism": 0.277237
+      },
+      "environment": {
+        "gdp_growth": -0.0093,
+        "inequality": 1.0088,
+        "media_freedom": -0.0203,
+        "social_media": -0.1407,
+        "conflict": 0.2966
+      },
+      "fitness": {
+        "liberalism": -0.02716,
+        "marxism": 0.066931,
+        "traditionalism": 0.167821,
+        "nationalism": 0.085985
+      }
+    },
+    {
+      "time": 1893.0,
+      "shares": {
+        "liberalism": 0.005497,
+        "marxism": 0.04194,
+        "traditionalism": 0.928078,
+        "nationalism": 0.024486
+      },
+      "latent": {
+        "liberalism": 0.104851,
+        "marxism": 0.573778,
+        "traditionalism": 3.243617,
+        "nationalism": 0.274122
+      },
+      "environment": {
+        "gdp_growth": -0.0117,
+        "inequality": 1.005,
+        "media_freedom": -0.0223,
+        "social_media": -0.1434,
+        "conflict": 0.2949
+      },
+      "fitness": {
+        "liberalism": -0.027304,
+        "marxism": 0.066905,
+        "traditionalism": 0.168467,
+        "nationalism": 0.085525
+      }
+    },
+    {
+      "time": 1894.0,
+      "shares": {
+        "liberalism": 0.005487,
+        "marxism": 0.042415,
+        "traditionalism": 0.927788,
+        "nationalism": 0.024311
+      },
+      "latent": {
+        "liberalism": 0.104297,
+        "marxism": 0.576078,
+        "traditionalism": 3.257486,
+        "nationalism": 0.271138
+      },
+      "environment": {
+        "gdp_growth": -0.0141,
+        "inequality": 1.0012,
+        "media_freedom": -0.0242,
+        "social_media": -0.1461,
+        "conflict": 0.2933
+      },
+      "fitness": {
+        "liberalism": -0.027446,
+        "marxism": 0.066879,
+        "traditionalism": 0.169098,
+        "nationalism": 0.085077
+      }
+    },
+    {
+      "time": 1895.0,
+      "shares": {
+        "liberalism": 0.005476,
+        "marxism": 0.042876,
+        "traditionalism": 0.927511,
+        "nationalism": 0.024136
+      },
+      "latent": {
+        "liberalism": 0.103767,
+        "marxism": 0.578345,
+        "traditionalism": 3.270913,
+        "nationalism": 0.268277
+      },
+      "environment": {
+        "gdp_growth": -0.0165,
+        "inequality": 0.9974,
+        "media_freedom": -0.0261,
+        "social_media": -0.1488,
+        "conflict": 0.2917
+      },
+      "fitness": {
+        "liberalism": -0.027588,
+        "marxism": 0.066851,
+        "traditionalism": 0.169715,
+        "nationalism": 0.084642
+      }
+    },
+    {
+      "time": 1896.0,
+      "shares": {
+        "liberalism": 0.005466,
+        "marxism": 0.043324,
+        "traditionalism": 0.927248,
+        "nationalism": 0.023963
+      },
+      "latent": {
+        "liberalism": 0.103258,
+        "marxism": 0.580577,
+        "traditionalism": 3.283913,
+        "nationalism": 0.265532
+      },
+      "environment": {
+        "gdp_growth": -0.0188,
+        "inequality": 0.9937,
+        "media_freedom": -0.028,
+        "social_media": -0.1514,
+        "conflict": 0.2903
+      },
+      "fitness": {
+        "liberalism": -0.027728,
+        "marxism": 0.066822,
+        "traditionalism": 0.170318,
+        "nationalism": 0.084218
+      }
+    },
+    {
+      "time": 1897.0,
+      "shares": {
+        "liberalism": 0.005455,
+        "marxism": 0.043759,
+        "traditionalism": 0.926997,
+        "nationalism": 0.02379
+      },
+      "latent": {
+        "liberalism": 0.102771,
+        "marxism": 0.582774,
+        "traditionalism": 3.296498,
+        "nationalism": 0.262897
+      },
+      "environment": {
+        "gdp_growth": -0.0211,
+        "inequality": 0.99,
+        "media_freedom": -0.0299,
+        "social_media": -0.1541,
+        "conflict": 0.2888
+      },
+      "fitness": {
+        "liberalism": -0.027867,
+        "marxism": 0.066791,
+        "traditionalism": 0.170907,
+        "nationalism": 0.083805
+      }
+    },
+    {
+      "time": 1898.0,
+      "shares": {
+        "liberalism": 0.005443,
+        "marxism": 0.044179,
+        "traditionalism": 0.926758,
+        "nationalism": 0.023619
+      },
+      "latent": {
+        "liberalism": 0.102303,
+        "marxism": 0.584935,
+        "traditionalism": 3.308684,
+        "nationalism": 0.260367
+      },
+      "environment": {
+        "gdp_growth": -0.0233,
+        "inequality": 0.9863,
+        "media_freedom": -0.0318,
+        "social_media": -0.1568,
+        "conflict": 0.2875
+      },
+      "fitness": {
+        "liberalism": -0.028004,
+        "marxism": 0.06676,
+        "traditionalism": 0.171483,
+        "nationalism": 0.083403
+      }
+    },
+    {
+      "time": 1899.0,
+      "shares": {
+        "liberalism": 0.005432,
+        "marxism": 0.044587,
+        "traditionalism": 0.926533,
+        "nationalism": 0.023449
+      },
+      "latent": {
+        "liberalism": 0.101855,
+        "marxism": 0.587061,
+        "traditionalism": 3.320483,
+        "nationalism": 0.257936
+      },
+      "environment": {
+        "gdp_growth": -0.0255,
+        "inequality": 0.9827,
+        "media_freedom": -0.0336,
+        "social_media": -0.1595,
+        "conflict": 0.2862
+      },
+      "fitness": {
+        "liberalism": -0.028141,
+        "marxism": 0.066727,
+        "traditionalism": 0.172046,
+        "nationalism": 0.083011
+      }
+    },
+    {
+      "time": 1900.0,
+      "shares": {
+        "liberalism": 0.00542,
+        "marxism": 0.04498,
+        "traditionalism": 0.926319,
+        "nationalism": 0.02328
+      },
+      "latent": {
+        "liberalism": 0.101425,
+        "marxism": 0.58915,
+        "traditionalism": 3.331909,
+        "nationalism": 0.255599
+      },
+      "environment": {
+        "gdp_growth": -0.0276,
+        "inequality": 0.9791,
+        "media_freedom": -0.0354,
+        "social_media": -0.1622,
+        "conflict": 0.285
+      },
+      "fitness": {
+        "liberalism": -0.028276,
+        "marxism": 0.066692,
+        "traditionalism": 0.172597,
+        "nationalism": 0.082628
+      }
+    },
+    {
+      "time": 1901.0,
+      "shares": {
+        "liberalism": 0.005409,
+        "marxism": 0.045361,
+        "traditionalism": 0.926119,
+        "nationalism": 0.023112
+      },
+      "latent": {
+        "liberalism": 0.101012,
+        "marxism": 0.591202,
+        "traditionalism": 3.342973,
+        "nationalism": 0.25335
+      },
+      "environment": {
+        "gdp_growth": -0.0297,
+        "inequality": 0.9756,
+        "media_freedom": -0.0373,
+        "social_media": -0.1649,
+        "conflict": 0.2839
+      },
+      "fitness": {
+        "liberalism": -0.02841,
+        "marxism": 0.066656,
+        "traditionalism": 0.173137,
+        "nationalism": 0.082254
+      }
+    },
+    {
+      "time": 1902.0,
+      "shares": {
+        "liberalism": 0.005397,
+        "marxism": 0.045728,
+        "traditionalism": 0.92593,
+        "nationalism": 0.022945
+      },
+      "latent": {
+        "liberalism": 0.100616,
+        "marxism": 0.593217,
+        "traditionalism": 3.353689,
+        "nationalism": 0.251186
+      },
+      "environment": {
+        "gdp_growth": -0.0318,
+        "inequality": 0.972,
+        "media_freedom": -0.039,
+        "social_media": -0.1675,
+        "conflict": 0.2828
+      },
+      "fitness": {
+        "liberalism": -0.028543,
+        "marxism": 0.066618,
+        "traditionalism": 0.173665,
+        "nationalism": 0.081889
+      }
+    },
+    {
+      "time": 1903.0,
+      "shares": {
+        "liberalism": 0.005385,
+        "marxism": 0.046082,
+        "traditionalism": 0.925753,
+        "nationalism": 0.02278
+      },
+      "latent": {
+        "liberalism": 0.100236,
+        "marxism": 0.595195,
+        "traditionalism": 3.364067,
+        "nationalism": 0.249102
+      },
+      "environment": {
+        "gdp_growth": -0.0338,
+        "inequality": 0.9686,
+        "media_freedom": -0.0408,
+        "social_media": -0.1702,
+        "conflict": 0.2818
+      },
+      "fitness": {
+        "liberalism": -0.028674,
+        "marxism": 0.066579,
+        "traditionalism": 0.174181,
+        "nationalism": 0.081532
+      }
+    },
+    {
+      "time": 1904.0,
+      "shares": {
+        "liberalism": 0.005373,
+        "marxism": 0.046422,
+        "traditionalism": 0.925589,
+        "nationalism": 0.022616
+      },
+      "latent": {
+        "liberalism": 0.099871,
+        "marxism": 0.597135,
+        "traditionalism": 3.374119,
+        "nationalism": 0.247094
+      },
+      "environment": {
+        "gdp_growth": -0.0357,
+        "inequality": 0.9651,
+        "media_freedom": -0.0426,
+        "social_media": -0.1729,
+        "conflict": 0.2808
+      },
+      "fitness": {
+        "liberalism": -0.028805,
+        "marxism": 0.066539,
+        "traditionalism": 0.174688,
+        "nationalism": 0.081183
+      }
+    },
+    {
+      "time": 1905.0,
+      "shares": {
+        "liberalism": 0.00536,
+        "marxism": 0.04675,
+        "traditionalism": 0.925436,
+        "nationalism": 0.022454
+      },
+      "latent": {
+        "liberalism": 0.099521,
+        "marxism": 0.599036,
+        "traditionalism": 3.383857,
+        "nationalism": 0.245158
+      },
+      "environment": {
+        "gdp_growth": -0.0377,
+        "inequality": 0.9617,
+        "media_freedom": -0.0443,
+        "social_media": -0.1756,
+        "conflict": 0.2798
+      },
+      "fitness": {
+        "liberalism": -0.028934,
+        "marxism": 0.066496,
+        "traditionalism": 0.175183,
+        "nationalism": 0.080841
+      }
+    },
+    {
+      "time": 1906.0,
+      "shares": {
+        "liberalism": 0.005348,
+        "marxism": 0.047065,
+        "traditionalism": 0.925294,
+        "nationalism": 0.022292
+      },
+      "latent": {
+        "liberalism": 0.099185,
+        "marxism": 0.600899,
+        "traditionalism": 3.39329,
+        "nationalism": 0.24329
+      },
+      "environment": {
+        "gdp_growth": -0.0396,
+        "inequality": 0.9583,
+        "media_freedom": -0.046,
+        "social_media": -0.1783,
+        "conflict": 0.2789
+      },
+      "fitness": {
+        "liberalism": -0.029061,
+        "marxism": 0.066452,
+        "traditionalism": 0.175669,
+        "nationalism": 0.080507
+      }
+    },
+    {
+      "time": 1907.0,
+      "shares": {
+        "liberalism": 0.005336,
+        "marxism": 0.047368,
+        "traditionalism": 0.925164,
+        "nationalism": 0.022133
+      },
+      "latent": {
+        "liberalism": 0.098862,
+        "marxism": 0.602724,
+        "traditionalism": 3.402429,
+        "nationalism": 0.241487
+      },
+      "environment": {
+        "gdp_growth": -0.0414,
+        "inequality": 0.955,
+        "media_freedom": -0.0477,
+        "social_media": -0.1809,
+        "conflict": 0.2781
+      },
+      "fitness": {
+        "liberalism": -0.029188,
+        "marxism": 0.066407,
+        "traditionalism": 0.176145,
+        "nationalism": 0.080179
+      }
+    },
+    {
+      "time": 1908.0,
+      "shares": {
+        "liberalism": 0.005324,
+        "marxism": 0.047657,
+        "traditionalism": 0.925044,
+        "nationalism": 0.021975
+      },
+      "latent": {
+        "liberalism": 0.098552,
+        "marxism": 0.604509,
+        "traditionalism": 3.411285,
+        "nationalism": 0.239746
+      },
+      "environment": {
+        "gdp_growth": -0.0432,
+        "inequality": 0.9517,
+        "media_freedom": -0.0494,
+        "social_media": -0.1836,
+        "conflict": 0.2772
+      },
+      "fitness": {
+        "liberalism": -0.029313,
+        "marxism": 0.066359,
+        "traditionalism": 0.176612,
+        "nationalism": 0.079857
+      }
+    },
+    {
+      "time": 1909.0,
+      "shares": {
+        "liberalism": 0.005311,
+        "marxism": 0.047935,
+        "traditionalism": 0.924935,
+        "nationalism": 0.021818
+      },
+      "latent": {
+        "liberalism": 0.098254,
+        "marxism": 0.606256,
+        "traditionalism": 3.419867,
+        "nationalism": 0.238064
+      },
+      "environment": {
+        "gdp_growth": -0.045,
+        "inequality": 0.9484,
+        "media_freedom": -0.0511,
+        "social_media": -0.1863,
+        "conflict": 0.2765
+      },
+      "fitness": {
+        "liberalism": -0.029436,
+        "marxism": 0.06631,
+        "traditionalism": 0.17707,
+        "nationalism": 0.079542
+      }
+    },
+    {
+      "time": 1910.0,
+      "shares": {
+        "liberalism": 0.005299,
+        "marxism": 0.048201,
+        "traditionalism": 0.924837,
+        "nationalism": 0.021663
+      },
+      "latent": {
+        "liberalism": 0.097969,
+        "marxism": 0.607963,
+        "traditionalism": 3.428183,
+        "nationalism": 0.236437
+      },
+      "environment": {
+        "gdp_growth": -0.0468,
+        "inequality": 0.9452,
+        "media_freedom": -0.0527,
+        "social_media": -0.189,
+        "conflict": 0.2757
+      },
+      "fitness": {
+        "liberalism": -0.029559,
+        "marxism": 0.066259,
+        "traditionalism": 0.177519,
+        "nationalism": 0.079232
+      }
+    },
+    {
+      "time": 1911.0,
+      "shares": {
+        "liberalism": 0.005287,
+        "marxism": 0.048454,
+        "traditionalism": 0.924749,
+        "nationalism": 0.021509
+      },
+      "latent": {
+        "liberalism": 0.097694,
+        "marxism": 0.60963,
+        "traditionalism": 3.436244,
+        "nationalism": 0.234863
+      },
+      "environment": {
+        "gdp_growth": -0.0485,
+        "inequality": 0.942,
+        "media_freedom": -0.0544,
+        "social_media": -0.1917,
+        "conflict": 0.275
+      },
+      "fitness": {
+        "liberalism": -0.02968,
+        "marxism": 0.066206,
+        "traditionalism": 0.177959,
+        "nationalism": 0.078928
+      }
+    },
+    {
+      "time": 1912.0,
+      "shares": {
+        "liberalism": 0.005275,
+        "marxism": 0.048696,
+        "traditionalism": 0.924671,
+        "nationalism": 0.021357
+      },
+      "latent": {
+        "liberalism": 0.097431,
+        "marxism": 0.611258,
+        "traditionalism": 3.444058,
+        "nationalism": 0.233339
+      },
+      "environment": {
+        "gdp_growth": -0.0502,
+        "inequality": 0.9388,
+        "media_freedom": -0.056,
+        "social_media": -0.1944,
+        "conflict": 0.2744
+      },
+      "fitness": {
+        "liberalism": -0.0298,
+        "marxism": 0.066152,
+        "traditionalism": 0.178392,
+        "nationalism": 0.078629
+      }
+    },
+    {
+      "time": 1913.0,
+      "shares": {
+        "liberalism": 0.005262,
+        "marxism": 0.048927,
+        "traditionalism": 0.924603,
+        "nationalism": 0.021207
+      },
+      "latent": {
+        "liberalism": 0.097178,
+        "marxism": 0.612847,
+        "traditionalism": 3.451634,
+        "nationalism": 0.231864
+      },
+      "environment": {
+        "gdp_growth": -0.0518,
+        "inequality": 0.9356,
+        "media_freedom": -0.0576,
+        "social_media": -0.197,
+        "conflict": 0.2737
+      },
+      "fitness": {
+        "liberalism": -0.029919,
+        "marxism": 0.066096,
+        "traditionalism": 0.178816,
+        "nationalism": 0.078335
+      }
+    },
+    {
+      "time": 1914.0,
+      "shares": {
+        "liberalism": 0.00525,
+        "marxism": 0.049146,
+        "traditionalism": 0.924545,
+        "nationalism": 0.021058
+      },
+      "latent": {
+        "liberalism": 0.096934,
+        "marxism": 0.614396,
+        "traditionalism": 3.458979,
+        "nationalism": 0.230434
+      },
+      "environment": {
+        "gdp_growth": -0.0535,
+        "inequality": 0.9325,
+        "media_freedom": -0.0592,
+        "social_media": -0.1997,
+        "conflict": 0.2731
+      },
+      "fitness": {
+        "liberalism": -0.030036,
+        "marxism": 0.066037,
+        "traditionalism": 0.179233,
+        "nationalism": 0.078046
+      }
+    },
+    {
+      "time": 1915.0,
+      "shares": {
+        "liberalism": 0.005041,
+        "marxism": 0.049371,
+        "traditionalism": 0.924429,
+        "nationalism": 0.021159
+      },
+      "latent": {
+        "liberalism": 0.096685,
+        "marxism": 0.617281,
+        "traditionalism": 3.466207,
+        "nationalism": 0.231571
+      },
+      "environment": {
+        "gdp_growth": -0.3491,
+        "inequality": 0.9295,
+        "media_freedom": -0.0608,
+        "social_media": -0.2024,
+        "conflict": 0.8433
+      },
+      "fitness": {
+        "liberalism": -0.059045,
+        "marxism": 0.080597,
+        "traditionalism": 0.19383,
+        "nationalism": 0.103712
+      }
+    },
+    {
+      "time": 1916.0,
+      "shares": {
+        "liberalism": 0.004893,
+        "marxism": 0.049616,
+        "traditionalism": 0.924242,
+        "nationalism": 0.021249
+      },
+      "latent": {
+        "liberalism": 0.096421,
+        "marxism": 0.620031,
+        "traditionalism": 3.473199,
+        "nationalism": 0.232522
+      },
+      "environment": {
+        "gdp_growth": -0.3448,
+        "inequality": 0.9264,
+        "media_freedom": -0.0623,
+        "social_media": -0.2051,
+        "conflict": 0.8149
+      },
+      "fitness": {
+        "liberalism": -0.0581,
+        "marxism": 0.080167,
+        "traditionalism": 0.193455,
+        "nationalism": 0.102422
+      }
+    },
+    {
+      "time": 1917.0,
+      "shares": {
+        "liberalism": 0.00479,
+        "marxism": 0.049874,
+        "traditionalism": 0.924007,
+        "nationalism": 0.021329
+      },
+      "latent": {
+        "liberalism": 0.09615,
+        "marxism": 0.622656,
+        "traditionalism": 3.479955,
+        "nationalism": 0.2333
+      },
+      "environment": {
+        "gdp_growth": -0.3407,
+        "inequality": 0.9234,
+        "media_freedom": -0.0639,
+        "social_media": -0.2078,
+        "conflict": 0.7879
+      },
+      "fitness": {
+        "liberalism": -0.057201,
+        "marxism": 0.079748,
+        "traditionalism": 0.193107,
+        "nationalism": 0.101176
+      }
+    },
+    {
+      "time": 1918.0,
+      "shares": {
+        "liberalism": 0.004714,
+        "marxism": 0.050926,
+        "traditionalism": 0.922679,
+        "nationalism": 0.021681
+      },
+      "latent": {
+        "liberalism": 0.095872,
+        "marxism": 0.626603,
+        "traditionalism": 3.486392,
+        "nationalism": 0.235066
+      },
+      "environment": {
+        "gdp_growth": -0.3366,
+        "inequality": 1.2174,
+        "media_freedom": -0.0654,
+        "social_media": -0.2105,
+        "conflict": 0.7622
+      },
+      "fitness": {
+        "liberalism": -0.059328,
+        "marxism": 0.0943,
+        "traditionalism": 0.189729,
+        "nationalism": 0.111928
+      }
+    },
+    {
+      "time": 1919.0,
+      "shares": {
+        "liberalism": 0.004662,
+        "marxism": 0.051892,
+        "traditionalism": 0.921446,
+        "nationalism": 0.022
+      },
+      "latent": {
+        "liberalism": 0.095587,
+        "marxism": 0.630462,
+        "traditionalism": 3.492485,
+        "nationalism": 0.236634
+      },
+      "environment": {
+        "gdp_growth": -0.3326,
+        "inequality": 1.2115,
+        "media_freedom": -0.067,
+        "social_media": -0.2131,
+        "conflict": 0.7378
+      },
+      "fitness": {
+        "liberalism": -0.058495,
+        "marxism": 0.093863,
+        "traditionalism": 0.189381,
+        "nationalism": 0.110719
+      }
+    },
+    {
+      "time": 1920.0,
+      "shares": {
+        "liberalism": 0.004626,
+        "marxism": 0.052781,
+        "traditionalism": 0.920304,
+        "nationalism": 0.022288
+      },
+      "latent": {
+        "liberalism": 0.095299,
+        "marxism": 0.634228,
+        "traditionalism": 3.498257,
+        "nationalism": 0.238016
+      },
+      "environment": {
+        "gdp_growth": -0.3287,
+        "inequality": 1.2057,
+        "media_freedom": -0.0685,
+        "social_media": -0.2158,
+        "conflict": 0.7146
+      },
+      "fitness": {
+        "liberalism": -0.0577,
+        "marxism": 0.093435,
+        "traditionalism": 0.189061,
+        "nationalism": 0.109548
+      }
+    },
+    {
+      "time": 1921.0,
+      "shares": {
+        "liberalism": 0.004603,
+        "marxism": 0.053603,
+        "traditionalism": 0.919248,
+        "nationalism": 0.022547
+      },
+      "latent": {
+        "liberalism": 0.095011,
+        "marxism": 0.637896,
+        "traditionalism": 3.503726,
+        "nationalism": 0.239226
+      },
+      "environment": {
+        "gdp_growth": -0.3248,
+        "inequality": 1.1999,
+        "media_freedom": -0.07,
+        "social_media": -0.2185,
+        "conflict": 0.6925
+      },
+      "fitness": {
+        "liberalism": -0.05694,
+        "marxism": 0.093016,
+        "traditionalism": 0.188767,
+        "nationalism": 0.108414
+      }
+    },
+    {
+      "time": 1922.0,
+      "shares": {
+        "liberalism": 0.004588,
+        "marxism": 0.054365,
+        "traditionalism": 0.918271,
+        "nationalism": 0.022776
+      },
+      "latent": {
+        "liberalism": 0.094725,
+        "marxism": 0.641463,
+        "traditionalism": 3.508912,
+        "nationalism": 0.240273
+      },
+      "environment": {
+        "gdp_growth": -0.321,
+        "inequality": 1.1942,
+        "media_freedom": -0.0715,
+        "social_media": -0.2212,
+        "conflict": 0.6715
+      },
+      "fitness": {
+        "liberalism": -0.056215,
+        "marxism": 0.092605,
+        "traditionalism": 0.188499,
+        "nationalism": 0.107314
+      }
+    },
+    {
+      "time": 1923.0,
+      "shares": {
+        "liberalism": 0.004578,
+        "marxism": 0.055073,
+        "traditionalism": 0.91737,
+        "nationalism": 0.022978
+      },
+      "latent": {
+        "liberalism": 0.094444,
+        "marxism": 0.644929,
+        "traditionalism": 3.513831,
+        "nationalism": 0.24117
+      },
+      "environment": {
+        "gdp_growth": -0.3174,
+        "inequality": 1.1885,
+        "media_freedom": -0.073,
+        "social_media": -0.2238,
+        "conflict": 0.6515
+      },
+      "fitness": {
+        "liberalism": -0.055523,
+        "marxism": 0.092201,
+        "traditionalism": 0.188254,
+        "nationalism": 0.106249
+      }
+    },
+    {
+      "time": 1924.0,
+      "shares": {
+        "liberalism": 0.004573,
+        "marxism": 0.055733,
+        "traditionalism": 0.916539,
+        "nationalism": 0.023155
+      },
+      "latent": {
+        "liberalism": 0.094168,
+        "marxism": 0.648291,
+        "traditionalism": 3.518502,
+        "nationalism": 0.241927
+      },
+      "environment": {
+        "gdp_growth": -0.3137,
+        "inequality": 1.1829,
+        "media_freedom": -0.0745,
+        "social_media": -0.2265,
+        "conflict": 0.6324
+      },
+      "fitness": {
+        "liberalism": -0.054862,
+        "marxism": 0.091804,
+        "traditionalism": 0.188033,
+        "nationalism": 0.105216
+      }
+    },
+    {
+      "time": 1925.0,
+      "shares": {
+        "liberalism": 0.00457,
+        "marxism": 0.056349,
+        "traditionalism": 0.915774,
+        "nationalism": 0.023307
+      },
+      "latent": {
+        "liberalism": 0.093897,
+        "marxism": 0.651549,
+        "traditionalism": 3.522939,
+        "nationalism": 0.242552
+      },
+      "environment": {
+        "gdp_growth": -0.3102,
+        "inequality": 1.1774,
+        "media_freedom": -0.0759,
+        "social_media": -0.2291,
+        "conflict": 0.6144
+      },
+      "fitness": {
+        "liberalism": -0.05423,
+        "marxism": 0.091414,
+        "traditionalism": 0.187832,
+        "nationalism": 0.104214
+      }
+    },
+    {
+      "time": 1926.0,
+      "shares": {
+        "liberalism": 0.00457,
+        "marxism": 0.056924,
+        "traditionalism": 0.91507,
+        "nationalism": 0.023436
+      },
+      "latent": {
+        "liberalism": 0.093633,
+        "marxism": 0.654703,
+        "traditionalism": 3.527156,
+        "nationalism": 0.243054
+      },
+      "environment": {
+        "gdp_growth": -0.3067,
+        "inequality": 1.1719,
+        "media_freedom": -0.0774,
+        "social_media": -0.2318,
+        "conflict": 0.5972
+      },
+      "fitness": {
+        "liberalism": -0.053626,
+        "marxism": 0.09103,
+        "traditionalism": 0.187653,
+        "nationalism": 0.103242
+      }
+    },
+    {
+      "time": 1927.0,
+      "shares": {
+        "liberalism": 0.00457,
+        "marxism": 0.057462,
+        "traditionalism": 0.914425,
+        "nationalism": 0.023543
+      },
+      "latent": {
+        "liberalism": 0.093376,
+        "marxism": 0.657755,
+        "traditionalism": 3.531167,
+        "nationalism": 0.243443
+      },
+      "environment": {
+        "gdp_growth": -0.3033,
+        "inequality": 1.1665,
+        "media_freedom": -0.0788,
+        "social_media": -0.2344,
+        "conflict": 0.5808
+      },
+      "fitness": {
+        "liberalism": -0.05305,
+        "marxism": 0.090652,
+        "traditionalism": 0.187493,
+        "nationalism": 0.102298
+      }
+    },
+    {
+      "time": 1928.0,
+      "shares": {
+        "liberalism": 0.004571,
+        "marxism": 0.057966,
+        "traditionalism": 0.913833,
+        "nationalism": 0.02363
+      },
+      "latent": {
+        "liberalism": 0.093126,
+        "marxism": 0.660705,
+        "traditionalism": 3.534986,
+        "nationalism": 0.243725
+      },
+      "environment": {
+        "gdp_growth": -0.3,
+        "inequality": 1.1611,
+        "media_freedom": -0.0802,
+        "social_media": -0.2371,
+        "conflict": 0.5652
+      },
+      "fitness": {
+        "liberalism": -0.052499,
+        "marxism": 0.090279,
+        "traditionalism": 0.187351,
+        "nationalism": 0.101382
+      }
+    },
+    {
+      "time": 1929.0,
+      "shares": {
+        "liberalism": 0.004574,
+        "marxism": 0.058458,
+        "traditionalism": 0.913263,
+        "nationalism": 0.023705
+      },
+      "latent": {
+        "liberalism": 0.092884,
+        "marxism": 0.663554,
+        "traditionalism": 3.538623,
+        "nationalism": 0.243908
+      },
+      "environment": {
+        "gdp_growth": -0.2967,
+        "inequality": 1.1558,
+        "media_freedom": -0.0817,
+        "social_media": -0.2397,
+        "conflict": 0.5504
+      },
+      "fitness": {
+        "liberalism": -0.051972,
+        "marxism": 0.089911,
+        "traditionalism": 0.187225,
+        "nationalism": 0.100493
+      }
+    },
+    {
+      "time": 1930.0,
+      "shares": {
+        "liberalism": 0.004508,
+        "marxism": 0.06122,
+        "traditionalism": 0.909887,
+        "nationalism": 0.024385
+      },
+      "latent": {
+        "liberalism": 0.092631,
+        "marxism": 0.669666,
+        "traditionalism": 3.541838,
+        "nationalism": 0.246003
+      },
+      "environment": {
+        "gdp_growth": -0.7836,
+        "inequality": 1.5465,
+        "media_freedom": -0.0831,
+        "social_media": -0.2424,
+        "conflict": 0.5363
+      },
+      "fitness": {
+        "liberalism": -0.075071,
+        "marxism": 0.124319,
+        "traditionalism": 0.178017,
+        "nationalism": 0.120501
+      }
+    },
+    {
+      "time": 1931.0,
+      "shares": {
+        "liberalism": 0.004462,
+        "marxism": 0.063749,
+        "traditionalism": 0.906786,
+        "nationalism": 0.025003
+      },
+      "latent": {
+        "liberalism": 0.092353,
+        "marxism": 0.675789,
+        "traditionalism": 3.544576,
+        "nationalism": 0.247923
+      },
+      "environment": {
+        "gdp_growth": -0.7708,
+        "inequality": 1.5374,
+        "media_freedom": -0.0845,
+        "social_media": -0.245,
+        "conflict": 0.5229
+      },
+      "fitness": {
+        "liberalism": -0.074199,
+        "marxism": 0.123742,
+        "traditionalism": 0.177828,
+        "nationalism": 0.119533
+      }
+    },
+    {
+      "time": 1932.0,
+      "shares": {
+        "liberalism": 0.00443,
+        "marxism": 0.06607,
+        "traditionalism": 0.903938,
+        "nationalism": 0.025562
+      },
+      "latent": {
+        "liberalism": 0.092058,
+        "marxism": 0.681895,
+        "traditionalism": 3.546883,
+        "nationalism": 0.249676
+      },
+      "environment": {
+        "gdp_growth": -0.7583,
+        "inequality": 1.5284,
+        "media_freedom": -0.0859,
+        "social_media": -0.2476,
+        "conflict": 0.5102
+      },
+      "fitness": {
+        "liberalism": -0.073356,
+        "marxism": 0.123178,
+        "traditionalism": 0.177658,
+        "nationalism": 0.118587
+      }
+    },
+    {
+      "time": 1933.0,
+      "shares": {
+        "liberalism": 0.004408,
+        "marxism": 0.068204,
+        "traditionalism": 0.901322,
+        "nationalism": 0.026066
+      },
+      "latent": {
+        "liberalism": 0.091749,
+        "marxism": 0.687963,
+        "traditionalism": 3.548799,
+        "nationalism": 0.251269
+      },
+      "environment": {
+        "gdp_growth": -0.7459,
+        "inequality": 1.5195,
+        "media_freedom": -0.0873,
+        "social_media": -0.2502,
+        "conflict": 0.4981
+      },
+      "fitness": {
+        "liberalism": -0.07254,
+        "marxism": 0.122624,
+        "traditionalism": 0.177506,
+        "nationalism": 0.117662
+      }
+    },
+    {
+      "time": 1934.0,
+      "shares": {
+        "liberalism": 0.004392,
+        "marxism": 0.070171,
+        "traditionalism": 0.898917,
+        "nationalism": 0.02652
+      },
+      "latent": {
+        "liberalism": 0.09143,
+        "marxism": 0.693972,
+        "traditionalism": 3.550364,
+        "nationalism": 0.252711
+      },
+      "environment": {
+        "gdp_growth": -0.7339,
+        "inequality": 1.5106,
+        "media_freedom": -0.0887,
+        "social_media": -0.2528,
+        "conflict": 0.4866
+      },
+      "fitness": {
+        "liberalism": -0.07175,
+        "marxism": 0.122081,
+        "traditionalism": 0.177369,
+        "nationalism": 0.116758
+      }
+    },
+    {
+      "time": 1935.0,
+      "shares": {
+        "liberalism": 0.004381,
+        "marxism": 0.071987,
+        "traditionalism": 0.896707,
+        "nationalism": 0.026925
+      },
+      "latent": {
+        "liberalism": 0.091105,
+        "marxism": 0.699907,
+        "traditionalism": 3.55161,
+        "nationalism": 0.254008
+      },
+      "environment": {
+        "gdp_growth": -0.7221,
+        "inequality": 1.5019,
+        "media_freedom": -0.0901,
+        "social_media": -0.2554,
+        "conflict": 0.4756
+      },
+      "fitness": {
+        "liberalism": -0.070985,
+        "marxism": 0.121546,
+        "traditionalism": 0.177249,
+        "nationalism": 0.115873
+      }
+    },
+    {
+      "time": 1936.0,
+      "shares": {
+        "liberalism": 0.004373,
+        "marxism": 0.073666,
+        "traditionalism": 0.894675,
+        "nationalism": 0.027287
+      },
+      "latent": {
+        "liberalism": 0.090775,
+        "marxism": 0.705753,
+        "traditionalism": 3.55257,
+        "nationalism": 0.255168
+      },
+      "environment": {
+        "gdp_growth": -0.7105,
+        "inequality": 1.4932,
+        "media_freedom": -0.0914,
+        "social_media": -0.258,
+        "conflict": 0.4652
+      },
+      "fitness": {
+        "liberalism": -0.070245,
+        "marxism": 0.12102,
+        "traditionalism": 0.177143,
+        "nationalism": 0.115007
+      }
+    },
+    {
+      "time": 1937.0,
+      "shares": {
+        "liberalism": 0.004366,
+        "marxism": 0.075221,
+        "traditionalism": 0.892806,
+        "nationalism": 0.027607
+      },
+      "latent": {
+        "liberalism": 0.090444,
+        "marxism": 0.7115,
+        "traditionalism": 3.553273,
+        "nationalism": 0.256196
+      },
+      "environment": {
+        "gdp_growth": -0.6991,
+        "inequality": 1.4847,
+        "media_freedom": -0.0928,
+        "social_media": -0.2606,
+        "conflict": 0.4553
+      },
+      "fitness": {
+        "liberalism": -0.069527,
+        "marxism": 0.120501,
+        "traditionalism": 0.177051,
+        "nationalism": 0.114159
+      }
+    },
+    {
+      "time": 1938.0,
+      "shares": {
+        "liberalism": 0.004361,
+        "marxism": 0.076663,
+        "traditionalism": 0.891088,
+        "nationalism": 0.027888
+      },
+      "latent": {
+        "liberalism": 0.090112,
+        "marxism": 0.717137,
+        "traditionalism": 3.553744,
+        "nationalism": 0.257101
+      },
+      "environment": {
+        "gdp_growth": -0.688,
+        "inequality": 1.4762,
+        "media_freedom": -0.0942,
+        "social_media": -0.2631,
+        "conflict": 0.4459
+      },
+      "fitness": {
+        "liberalism": -0.068832,
+        "marxism": 0.119988,
+        "traditionalism": 0.176972,
+        "nationalism": 0.113329
+      }
+    },
+    {
+      "time": 1939.0,
+      "shares": {
+        "liberalism": 0.004357,
+        "marxism": 0.078001,
+        "traditionalism": 0.889509,
+        "nationalism": 0.028133
+      },
+      "latent": {
+        "liberalism": 0.089781,
+        "marxism": 0.722658,
+        "traditionalism": 3.554007,
+        "nationalism": 0.257887
+      },
+      "environment": {
+        "gdp_growth": -0.6771,
+        "inequality": 1.4679,
+        "media_freedom": -0.0955,
+        "social_media": -0.2657,
+        "conflict": 0.4369
+      },
+      "fitness": {
+        "liberalism": -0.068159,
+        "marxism": 0.11948,
+        "traditionalism": 0.176907,
+        "nationalism": 0.112515
+      }
+    },
+    {
+      "time": 1940.0,
+      "shares": {
+        "liberalism": 0.004182,
+        "marxism": 0.078852,
+        "traditionalism": 0.888304,
+        "nationalism": 0.028662
+      },
+      "latent": {
+        "liberalism": 0.08944,
+        "marxism": 0.729178,
+        "traditionalism": 3.554304,
+        "nationalism": 0.261347
+      },
+      "environment": {
+        "gdp_growth": -0.8625,
+        "inequality": 1.4596,
+        "media_freedom": -0.0969,
+        "social_media": -0.2683,
+        "conflict": 1.0943
+      },
+      "fitness": {
+        "liberalism": -0.095328,
+        "marxism": 0.131587,
+        "traditionalism": 0.194912,
+        "nationalism": 0.140508
+      }
+    },
+    {
+      "time": 1941.0,
+      "shares": {
+        "liberalism": 0.004065,
+        "marxism": 0.079701,
+        "traditionalism": 0.887083,
+        "nationalism": 0.029152
+      },
+      "latent": {
+        "liberalism": 0.089084,
+        "marxism": 0.735431,
+        "traditionalism": 3.554441,
+        "nationalism": 0.264452
+      },
+      "environment": {
+        "gdp_growth": -0.8481,
+        "inequality": 1.4514,
+        "media_freedom": -0.0982,
+        "social_media": -0.2708,
+        "conflict": 1.0537
+      },
+      "fitness": {
+        "liberalism": -0.093572,
+        "marxism": 0.13071,
+        "traditionalism": 0.193966,
+        "nationalism": 0.138564
+      }
+    },
+    {
+      "time": 1942.0,
+      "shares": {
+        "liberalism": 0.003987,
+        "marxism": 0.080543,
+        "traditionalism": 0.885867,
+        "nationalism": 0.029603
+      },
+      "latent": {
+        "liberalism": 0.088721,
+        "marxism": 0.741429,
+        "traditionalism": 3.554423,
+        "nationalism": 0.267228
+      },
+      "environment": {
+        "gdp_growth": -0.8341,
+        "inequality": 1.4433,
+        "media_freedom": -0.0996,
+        "social_media": -0.2734,
+        "conflict": 1.0151
+      },
+      "fitness": {
+        "liberalism": -0.091886,
+        "marxism": 0.12985,
+        "traditionalism": 0.19307,
+        "nationalism": 0.136681
+      }
+    },
+    {
+      "time": 1943.0,
+      "shares": {
+        "liberalism": 0.003937,
+        "marxism": 0.081376,
+        "traditionalism": 0.884673,
+        "nationalism": 0.030014
+      },
+      "latent": {
+        "liberalism": 0.088355,
+        "marxism": 0.747184,
+        "traditionalism": 3.554256,
+        "nationalism": 0.269695
+      },
+      "environment": {
+        "gdp_growth": -0.8203,
+        "inequality": 1.4353,
+        "media_freedom": -0.1009,
+        "social_media": -0.2759,
+        "conflict": 0.9784
+      },
+      "fitness": {
+        "liberalism": -0.090268,
+        "marxism": 0.129005,
+        "traditionalism": 0.19222,
+        "nationalism": 0.134859
+      }
+    },
+    {
+      "time": 1944.0,
+      "shares": {
+        "liberalism": 0.003905,
+        "marxism": 0.082195,
+        "traditionalism": 0.883514,
+        "nationalism": 0.030387
+      },
+      "latent": {
+        "liberalism": 0.087991,
+        "marxism": 0.752708,
+        "traditionalism": 3.553949,
+        "nationalism": 0.271874
+      },
+      "environment": {
+        "gdp_growth": -0.8068,
+        "inequality": 1.4273,
+        "media_freedom": -0.1022,
+        "social_media": -0.2785,
+        "conflict": 0.9434
+      },
+      "fitness": {
+        "liberalism": -0.088713,
+        "marxism": 0.128176,
+        "traditionalism": 0.191417,
+        "nationalism": 0.133094
+      }
+    },
+    {
+      "time": 1945.0,
+      "shares": {
+        "liberalism": 0.003885,
+        "marxism": 0.082997,
+        "traditionalism": 0.882397,
+        "nationalism": 0.030721
+      },
+      "latent": {
+        "liberalism": 0.087631,
+        "marxism": 0.758012,
+        "traditionalism": 3.553512,
+        "nationalism": 0.273786
+      },
+      "environment": {
+        "gdp_growth": -0.7936,
+        "inequality": 1.4195,
+        "media_freedom": -0.1035,
+        "social_media": -0.281,
+        "conflict": 0.9102
+      },
+      "fitness": {
+        "liberalism": -0.08722,
+        "marxism": 0.127361,
+        "traditionalism": 0.190657,
+        "nationalism": 0.131385
+      }
+    },
+    {
+      "time": 1946.0,
+      "shares": {
+        "liberalism": 0.00397,
+        "marxism": 0.084488,
+        "traditionalism": 0.880701,
+        "nationalism": 0.030841
+      },
+      "latent": {
+        "liberalism": 0.087282,
+        "marxism": 0.762718,
+        "traditionalism": 3.552743,
+        "nationalism": 0.273596
+      },
+      "environment": {
+        "gdp_growth": -0.7806,
+        "inequality": 1.4117,
+        "media_freedom": -0.1048,
+        "social_media": -0.2835,
+        "conflict": 0.403
+      },
+      "fitness": {
+        "liberalism": -0.071519,
+        "marxism": 0.121789,
+        "traditionalism": 0.1756,
+        "nationalism": 0.110575
+      }
+    },
+    {
+      "time": 1947.0,
+      "shares": {
+        "liberalism": 0.004031,
+        "marxism": 0.085855,
+        "traditionalism": 0.879186,
+        "nationalism": 0.030928
+      },
+      "latent": {
+        "liberalism": 0.086946,
+        "marxism": 0.767352,
+        "traditionalism": 3.55181,
+        "nationalism": 0.273339
+      },
+      "environment": {
+        "gdp_growth": -0.7679,
+        "inequality": 1.404,
+        "media_freedom": -0.1061,
+        "social_media": -0.2861,
+        "conflict": 0.3962
+      },
+      "fitness": {
+        "liberalism": -0.070837,
+        "marxism": 0.121226,
+        "traditionalism": 0.175557,
+        "nationalism": 0.109782
+      }
+    },
+    {
+      "time": 1948.0,
+      "shares": {
+        "liberalism": 0.004074,
+        "marxism": 0.087109,
+        "traditionalism": 0.877832,
+        "nationalism": 0.030984
+      },
+      "latent": {
+        "liberalism": 0.086621,
+        "marxism": 0.771905,
+        "traditionalism": 3.550737,
+        "nationalism": 0.273019
+      },
+      "environment": {
+        "gdp_growth": -0.7555,
+        "inequality": 1.3964,
+        "media_freedom": -0.1074,
+        "social_media": -0.2886,
+        "conflict": 0.3896
+      },
+      "fitness": {
+        "liberalism": -0.070173,
+        "marxism": 0.120669,
+        "traditionalism": 0.175528,
+        "nationalism": 0.109005
+      }
+    },
+    {
+      "time": 1949.0,
+      "shares": {
+        "liberalism": 0.004105,
+        "marxism": 0.088259,
+        "traditionalism": 0.876623,
+        "nationalism": 0.031013
+      },
+      "latent": {
+        "liberalism": 0.086307,
+        "marxism": 0.776366,
+        "traditionalism": 3.549547,
+        "nationalism": 0.272638
+      },
+      "environment": {
+        "gdp_growth": -0.7433,
+        "inequality": 1.3889,
+        "media_freedom": -0.1087,
+        "social_media": -0.2911,
+        "conflict": 0.3834
+      },
+      "fitness": {
+        "liberalism": -0.069527,
+        "marxism": 0.120118,
+        "traditionalism": 0.175511,
+        "nationalism": 0.108242
+      }
+    },
+    {
+      "time": 1950.0,
+      "shares": {
+        "liberalism": 0.004126,
+        "marxism": 0.089313,
+        "traditionalism": 0.875544,
+        "nationalism": 0.031017
+      },
+      "latent": {
+        "liberalism": 0.086001,
+        "marxism": 0.780728,
+        "traditionalism": 3.548259,
+        "nationalism": 0.272201
+      },
+      "environment": {
+        "gdp_growth": -0.7313,
+        "inequality": 1.3814,
+        "media_freedom": -0.11,
+        "social_media": -0.2936,
+        "conflict": 0.3775
+      },
+      "fitness": {
+        "liberalism": -0.068899,
+        "marxism": 0.119573,
+        "traditionalism": 0.175506,
+        "nationalism": 0.107495
+      }
+    },
+    {
+      "time": 1951.0,
+      "shares": {
+        "liberalism": 0.004254,
+        "marxism": 0.089293,
+        "traditionalism": 0.875744,
+        "nationalism": 0.03071
+      },
+      "latent": {
+        "liberalism": 0.085718,
+        "marxism": 0.783591,
+        "traditionalism": 3.546936,
+        "nationalism": 0.270481
+      },
+      "environment": {
+        "gdp_growth": -0.3275,
+        "inequality": 1.3741,
+        "media_freedom": 0.1858,
+        "social_media": -0.2961,
+        "conflict": 0.3719
+      },
+      "fitness": {
+        "liberalism": -0.040706,
+        "marxism": 0.104189,
+        "traditionalism": 0.173587,
+        "nationalism": 0.093844
+      }
+    },
+    {
+      "time": 1952.0,
+      "shares": {
+        "liberalism": 0.004348,
+        "marxism": 0.089287,
+        "traditionalism": 0.875962,
+        "nationalism": 0.030403
+      },
+      "latent": {
+        "liberalism": 0.085467,
+        "marxism": 0.786298,
+        "traditionalism": 3.545678,
+        "nationalism": 0.268771
+      },
+      "environment": {
+        "gdp_growth": -0.3238,
+        "inequality": 1.3667,
+        "media_freedom": 0.1816,
+        "social_media": -0.2986,
+        "conflict": 0.3666
+      },
+      "fitness": {
+        "liberalism": -0.040522,
+        "marxism": 0.103803,
+        "traditionalism": 0.173677,
+        "nationalism": 0.093209
+      }
+    },
+    {
+      "time": 1953.0,
+      "shares": {
+        "liberalism": 0.004417,
+        "marxism": 0.089291,
+        "traditionalism": 0.876195,
+        "nationalism": 0.030097
+      },
+      "latent": {
+        "liberalism": 0.085241,
+        "marxism": 0.788857,
+        "traditionalism": 3.544486,
+        "nationalism": 0.267072
+      },
+      "environment": {
+        "gdp_growth": -0.3201,
+        "inequality": 1.3595,
+        "media_freedom": 0.1775,
+        "social_media": -0.3012,
+        "conflict": 0.3615
+      },
+      "fitness": {
+        "liberalism": -0.040346,
+        "marxism": 0.103416,
+        "traditionalism": 0.173776,
+        "nationalism": 0.092588
+      }
+    },
+    {
+      "time": 1954.0,
+      "shares": {
+        "liberalism": 0.004467,
+        "marxism": 0.0893,
+        "traditionalism": 0.876442,
+        "nationalism": 0.029791
+      },
+      "latent": {
+        "liberalism": 0.085038,
+        "marxism": 0.791277,
+        "traditionalism": 3.543359,
+        "nationalism": 0.265385
+      },
+      "environment": {
+        "gdp_growth": -0.3165,
+        "inequality": 1.3523,
+        "media_freedom": 0.1734,
+        "social_media": -0.3037,
+        "conflict": 0.3567
+      },
+      "fitness": {
+        "liberalism": -0.040179,
+        "marxism": 0.103029,
+        "traditionalism": 0.173884,
+        "nationalism": 0.09198
+      }
+    },
+    {
+      "time": 1955.0,
+      "shares": {
+        "liberalism": 0.004503,
+        "marxism": 0.089315,
+        "traditionalism": 0.876692,
+        "nationalism": 0.029489
+      },
+      "latent": {
+        "liberalism": 0.084853,
+        "marxism": 0.793564,
+        "traditionalism": 3.542296,
+        "nationalism": 0.263711
+      },
+      "environment": {
+        "gdp_growth": -0.313,
+        "inequality": 1.3453,
+        "media_freedom": 0.1693,
+        "social_media": -0.3062,
+        "conflict": 0.3521
+      },
+      "fitness": {
+        "liberalism": -0.04002,
+        "marxism": 0.102641,
+        "traditionalism": 0.174,
+        "nationalism": 0.091386
+      }
+    },
+    {
+      "time": 1956.0,
+      "shares": {
+        "liberalism": 0.004534,
+        "marxism": 0.089432,
+        "traditionalism": 0.876811,
+        "nationalism": 0.029222
+      },
+      "latent": {
+        "liberalism": 0.084683,
+        "marxism": 0.795734,
+        "traditionalism": 3.541289,
+        "nationalism": 0.262052
+      },
+      "environment": {
+        "gdp_growth": -0.3096,
+        "inequality": 1.3382,
+        "media_freedom": 0.1653,
+        "social_media": -0.3087,
+        "conflict": 0.3477
+      },
+      "fitness": {
+        "liberalism": -0.03987,
+        "marxism": 0.102257,
+        "traditionalism": 0.174112,
+        "nationalism": 0.090803
+      }
+    },
+    {
+      "time": 1957.0,
+      "shares": {
+        "liberalism": 0.004556,
+        "marxism": 0.089527,
+        "traditionalism": 0.876966,
+        "nationalism": 0.028951
+      },
+      "latent": {
+        "liberalism": 0.084527,
+        "marxism": 0.797795,
+        "traditionalism": 3.540329,
+        "nationalism": 0.260409
+      },
+      "environment": {
+        "gdp_growth": -0.3062,
+        "inequality": 1.3313,
+        "media_freedom": 0.1613,
+        "social_media": -0.3112,
+        "conflict": 0.3435
+      },
+      "fitness": {
+        "liberalism": -0.039728,
+        "marxism": 0.101873,
+        "traditionalism": 0.174233,
+        "nationalism": 0.090232
+      }
+    },
+    {
+      "time": 1958.0,
+      "shares": {
+        "liberalism": 0.004571,
+        "marxism": 0.089602,
+        "traditionalism": 0.877151,
+        "nationalism": 0.028676
+      },
+      "latent": {
+        "liberalism": 0.084382,
+        "marxism": 0.79975,
+        "traditionalism": 3.539419,
+        "nationalism": 0.258782
+      },
+      "environment": {
+        "gdp_growth": -0.3029,
+        "inequality": 1.3244,
+        "media_freedom": 0.1574,
+        "social_media": -0.3138,
+        "conflict": 0.3395
+      },
+      "fitness": {
+        "liberalism": -0.039593,
+        "marxism": 0.101489,
+        "traditionalism": 0.174362,
+        "nationalism": 0.089673
+      }
+    },
+    {
+      "time": 1959.0,
+      "shares": {
+        "liberalism": 0.004581,
+        "marxism": 0.089655,
+        "traditionalism": 0.877365,
+        "nationalism": 0.028399
+      },
+      "latent": {
+        "liberalism": 0.084248,
+        "marxism": 0.801602,
+        "traditionalism": 3.538562,
+        "nationalism": 0.257172
+      },
+      "environment": {
+        "gdp_growth": -0.2996,
+        "inequality": 1.3176,
+        "media_freedom": 0.1535,
+        "social_media": -0.3163,
+        "conflict": 0.3358
+      },
+      "fitness": {
+        "liberalism": -0.039464,
+        "marxism": 0.101105,
+        "traditionalism": 0.1745,
+        "nationalism": 0.089125
+      }
+    },
+    {
+      "time": 1960.0,
+      "shares": {
+        "liberalism": 0.004587,
+        "marxism": 0.089688,
+        "traditionalism": 0.877604,
+        "nationalism": 0.028121
+      },
+      "latent": {
+        "liberalism": 0.084124,
+        "marxism": 0.803352,
+        "traditionalism": 3.537759,
+        "nationalism": 0.255578
+      },
+      "environment": {
+        "gdp_growth": -0.2964,
+        "inequality": 1.3108,
+        "media_freedom": 0.1496,
+        "social_media": -0.3188,
+        "conflict": 0.3322
+      },
+      "fitness": {
+        "liberalism": -0.039342,
+        "marxism": 0.100722,
+        "traditionalism": 0.174645,
+        "nationalism": 0.088588
+      }
+    },
+    {
+      "time": 1961.0,
+      "shares": {
+        "liberalism": 0.00459,
+        "marxism": 0.089701,
+        "traditionalism": 0.877868,
+        "nationalism": 0.027842
+      },
+      "latent": {
+        "liberalism": 0.084008,
+        "marxism": 0.805001,
+        "traditionalism": 3.537011,
+        "nationalism": 0.254001
+      },
+      "environment": {
+        "gdp_growth": -0.2933,
+        "inequality": 1.3041,
+        "media_freedom": 0.1458,
+        "social_media": -0.3213,
+        "conflict": 0.3287
+      },
+      "fitness": {
+        "liberalism": -0.039226,
+        "marxism": 0.100338,
+        "traditionalism": 0.174798,
+        "nationalism": 0.088061
+      }
+    },
+    {
+      "time": 1962.0,
+      "shares": {
+        "liberalism": 0.004591,
+        "marxism": 0.089694,
+        "traditionalism": 0.878153,
+        "nationalism": 0.027563
+      },
+      "latent": {
+        "liberalism": 0.083901,
+        "marxism": 0.806553,
+        "traditionalism": 3.53632,
+        "nationalism": 0.25244
+      },
+      "environment": {
+        "gdp_growth": -0.2903,
+        "inequality": 1.2975,
+        "media_freedom": 0.142,
+        "social_media": -0.3239,
+        "conflict": 0.3255
+      },
+      "fitness": {
+        "liberalism": -0.039115,
+        "marxism": 0.099954,
+        "traditionalism": 0.174958,
+        "nationalism": 0.087544
+      }
+    },
+    {
+      "time": 1963.0,
+      "shares": {
+        "liberalism": 0.00459,
+        "marxism": 0.089667,
+        "traditionalism": 0.878458,
+        "nationalism": 0.027285
+      },
+      "latent": {
+        "liberalism": 0.083802,
+        "marxism": 0.808008,
+        "traditionalism": 3.535686,
+        "nationalism": 0.250895
+      },
+      "environment": {
+        "gdp_growth": -0.2873,
+        "inequality": 1.2909,
+        "media_freedom": 0.1383,
+        "social_media": -0.3264,
+        "conflict": 0.3224
+      },
+      "fitness": {
+        "liberalism": -0.039011,
+        "marxism": 0.09957,
+        "traditionalism": 0.175125,
+        "nationalism": 0.087036
+      }
+    },
+    {
+      "time": 1964.0,
+      "shares": {
+        "liberalism": 0.004588,
+        "marxism": 0.089622,
+        "traditionalism": 0.878782,
+        "nationalism": 0.027008
+      },
+      "latent": {
+        "liberalism": 0.08371,
+        "marxism": 0.809368,
+        "traditionalism": 3.535111,
+        "nationalism": 0.249367
+      },
+      "environment": {
+        "gdp_growth": -0.2843,
+        "inequality": 1.2844,
+        "media_freedom": 0.1346,
+        "social_media": -0.3289,
+        "conflict": 0.3195
+      },
+      "fitness": {
+        "liberalism": -0.038912,
+        "marxism": 0.099187,
+        "traditionalism": 0.175298,
+        "nationalism": 0.086537
+      }
+    },
+    {
+      "time": 1965.0,
+      "shares": {
+        "liberalism": 0.004586,
+        "marxism": 0.089558,
+        "traditionalism": 0.879124,
+        "nationalism": 0.026733
+      },
+      "latent": {
+        "liberalism": 0.083626,
+        "marxism": 0.810635,
+        "traditionalism": 3.534593,
+        "nationalism": 0.247856
+      },
+      "environment": {
+        "gdp_growth": -0.2814,
+        "inequality": 1.278,
+        "media_freedom": 0.1309,
+        "social_media": -0.3315,
+        "conflict": 0.3166
+      },
+      "fitness": {
+        "liberalism": -0.038818,
+        "marxism": 0.098803,
+        "traditionalism": 0.175478,
+        "nationalism": 0.086047
+      }
+    },
+    {
+      "time": 1966.0,
+      "shares": {
+        "liberalism": 0.00463,
+        "marxism": 0.089628,
+        "traditionalism": 0.87934,
+        "nationalism": 0.026402
+      },
+      "latent": {
+        "liberalism": 0.083551,
+        "marxism": 0.811644,
+        "traditionalism": 3.534079,
+        "nationalism": 0.245793
+      },
+      "environment": {
+        "gdp_growth": -0.2786,
+        "inequality": 1.2716,
+        "media_freedom": 0.3253,
+        "social_media": -0.334,
+        "conflict": 0.314
+      },
+      "fitness": {
+        "liberalism": -0.030808,
+        "marxism": 0.09643,
+        "traditionalism": 0.171687,
+        "nationalism": 0.079585
+      }
+    },
+    {
+      "time": 1967.0,
+      "shares": {
+        "liberalism": 0.004662,
+        "marxism": 0.089661,
+        "traditionalism": 0.879602,
+        "nationalism": 0.026075
+      },
+      "latent": {
+        "liberalism": 0.083487,
+        "marxism": 0.812591,
+        "traditionalism": 3.53361,
+        "nationalism": 0.243777
+      },
+      "environment": {
+        "gdp_growth": -0.2758,
+        "inequality": 1.2653,
+        "media_freedom": 0.3197,
+        "social_media": -0.3365,
+        "conflict": 0.3114
+      },
+      "fitness": {
+        "liberalism": -0.030802,
+        "marxism": 0.096059,
+        "traditionalism": 0.171903,
+        "nationalism": 0.079132
+      }
+    },
+    {
+      "time": 1968.0,
+      "shares": {
+        "liberalism": 0.004686,
+        "marxism": 0.089658,
+        "traditionalism": 0.879904,
+        "nationalism": 0.025752
+      },
+      "latent": {
+        "liberalism": 0.083433,
+        "marxism": 0.813475,
+        "traditionalism": 3.533192,
+        "nationalism": 0.241805
+      },
+      "environment": {
+        "gdp_growth": -0.2731,
+        "inequality": 1.2591,
+        "media_freedom": 0.3142,
+        "social_media": -0.3391,
+        "conflict": 0.309
+      },
+      "fitness": {
+        "liberalism": -0.0308,
+        "marxism": 0.095688,
+        "traditionalism": 0.172127,
+        "nationalism": 0.078689
+      }
+    },
+    {
+      "time": 1969.0,
+      "shares": {
+        "liberalism": 0.004703,
+        "marxism": 0.089624,
+        "traditionalism": 0.88024,
+        "nationalism": 0.025433
+      },
+      "latent": {
+        "liberalism": 0.083387,
+        "marxism": 0.814293,
+        "traditionalism": 3.532826,
+        "nationalism": 0.239877
+      },
+      "environment": {
+        "gdp_growth": -0.2704,
+        "inequality": 1.2529,
+        "media_freedom": 0.3088,
+        "social_media": -0.3416,
+        "conflict": 0.3067
+      },
+      "fitness": {
+        "liberalism": -0.030801,
+        "marxism": 0.095318,
+        "traditionalism": 0.172357,
+        "nationalism": 0.078256
+      }
+    },
+    {
+      "time": 1970.0,
+      "shares": {
+        "liberalism": 0.004715,
+        "marxism": 0.089559,
+        "traditionalism": 0.880606,
+        "nationalism": 0.025119
+      },
+      "latent": {
+        "liberalism": 0.083349,
+        "marxism": 0.815045,
+        "traditionalism": 3.532515,
+        "nationalism": 0.237993
+      },
+      "environment": {
+        "gdp_growth": -0.2678,
+        "inequality": 1.2468,
+        "media_freedom": 0.3034,
+        "social_media": -0.3441,
+        "conflict": 0.3045
+      },
+      "fitness": {
+        "liberalism": -0.030805,
+        "marxism": 0.094949,
+        "traditionalism": 0.172593,
+        "nationalism": 0.07783
+      }
+    },
+    {
+      "time": 1971.0,
+      "shares": {
+        "liberalism": 0.004723,
+        "marxism": 0.089468,
+        "traditionalism": 0.880999,
+        "nationalism": 0.024811
+      },
+      "latent": {
+        "liberalism": 0.083318,
+        "marxism": 0.81573,
+        "traditionalism": 3.532261,
+        "nationalism": 0.23615
+      },
+      "environment": {
+        "gdp_growth": -0.2653,
+        "inequality": 1.2407,
+        "media_freedom": 0.2981,
+        "social_media": -0.3467,
+        "conflict": 0.3024
+      },
+      "fitness": {
+        "liberalism": -0.030812,
+        "marxism": 0.09458,
+        "traditionalism": 0.172835,
+        "nationalism": 0.077414
+      }
+    },
+    {
+      "time": 1972.0,
+      "shares": {
+        "liberalism": 0.004727,
+        "marxism": 0.08935,
+        "traditionalism": 0.881415,
+        "nationalism": 0.024508
+      },
+      "latent": {
+        "liberalism": 0.083292,
+        "marxism": 0.816346,
+        "traditionalism": 3.532065,
+        "nationalism": 0.234349
+      },
+      "environment": {
+        "gdp_growth": -0.2628,
+        "inequality": 1.2347,
+        "media_freedom": 0.2928,
+        "social_media": -0.3492,
+        "conflict": 0.3005
+      },
+      "fitness": {
+        "liberalism": -0.030822,
+        "marxism": 0.094212,
+        "traditionalism": 0.173082,
+        "nationalism": 0.077005
+      }
+    },
+    {
+      "time": 1973.0,
+      "shares": {
+        "liberalism": 0.00473,
+        "marxism": 0.089209,
+        "traditionalism": 0.881851,
+        "nationalism": 0.02421
+      },
+      "latent": {
+        "liberalism": 0.083272,
+        "marxism": 0.816894,
+        "traditionalism": 3.531928,
+        "nationalism": 0.232588
+      },
+      "environment": {
+        "gdp_growth": -0.2603,
+        "inequality": 1.2287,
+        "media_freedom": 0.2876,
+        "social_media": -0.3518,
+        "conflict": 0.2986
+      },
+      "fitness": {
+        "liberalism": -0.030835,
+        "marxism": 0.093844,
+        "traditionalism": 0.173335,
+        "nationalism": 0.076604
+      }
+    },
+    {
+      "time": 1974.0,
+      "shares": {
+        "liberalism": 0.004696,
+        "marxism": 0.089805,
+        "traditionalism": 0.88149,
+        "nationalism": 0.024009
+      },
+      "latent": {
+        "liberalism": 0.083251,
+        "marxism": 0.81809,
+        "traditionalism": 3.531773,
+        "nationalism": 0.231102
+      },
+      "environment": {
+        "gdp_growth": -0.5029,
+        "inequality": 1.2229,
+        "media_freedom": 0.2824,
+        "social_media": -0.3543,
+        "conflict": 0.2968
+      },
+      "fitness": {
+        "liberalism": -0.040663,
+        "marxism": 0.100889,
+        "traditionalism": 0.171069,
+        "nationalism": 0.078677
+      }
+    },
+    {
+      "time": 1975.0,
+      "shares": {
+        "liberalism": 0.00467,
+        "marxism": 0.090294,
+        "traditionalism": 0.881232,
+        "nationalism": 0.023804
+      },
+      "latent": {
+        "liberalism": 0.083223,
+        "marxism": 0.819274,
+        "traditionalism": 3.531588,
+        "nationalism": 0.22964
+      },
+      "environment": {
+        "gdp_growth": -0.4957,
+        "inequality": 1.217,
+        "media_freedom": 0.2773,
+        "social_media": -0.3569,
+        "conflict": 0.295
+      },
+      "fitness": {
+        "liberalism": -0.040498,
+        "marxism": 0.100438,
+        "traditionalism": 0.171311,
+        "nationalism": 0.078257
+      }
+    },
+    {
+      "time": 1976.0,
+      "shares": {
+        "liberalism": 0.00465,
+        "marxism": 0.090689,
+        "traditionalism": 0.881066,
+        "nationalism": 0.023595
+      },
+      "latent": {
+        "liberalism": 0.083192,
+        "marxism": 0.820435,
+        "traditionalism": 3.531387,
+        "nationalism": 0.228201
+      },
+      "environment": {
+        "gdp_growth": -0.4886,
+        "inequality": 1.2112,
+        "media_freedom": 0.2722,
+        "social_media": -0.3594,
+        "conflict": 0.2934
+      },
+      "fitness": {
+        "liberalism": -0.040338,
+        "marxism": 0.099992,
+        "traditionalism": 0.171561,
+        "nationalism": 0.077845
+      }
+    },
+    {
+      "time": 1977.0,
+      "shares": {
+        "liberalism": 0.004634,
+        "marxism": 0.090999,
+        "traditionalism": 0.880982,
+        "nationalism": 0.023384
+      },
+      "latent": {
+        "liberalism": 0.083159,
+        "marxism": 0.821559,
+        "traditionalism": 3.531181,
+        "nationalism": 0.226785
+      },
+      "environment": {
+        "gdp_growth": -0.4817,
+        "inequality": 1.2055,
+        "media_freedom": 0.2672,
+        "social_media": -0.362,
+        "conflict": 0.2919
+      },
+      "fitness": {
+        "liberalism": -0.040183,
+        "marxism": 0.099549,
+        "traditionalism": 0.171816,
+        "nationalism": 0.077439
+      }
+    },
+    {
+      "time": 1978.0,
+      "shares": {
+        "liberalism": 0.004622,
+        "marxism": 0.091234,
+        "traditionalism": 0.880973,
+        "nationalism": 0.023171
+      },
+      "latent": {
+        "liberalism": 0.083125,
+        "marxism": 0.82264,
+        "traditionalism": 3.53098,
+        "nationalism": 0.225392
+      },
+      "environment": {
+        "gdp_growth": -0.4749,
+        "inequality": 1.1999,
+        "media_freedom": 0.2622,
+        "social_media": -0.3645,
+        "conflict": 0.2904
+      },
+      "fitness": {
+        "liberalism": -0.040035,
+        "marxism": 0.099109,
+        "traditionalism": 0.172078,
+        "nationalism": 0.07704
+      }
+    },
+    {
+      "time": 1979.0,
+      "shares": {
+        "liberalism": 0.004612,
+        "marxism": 0.091401,
+        "traditionalism": 0.88103,
+        "nationalism": 0.022957
+      },
+      "latent": {
+        "liberalism": 0.083091,
+        "marxism": 0.823668,
+        "traditionalism": 3.53079,
+        "nationalism": 0.224021
+      },
+      "environment": {
+        "gdp_growth": -0.4682,
+        "inequality": 1.1943,
+        "media_freedom": 0.2573,
+        "social_media": -0.3671,
+        "conflict": 0.289
+      },
+      "fitness": {
+        "liberalism": -0.039892,
+        "marxism": 0.098672,
+        "traditionalism": 0.172346,
+        "nationalism": 0.076647
+      }
+    },
+    {
+      "time": 1980.0,
+      "shares": {
+        "liberalism": 0.004603,
+        "marxism": 0.091508,
+        "traditionalism": 0.881146,
+        "nationalism": 0.022742
+      },
+      "latent": {
+        "liberalism": 0.083058,
+        "marxism": 0.824638,
+        "traditionalism": 3.530619,
+        "nationalism": 0.222672
+      },
+      "environment": {
+        "gdp_growth": -0.4617,
+        "inequality": 1.1887,
+        "media_freedom": 0.2525,
+        "social_media": -0.3696,
+        "conflict": 0.2876
+      },
+      "fitness": {
+        "liberalism": -0.039753,
+        "marxism": 0.098237,
+        "traditionalism": 0.172618,
+        "nationalism": 0.07626
+      }
+    },
+    {
+      "time": 1981.0,
+      "shares": {
+        "liberalism": 0.004596,
+        "marxism": 0.09156,
+        "traditionalism": 0.881316,
+        "nationalism": 0.022528
+      },
+      "latent": {
+        "liberalism": 0.083027,
+        "marxism": 0.825544,
+        "traditionalism": 3.530474,
+        "nationalism": 0.221345
+      },
+      "environment": {
+        "gdp_growth": -0.4553,
+        "inequality": 1.1832,
+        "media_freedom": 0.2476,
+        "social_media": -0.3722,
+        "conflict": 0.2864
+      },
+      "fitness": {
+        "liberalism": -0.03962,
+        "marxism": 0.097803,
+        "traditionalism": 0.172896,
+        "nationalism": 0.07588
+      }
+    },
+    {
+      "time": 1982.0,
+      "shares": {
+        "liberalism": 0.00459,
+        "marxism": 0.091562,
+        "traditionalism": 0.881534,
+        "nationalism": 0.022314
+      },
+      "latent": {
+        "liberalism": 0.082998,
+        "marxism": 0.826382,
+        "traditionalism": 3.530359,
+        "nationalism": 0.22004
+      },
+      "environment": {
+        "gdp_growth": -0.449,
+        "inequality": 1.1778,
+        "media_freedom": 0.2429,
+        "social_media": -0.3747,
+        "conflict": 0.2852
+      },
+      "fitness": {
+        "liberalism": -0.039492,
+        "marxism": 0.097371,
+        "traditionalism": 0.173179,
+        "nationalism": 0.075505
+      }
+    },
+    {
+      "time": 1983.0,
+      "shares": {
+        "liberalism": 0.004585,
+        "marxism": 0.09152,
+        "traditionalism": 0.881794,
+        "nationalism": 0.022102
+      },
+      "latent": {
+        "liberalism": 0.082972,
+        "marxism": 0.827149,
+        "traditionalism": 3.530279,
+        "nationalism": 0.218756
+      },
+      "environment": {
+        "gdp_growth": -0.4429,
+        "inequality": 1.1724,
+        "media_freedom": 0.2382,
+        "social_media": -0.3773,
+        "conflict": 0.284
+      },
+      "fitness": {
+        "liberalism": -0.039369,
+        "marxism": 0.096941,
+        "traditionalism": 0.173466,
+        "nationalism": 0.075136
+      }
+    },
+    {
+      "time": 1984.0,
+      "shares": {
+        "liberalism": 0.00458,
+        "marxism": 0.091437,
+        "traditionalism": 0.882093,
+        "nationalism": 0.02189
+      },
+      "latent": {
+        "liberalism": 0.082949,
+        "marxism": 0.827841,
+        "traditionalism": 3.530238,
+        "nationalism": 0.217493
+      },
+      "environment": {
+        "gdp_growth": -0.4368,
+        "inequality": 1.1671,
+        "media_freedom": 0.2335,
+        "social_media": -0.3799,
+        "conflict": 0.2829
+      },
+      "fitness": {
+        "liberalism": -0.03925,
+        "marxism": 0.096511,
+        "traditionalism": 0.173757,
+        "nationalism": 0.074772
+      }
+    },
+    {
+      "time": 1985.0,
+      "shares": {
+        "liberalism": 0.004575,
+        "marxism": 0.091317,
+        "traditionalism": 0.882427,
+        "nationalism": 0.02168
+      },
+      "latent": {
+        "liberalism": 0.082929,
+        "marxism": 0.828458,
+        "traditionalism": 3.530238,
+        "nationalism": 0.216252
+      },
+      "environment": {
+        "gdp_growth": -0.4309,
+        "inequality": 1.1618,
+        "media_freedom": 0.2289,
+        "social_media": -0.3824,
+        "conflict": 0.2819
+      },
+      "fitness": {
+        "liberalism": -0.039136,
+        "marxism": 0.096083,
+        "traditionalism": 0.174052,
+        "nationalism": 0.074414
+      }
+    },
+    {
+      "time": 1986.0,
+      "shares": {
+        "liberalism": 0.004571,
+        "marxism": 0.091164,
+        "traditionalism": 0.882792,
+        "nationalism": 0.021473
+      },
+      "latent": {
+        "liberalism": 0.082912,
+        "marxism": 0.828997,
+        "traditionalism": 3.530283,
+        "nationalism": 0.215031
+      },
+      "environment": {
+        "gdp_growth": -0.4251,
+        "inequality": 1.1565,
+        "media_freedom": 0.2243,
+        "social_media": -0.385,
+        "conflict": 0.2809
+      },
+      "fitness": {
+        "liberalism": -0.039025,
+        "marxism": 0.095655,
+        "traditionalism": 0.17435,
+        "nationalism": 0.07406
+      }
+    },
+    {
+      "time": 1987.0,
+      "shares": {
+        "liberalism": 0.004567,
+        "marxism": 0.090981,
+        "traditionalism": 0.883185,
+        "nationalism": 0.021267
+      },
+      "latent": {
+        "liberalism": 0.082899,
+        "marxism": 0.829457,
+        "traditionalism": 3.530374,
+        "nationalism": 0.213831
+      },
+      "environment": {
+        "gdp_growth": -0.4195,
+        "inequality": 1.1514,
+        "media_freedom": 0.2197,
+        "social_media": -0.3875,
+        "conflict": 0.2799
+      },
+      "fitness": {
+        "liberalism": -0.03892,
+        "marxism": 0.095228,
+        "traditionalism": 0.174652,
+        "nationalism": 0.073712
+      }
+    },
+    {
+      "time": 1988.0,
+      "shares": {
+        "liberalism": 0.004564,
+        "marxism": 0.09077,
+        "traditionalism": 0.883603,
+        "nationalism": 0.021063
+      },
+      "latent": {
+        "liberalism": 0.08289,
+        "marxism": 0.829838,
+        "traditionalism": 3.530514,
+        "nationalism": 0.212651
+      },
+      "environment": {
+        "gdp_growth": -0.4139,
+        "inequality": 1.1462,
+        "media_freedom": 0.2153,
+        "social_media": -0.3901,
+        "conflict": 0.279
+      },
+      "fitness": {
+        "liberalism": -0.038818,
+        "marxism": 0.094801,
+        "traditionalism": 0.174957,
+        "nationalism": 0.073368
+      }
+    },
+    {
+      "time": 1989.0,
+      "shares": {
+        "liberalism": 0.00456,
+        "marxism": 0.090533,
+        "traditionalism": 0.884044,
+        "nationalism": 0.020862
+      },
+      "latent": {
+        "liberalism": 0.082884,
+        "marxism": 0.83014,
+        "traditionalism": 3.530703,
+        "nationalism": 0.211491
+      },
+      "environment": {
+        "gdp_growth": -0.4084,
+        "inequality": 1.1411,
+        "media_freedom": 0.2108,
+        "social_media": -0.3927,
+        "conflict": 0.2781
+      },
+      "fitness": {
+        "liberalism": -0.03872,
+        "marxism": 0.094375,
+        "traditionalism": 0.175265,
+        "nationalism": 0.07303
+      }
+    },
+    {
+      "time": 1990.0,
+      "shares": {
+        "liberalism": 0.004655,
+        "marxism": 0.08989,
+        "traditionalism": 0.884923,
+        "nationalism": 0.020532
+      },
+      "latent": {
+        "liberalism": 0.082892,
+        "marxism": 0.82954,
+        "traditionalism": 3.530923,
+        "nationalism": 0.209304
+      },
+      "environment": {
+        "gdp_growth": -0.207,
+        "inequality": 1.1361,
+        "media_freedom": 0.5034,
+        "social_media": -0.3952,
+        "conflict": 0.2773
+      },
+      "fitness": {
+        "liberalism": -0.018896,
+        "marxism": 0.085037,
+        "traditionalism": 0.171629,
+        "nationalism": 0.06175
+      }
+    },
+    {
+      "time": 1991.0,
+      "shares": {
+        "liberalism": 0.004727,
+        "marxism": 0.089268,
+        "traditionalism": 0.885792,
+        "nationalism": 0.020212
+      },
+      "latent": {
+        "liberalism": 0.082919,
+        "marxism": 0.828855,
+        "traditionalism": 3.531242,
+        "nationalism": 0.207196
+      },
+      "environment": {
+        "gdp_growth": -0.2057,
+        "inequality": 1.1311,
+        "media_freedom": 0.4961,
+        "social_media": -0.3978,
+        "conflict": 0.2765
+      },
+      "fitness": {
+        "liberalism": -0.01907,
+        "marxism": 0.084697,
+        "traditionalism": 0.171994,
+        "nationalism": 0.061477
+      }
+    },
+    {
+      "time": 1992.0,
+      "shares": {
+        "liberalism": 0.004782,
+        "marxism": 0.088666,
+        "traditionalism": 0.88665,
+        "nationalism": 0.019903
+      },
+      "latent": {
+        "liberalism": 0.082961,
+        "marxism": 0.828094,
+        "traditionalism": 3.531658,
+        "nationalism": 0.205164
+      },
+      "environment": {
+        "gdp_growth": -0.2043,
+        "inequality": 1.1262,
+        "media_freedom": 0.4889,
+        "social_media": -0.4004,
+        "conflict": 0.2758
+      },
+      "fitness": {
+        "liberalism": -0.019245,
+        "marxism": 0.084356,
+        "traditionalism": 0.172361,
+        "nationalism": 0.061212
+      }
+    },
+    {
+      "time": 1993.0,
+      "shares": {
+        "liberalism": 0.004823,
+        "marxism": 0.088079,
+        "traditionalism": 0.887495,
+        "nationalism": 0.019603
+      },
+      "latent": {
+        "liberalism": 0.083016,
+        "marxism": 0.827261,
+        "traditionalism": 3.532165,
+        "nationalism": 0.203205
+      },
+      "environment": {
+        "gdp_growth": -0.203,
+        "inequality": 1.1213,
+        "media_freedom": 0.4818,
+        "social_media": -0.403,
+        "conflict": 0.2751
+      },
+      "fitness": {
+        "liberalism": -0.019418,
+        "marxism": 0.084013,
+        "traditionalism": 0.17273,
+        "nationalism": 0.060953
+      }
+    },
+    {
+      "time": 1994.0,
+      "shares": {
+        "liberalism": 0.004853,
+        "marxism": 0.087505,
+        "traditionalism": 0.888329,
+        "nationalism": 0.019313
+      },
+      "latent": {
+        "liberalism": 0.08308,
+        "marxism": 0.826362,
+        "traditionalism": 3.532759,
+        "nationalism": 0.201315
+      },
+      "environment": {
+        "gdp_growth": -0.2017,
+        "inequality": 1.1164,
+        "media_freedom": 0.4747,
+        "social_media": -0.4055,
+        "conflict": 0.2744
+      },
+      "fitness": {
+        "liberalism": -0.019591,
+        "marxism": 0.08367,
+        "traditionalism": 0.173101,
+        "nationalism": 0.0607
+      }
+    },
+    {
+      "time": 1995.0,
+      "shares": {
+        "liberalism": 0.004875,
+        "marxism": 0.086941,
+        "traditionalism": 0.889151,
+        "nationalism": 0.019032
+      },
+      "latent": {
+        "liberalism": 0.083153,
+        "marxism": 0.825401,
+        "traditionalism": 3.533437,
+        "nationalism": 0.199492
+      },
+      "environment": {
+        "gdp_growth": -0.2004,
+        "inequality": 1.1116,
+        "media_freedom": 0.4677,
+        "social_media": -0.4081,
+        "conflict": 0.2738
+      },
+      "fitness": {
+        "liberalism": -0.019763,
+        "marxism": 0.083326,
+        "traditionalism": 0.173473,
+        "nationalism": 0.060452
+      }
+    },
+    {
+      "time": 1996.0,
+      "shares": {
+        "liberalism": 0.004929,
+        "marxism": 0.087256,
+        "traditionalism": 0.88879,
+        "nationalism": 0.019024
+      },
+      "latent": {
+        "liberalism": 0.08323,
+        "marxism": 0.824799,
+        "traditionalism": 3.534099,
+        "nationalism": 0.198508
+      },
+      "environment": {
+        "gdp_growth": -0.1992,
+        "inequality": 1.1069,
+        "media_freedom": 0.4608,
+        "social_media": -0.2107,
+        "conflict": 0.2731
+      },
+      "fitness": {
+        "liberalism": -0.017949,
+        "marxism": 0.087032,
+        "traditionalism": 0.165751,
+        "nationalism": 0.068258
+      }
+    },
+    {
+      "time": 1997.0,
+      "shares": {
+        "liberalism": 0.004971,
+        "marxism": 0.087484,
+        "traditionalism": 0.888548,
+        "nationalism": 0.018997
+      },
+      "latent": {
+        "liberalism": 0.083307,
+        "marxism": 0.824234,
+        "traditionalism": 3.534706,
+        "nationalism": 0.197563
+      },
+      "environment": {
+        "gdp_growth": -0.198,
+        "inequality": 1.1021,
+        "media_freedom": 0.4539,
+        "social_media": -0.2133,
+        "conflict": 0.2726
+      },
+      "fitness": {
+        "liberalism": -0.018132,
+        "marxism": 0.08674,
+        "traditionalism": 0.166035,
+        "nationalism": 0.068069
+      }
+    },
+    {
+      "time": 1998.0,
+      "shares": {
+        "liberalism": 0.005003,
+        "marxism": 0.087635,
+        "traditionalism": 0.888408,
+        "nationalism": 0.018955
+      },
+      "latent": {
+        "liberalism": 0.083384,
+        "marxism": 0.823695,
+        "traditionalism": 3.535272,
+        "nationalism": 0.196655
+      },
+      "environment": {
+        "gdp_growth": -0.1968,
+        "inequality": 1.0975,
+        "media_freedom": 0.4471,
+        "social_media": -0.2159,
+        "conflict": 0.272
+      },
+      "fitness": {
+        "liberalism": -0.018315,
+        "marxism": 0.086451,
+        "traditionalism": 0.166325,
+        "nationalism": 0.067884
+      }
+    },
+    {
+      "time": 1999.0,
+      "shares": {
+        "liberalism": 0.005027,
+        "marxism": 0.087718,
+        "traditionalism": 0.888356,
+        "nationalism": 0.018899
+      },
+      "latent": {
+        "liberalism": 0.083461,
+        "marxism": 0.823171,
+        "traditionalism": 3.535811,
+        "nationalism": 0.19578
+      },
+      "environment": {
+        "gdp_growth": -0.1956,
+        "inequality": 1.0929,
+        "media_freedom": 0.4404,
+        "social_media": -0.2185,
+        "conflict": 0.2715
+      },
+      "fitness": {
+        "liberalism": -0.018496,
+        "marxism": 0.086164,
+        "traditionalism": 0.166619,
+        "nationalism": 0.067704
+      }
+    },
+    {
+      "time": 2000.0,
+      "shares": {
+        "liberalism": 0.005046,
+        "marxism": 0.087741,
+        "traditionalism": 0.88838,
+        "nationalism": 0.018833
+      },
+      "latent": {
+        "liberalism": 0.083536,
+        "marxism": 0.822654,
+        "traditionalism": 3.536332,
+        "nationalism": 0.194936
+      },
+      "environment": {
+        "gdp_growth": -0.1944,
+        "inequality": 1.0883,
+        "media_freedom": 0.4338,
+        "social_media": -0.221,
+        "conflict": 0.271
+      },
+      "fitness": {
+        "liberalism": -0.018676,
+        "marxism": 0.085878,
+        "traditionalism": 0.166918,
+        "nationalism": 0.067527
+      }
+    },
+    {
+      "time": 2001.0,
+      "shares": {
+        "liberalism": 0.005059,
+        "marxism": 0.087712,
+        "traditionalism": 0.888471,
+        "nationalism": 0.018758
+      },
+      "latent": {
+        "liberalism": 0.083611,
+        "marxism": 0.822135,
+        "traditionalism": 3.536845,
+        "nationalism": 0.19412
+      },
+      "environment": {
+        "gdp_growth": -0.1933,
+        "inequality": 1.0838,
+        "media_freedom": 0.4272,
+        "social_media": -0.2236,
+        "conflict": 0.2705
+      },
+      "fitness": {
+        "liberalism": -0.018855,
+        "marxism": 0.085593,
+        "traditionalism": 0.16722,
+        "nationalism": 0.067353
+      }
+    },
+    {
+      "time": 2002.0,
+      "shares": {
+        "liberalism": 0.005069,
+        "marxism": 0.087637,
+        "traditionalism": 0.888619,
+        "nationalism": 0.018675
+      },
+      "latent": {
+        "liberalism": 0.083685,
+        "marxism": 0.821609,
+        "traditionalism": 3.537357,
+        "nationalism": 0.193331
+      },
+      "environment": {
+        "gdp_growth": -0.1922,
+        "inequality": 1.0793,
+        "media_freedom": 0.4207,
+        "social_media": -0.2262,
+        "conflict": 0.27
+      },
+      "fitness": {
+        "liberalism": -0.019032,
+        "marxism": 0.085309,
+        "traditionalism": 0.167526,
+        "nationalism": 0.067183
+      }
+    },
+    {
+      "time": 2003.0,
+      "shares": {
+        "liberalism": 0.005075,
+        "marxism": 0.08752,
+        "traditionalism": 0.888817,
+        "nationalism": 0.018587
+      },
+      "latent": {
+        "liberalism": 0.083759,
+        "marxism": 0.82107,
+        "traditionalism": 3.537874,
+        "nationalism": 0.192567
+      },
+      "environment": {
+        "gdp_growth": -0.1911,
+        "inequality": 1.0748,
+        "media_freedom": 0.4142,
+        "social_media": -0.2288,
+        "conflict": 0.2696
+      },
+      "fitness": {
+        "liberalism": -0.019208,
+        "marxism": 0.085025,
+        "traditionalism": 0.167835,
+        "nationalism": 0.067015
+      }
+    },
+    {
+      "time": 2004.0,
+      "shares": {
+        "liberalism": 0.005079,
+        "marxism": 0.087368,
+        "traditionalism": 0.889058,
+        "nationalism": 0.018494
+      },
+      "latent": {
+        "liberalism": 0.083831,
+        "marxism": 0.820513,
+        "traditionalism": 3.538402,
+        "nationalism": 0.191825
+      },
+      "environment": {
+        "gdp_growth": -0.1901,
+        "inequality": 1.0704,
+        "media_freedom": 0.4078,
+        "social_media": -0.2314,
+        "conflict": 0.2692
+      },
+      "fitness": {
+        "liberalism": -0.019384,
+        "marxism": 0.084742,
+        "traditionalism": 0.168146,
+        "nationalism": 0.06685
+      }
+    },
+    {
+      "time": 2005.0,
+      "shares": {
+        "liberalism": 0.005082,
+        "marxism": 0.087183,
+        "traditionalism": 0.889337,
+        "nationalism": 0.018398
+      },
+      "latent": {
+        "liberalism": 0.083902,
+        "marxism": 0.819936,
+        "traditionalism": 3.538945,
+        "nationalism": 0.191106
+      },
+      "environment": {
+        "gdp_growth": -0.189,
+        "inequality": 1.0661,
+        "media_freedom": 0.4015,
+        "social_media": -0.234,
+        "conflict": 0.2688
+      },
+      "fitness": {
+        "liberalism": -0.019558,
+        "marxism": 0.08446,
+        "traditionalism": 0.168461,
+        "nationalism": 0.066687
+      }
+    },
+    {
+      "time": 2006.0,
+      "shares": {
+        "liberalism": 0.005082,
+        "marxism": 0.08697,
+        "traditionalism": 0.889648,
+        "nationalism": 0.018299
+      },
+      "latent": {
+        "liberalism": 0.083973,
+        "marxism": 0.819334,
+        "traditionalism": 3.539507,
+        "nationalism": 0.190407
+      },
+      "environment": {
+        "gdp_growth": -0.188,
+        "inequality": 1.0618,
+        "media_freedom": 0.3952,
+        "social_media": -0.2366,
+        "conflict": 0.2684
+      },
+      "fitness": {
+        "liberalism": -0.019731,
+        "marxism": 0.084177,
+        "traditionalism": 0.168777,
+        "nationalism": 0.066527
+      }
+    },
+    {
+      "time": 2007.0,
+      "shares": {
+        "liberalism": 0.005082,
+        "marxism": 0.086732,
+        "traditionalism": 0.889988,
+        "nationalism": 0.018198
+      },
+      "latent": {
+        "liberalism": 0.084044,
+        "marxism": 0.818705,
+        "traditionalism": 3.540091,
+        "nationalism": 0.189728
+      },
+      "environment": {
+        "gdp_growth": -0.187,
+        "inequality": 1.0575,
+        "media_freedom": 0.389,
+        "social_media": -0.2391,
+        "conflict": 0.268
+      },
+      "fitness": {
+        "liberalism": -0.019903,
+        "marxism": 0.083894,
+        "traditionalism": 0.169095,
+        "nationalism": 0.066368
+      }
+    },
+    {
+      "time": 2008.0,
+      "shares": {
+        "liberalism": 0.00508,
+        "marxism": 0.086472,
+        "traditionalism": 0.890353,
+        "nationalism": 0.018095
+      },
+      "latent": {
+        "liberalism": 0.084113,
+        "marxism": 0.818047,
+        "traditionalism": 3.5407,
+        "nationalism": 0.189067
+      },
+      "environment": {
+        "gdp_growth": -0.186,
+        "inequality": 1.0533,
+        "media_freedom": 0.3829,
+        "social_media": -0.2417,
+        "conflict": 0.2677
+      },
+      "fitness": {
+        "liberalism": -0.020074,
+        "marxism": 0.083612,
+        "traditionalism": 0.169415,
+        "nationalism": 0.066212
+      }
+    },
+    {
+      "time": 2009.0,
+      "shares": {
+        "liberalism": 0.005011,
+        "marxism": 0.088717,
+        "traditionalism": 0.887937,
+        "nationalism": 0.018335
+      },
+      "latent": {
+        "liberalism": 0.084165,
+        "marxism": 0.819936,
+        "traditionalism": 3.541166,
+        "nationalism": 0.189947
+      },
+      "environment": {
+        "gdp_growth": -0.5771,
+        "inequality": 1.3461,
+        "media_freedom": 0.3768,
+        "social_media": -0.2443,
+        "conflict": 0.2674
+      },
+      "fitness": {
+        "liberalism": -0.038932,
+        "marxism": 0.110158,
+        "traditionalism": 0.162603,
+        "nationalism": 0.081961
+      }
+    },
+    {
+      "time": 2010.0,
+      "shares": {
+        "liberalism": 0.004959,
+        "marxism": 0.090705,
+        "traditionalism": 0.885787,
+        "nationalism": 0.018549
+      },
+      "latent": {
+        "liberalism": 0.084185,
+        "marxism": 0.821985,
+        "traditionalism": 3.541348,
+        "nationalism": 0.190752
+      },
+      "environment": {
+        "gdp_growth": -0.5684,
+        "inequality": 1.339,
+        "media_freedom": 0.3708,
+        "social_media": -0.2469,
+        "conflict": 0.2671
+      },
+      "fitness": {
+        "liberalism": -0.038794,
+        "marxism": 0.109717,
+        "traditionalism": 0.162799,
+        "nationalism": 0.08171
+      }
+    },
+    {
+      "time": 2011.0,
+      "shares": {
+        "liberalism": 0.004919,
+        "marxism": 0.092462,
+        "traditionalism": 0.883879,
+        "nationalism": 0.01874
+      },
+      "latent": {
+        "liberalism": 0.08418,
+        "marxism": 0.824156,
+        "traditionalism": 3.541286,
+        "nationalism": 0.191486
+      },
+      "environment": {
+        "gdp_growth": -0.5599,
+        "inequality": 1.332,
+        "media_freedom": 0.3648,
+        "social_media": -0.2495,
+        "conflict": 0.2668
+      },
+      "fitness": {
+        "liberalism": -0.038661,
+        "marxism": 0.109287,
+        "traditionalism": 0.163002,
+        "nationalism": 0.081458
+      }
+    },
+    {
+      "time": 2012.0,
+      "shares": {
+        "liberalism": 0.004888,
+        "marxism": 0.094014,
+        "traditionalism": 0.882188,
+        "nationalism": 0.018909
+      },
+      "latent": {
+        "liberalism": 0.084154,
+        "marxism": 0.826415,
+        "traditionalism": 3.541013,
+        "nationalism": 0.192153
+      },
+      "environment": {
+        "gdp_growth": -0.5515,
+        "inequality": 1.3251,
+        "media_freedom": 0.3589,
+        "social_media": -0.252,
+        "conflict": 0.2665
+      },
+      "fitness": {
+        "liberalism": -0.038532,
+        "marxism": 0.108867,
+        "traditionalism": 0.163213,
+        "nationalism": 0.081205
+      }
+    },
+    {
+      "time": 2013.0,
+      "shares": {
+        "liberalism": 0.004957,
+        "marxism": 0.097789,
+        "traditionalism": 0.877525,
+        "nationalism": 0.019729
+      },
+      "latent": {
+        "liberalism": 0.084104,
+        "marxism": 0.829778,
+        "traditionalism": 3.54037,
+        "nationalism": 0.19469
+      },
+      "environment": {
+        "gdp_growth": -0.5433,
+        "inequality": 1.3182,
+        "media_freedom": 0.353,
+        "social_media": 0.2454,
+        "conflict": 0.2662
+      },
+      "fitness": {
+        "liberalism": -0.033445,
+        "marxism": 0.118585,
+        "traditionalism": 0.143172,
+        "nationalism": 0.101071
+      }
+    },
+    {
+      "time": 2014.0,
+      "shares": {
+        "liberalism": 0.005011,
+        "marxism": 0.101275,
+        "traditionalism": 0.873214,
+        "nationalism": 0.020501
+      },
+      "latent": {
+        "liberalism": 0.084027,
+        "marxism": 0.833435,
+        "traditionalism": 3.539216,
+        "nationalism": 0.19711
+      },
+      "environment": {
+        "gdp_growth": -0.5353,
+        "inequality": 1.3114,
+        "media_freedom": 0.3472,
+        "social_media": 0.2429,
+        "conflict": 0.266
+      },
+      "fitness": {
+        "liberalism": -0.033361,
+        "marxism": 0.118323,
+        "traditionalism": 0.143136,
+        "nationalism": 0.100935
+      }
+    },
+    {
+      "time": 2015.0,
+      "shares": {
+        "liberalism": 0.005053,
+        "marxism": 0.104499,
+        "traditionalism": 0.869222,
+        "nationalism": 0.021226
+      },
+      "latent": {
+        "liberalism": 0.083924,
+        "marxism": 0.83734,
+        "traditionalism": 3.537605,
+        "nationalism": 0.199417
+      },
+      "environment": {
+        "gdp_growth": -0.5275,
+        "inequality": 1.3047,
+        "media_freedom": 0.3414,
+        "social_media": 0.2403,
+        "conflict": 0.2658
+      },
+      "fitness": {
+        "liberalism": -0.033281,
+        "marxism": 0.118079,
+        "traditionalism": 0.143105,
+        "nationalism": 0.100798
+      }
+    },
+    {
+      "time": 2016.0,
+      "shares": {
+        "liberalism": 0.005085,
+        "marxism": 0.107489,
+        "traditionalism": 0.865517,
+        "nationalism": 0.021909
+      },
+      "latent": {
+        "liberalism": 0.083797,
+        "marxism": 0.841451,
+        "traditionalism": 3.535588,
+        "nationalism": 0.201617
+      },
+      "environment": {
+        "gdp_growth": -0.5198,
+        "inequality": 1.2981,
+        "media_freedom": 0.3357,
+        "social_media": 0.2378,
+        "conflict": 0.2655
+      },
+      "fitness": {
+        "liberalism": -0.033206,
+        "marxism": 0.11785,
+        "traditionalism": 0.143077,
+        "nationalism": 0.100658
+      }
+    },
+    {
+      "time": 2017.0,
+      "shares": {
+        "liberalism": 0.005109,
+        "marxism": 0.110267,
+        "traditionalism": 0.862072,
+        "nationalism": 0.022551
+      },
+      "latent": {
+        "liberalism": 0.08365,
+        "marxism": 0.845733,
+        "traditionalism": 3.533208,
+        "nationalism": 0.203713
+      },
+      "environment": {
+        "gdp_growth": -0.5123,
+        "inequality": 1.2916,
+        "media_freedom": 0.33,
+        "social_media": 0.2353,
+        "conflict": 0.2653
+      },
+      "fitness": {
+        "liberalism": -0.033134,
+        "marxism": 0.117634,
+        "traditionalism": 0.143053,
+        "nationalism": 0.100517
+      }
+    },
+    {
+      "time": 2018.0,
+      "shares": {
+        "liberalism": 0.005127,
+        "marxism": 0.112854,
+        "traditionalism": 0.858863,
+        "nationalism": 0.023156
+      },
+      "latent": {
+        "liberalism": 0.083483,
+        "marxism": 0.850152,
+        "traditionalism": 3.530506,
+        "nationalism": 0.205708
+      },
+      "environment": {
+        "gdp_growth": -0.5049,
+        "inequality": 1.2851,
+        "media_freedom": 0.3244,
+        "social_media": 0.2328,
+        "conflict": 0.2651
+      },
+      "fitness": {
+        "liberalism": -0.033065,
+        "marxism": 0.117429,
+        "traditionalism": 0.143032,
+        "nationalism": 0.100374
+      }
+    },
+    {
+      "time": 2019.0,
+      "shares": {
+        "liberalism": 0.005139,
+        "marxism": 0.115268,
+        "traditionalism": 0.855868,
+        "nationalism": 0.023725
+      },
+      "latent": {
+        "liberalism": 0.083299,
+        "marxism": 0.854681,
+        "traditionalism": 3.527517,
+        "nationalism": 0.207608
+      },
+      "environment": {
+        "gdp_growth": -0.4977,
+        "inequality": 1.2787,
+        "media_freedom": 0.3188,
+        "social_media": 0.2304,
+        "conflict": 0.265
+      },
+      "fitness": {
+        "liberalism": -0.033001,
+        "marxism": 0.117235,
+        "traditionalism": 0.143013,
+        "nationalism": 0.10023
+      }
+    },
+    {
+      "time": 2020.0,
+      "shares": {
+        "liberalism": 0.005147,
+        "marxism": 0.117525,
+        "traditionalism": 0.853068,
+        "nationalism": 0.024261
+      },
+      "latent": {
+        "liberalism": 0.083101,
+        "marxism": 0.859294,
+        "traditionalism": 3.524273,
+        "nationalism": 0.209415
+      },
+      "environment": {
+        "gdp_growth": -0.4906,
+        "inequality": 1.2724,
+        "media_freedom": 0.3132,
+        "social_media": 0.2279,
+        "conflict": 0.2648
+      },
+      "fitness": {
+        "liberalism": -0.03294,
+        "marxism": 0.11705,
+        "traditionalism": 0.142997,
+        "nationalism": 0.100083
+      }
+    },
+    {
+      "time": 2021.0,
+      "shares": {
+        "liberalism": 0.005053,
+        "marxism": 0.120443,
+        "traditionalism": 0.849571,
+        "nationalism": 0.024933
+      },
+      "latent": {
+        "liberalism": 0.082878,
+        "marxism": 0.864963,
+        "traditionalism": 3.520754,
+        "nationalism": 0.21216
+      },
+      "environment": {
+        "gdp_growth": -0.7778,
+        "inequality": 1.2662,
+        "media_freedom": 0.3077,
+        "social_media": 0.2254,
+        "conflict": 0.4549
+      },
+      "fitness": {
+        "liberalism": -0.050365,
+        "marxism": 0.127678,
+        "traditionalism": 0.145675,
+        "nationalism": 0.110558
+      }
+    },
+    {
+      "time": 2022.0,
+      "shares": {
+        "liberalism": 0.004981,
+        "marxism": 0.123202,
+        "traditionalism": 0.846242,
+        "nationalism": 0.025574
+      },
+      "latent": {
+        "liberalism": 0.082623,
+        "marxism": 0.870716,
+        "traditionalism": 3.516935,
+        "nationalism": 0.21473
+      },
+      "environment": {
+        "gdp_growth": -0.7652,
+        "inequality": 1.26,
+        "media_freedom": 0.3022,
+        "social_media": 0.223,
+        "conflict": 0.4455
+      },
+      "fitness": {
+        "liberalism": -0.049814,
+        "marxism": 0.127323,
+        "traditionalism": 0.145365,
+        "nationalism": 0.110045
+      }
+    },
+    {
+      "time": 2023.0,
+      "shares": {
+        "liberalism": 0.004926,
+        "marxism": 0.125817,
+        "traditionalism": 0.843072,
+        "nationalism": 0.026184
+      },
+      "latent": {
+        "liberalism": 0.082344,
+        "marxism": 0.876532,
+        "traditionalism": 3.512845,
+        "nationalism": 0.217135
+      },
+      "environment": {
+        "gdp_growth": -0.7528,
+        "inequality": 1.2539,
+        "media_freedom": 0.2968,
+        "social_media": 0.2206,
+        "conflict": 0.4365
+      },
+      "fitness": {
+        "liberalism": -0.049285,
+        "marxism": 0.126984,
+        "traditionalism": 0.145067,
+        "nationalism": 0.109543
+      }
+    },
+    {
+      "time": 2024.0,
+      "shares": {
+        "liberalism": 0.004883,
+        "marxism": 0.128301,
+        "traditionalism": 0.840052,
+        "nationalism": 0.026763
+      },
+      "latent": {
+        "liberalism": 0.082044,
+        "marxism": 0.882392,
+        "traditionalism": 3.50851,
+        "nationalism": 0.219385
+      },
+      "environment": {
+        "gdp_growth": -0.7407,
+        "inequality": 1.2479,
+        "media_freedom": 0.2914,
+        "social_media": 0.2181,
+        "conflict": 0.428
+      },
+      "fitness": {
+        "liberalism": -0.048777,
+        "marxism": 0.126659,
+        "traditionalism": 0.14478,
+        "nationalism": 0.109053
+      }
+    },
+    {
+      "time": 2025.0,
+      "shares": {
+        "liberalism": 0.00485,
+        "marxism": 0.130666,
+        "traditionalism": 0.837171,
+        "nationalism": 0.027312
+      },
+      "latent": {
+        "liberalism": 0.081727,
+        "marxism": 0.888278,
+        "traditionalism": 3.503954,
+        "nationalism": 0.221489
+      },
+      "environment": {
+        "gdp_growth": -0.7289,
+        "inequality": 1.242,
+        "media_freedom": 0.2861,
+        "social_media": 0.2157,
+        "conflict": 0.4199
+      },
+      "fitness": {
+        "liberalism": -0.048289,
+        "marxism": 0.126347,
+        "traditionalism": 0.144503,
+        "nationalism": 0.108574
+      }
+    }
+  ],
+  "events": [
+    {
+      "time": 1818.35,
+      "type": "mutation",
+      "details": {
+        "ideology": "marxism",
+        "perturbation": [
+          0.0027384239830845624,
+          -0.003007645848467349,
+          -0.018521618554012017,
+          -0.003256981100737287,
+          -0.00327305430255024
+        ]
+      }
+    },
+    {
+      "time": 1828.55,
+      "type": "charisma",
+      "details": {
+        "ideology": "traditionalism",
+        "amplitude": 0.14439517073400157,
+        "decay": 20.0,
+        "ideology_index": 2
+      }
+    },
+    {
+      "time": 1830.8,
+      "type": "mutation",
+      "details": {
+        "ideology": "nationalism",
+        "perturbation": [
+          -0.017253542620077035,
+          -0.012588064596843364,
+          0.010480295776172526,
+          -0.004664165060074345,
+          -0.011088029749380392
+        ]
+      }
+    },
+    {
+      "time": 1850.2,
+      "type": "mutation",
+      "details": {
+        "ideology": "marxism",
+        "perturbation": [
+          0.008680664988511725,
+          -0.0193600112908413,
+          -0.0005756976240540404,
+          -0.004292913705475386,
+          -0.0013382985775503397
+        ]
+      }
+    },
+    {
+      "time": 1854.9,
+      "type": "charisma",
+      "details": {
+        "ideology": "traditionalism",
+        "amplitude": 0.22622473138334553,
+        "decay": 20.0,
+        "ideology_index": 2
+      }
+    },
+    {
+      "time": 1861.4,
+      "type": "mutation",
+      "details": {
+        "ideology": "nationalism",
+        "perturbation": [
+          -0.010070382242851093,
+          0.016485747229738668,
+          0.02239502879643737,
+          0.004782807007301776,
+          -0.00010863746698195903
+        ]
+      }
+    },
+    {
+      "time": 1884.85,
+      "type": "mutation",
+      "details": {
+        "ideology": "liberalism",
+        "perturbation": [
+          -0.0027537232975716093,
+          0.006536639836148213,
+          0.010749283445863558,
+          -0.0008729414487949709,
+          -0.0024070804581272577
+        ]
+      }
+    },
+    {
+      "time": 1885.0,
+      "type": "mutation",
+      "details": {
+        "ideology": "nationalism",
+        "perturbation": [
+          0.009545148466028355,
+          0.009143041262295728,
+          0.007948482049153513,
+          0.003028665145015353,
+          0.007240033085368497
+        ]
+      }
+    },
+    {
+      "time": 1903.9,
+      "type": "mutation",
+      "details": {
+        "ideology": "nationalism",
+        "perturbation": [
+          0.0004357732983061141,
+          0.017989977768447483,
+          -0.017950031127033497,
+          -0.0028088345910777936,
+          0.012881172178310354
+        ]
+      }
+    },
+    {
+      "time": 1909.8,
+      "type": "mutation",
+      "details": {
+        "ideology": "marxism",
+        "perturbation": [
+          -0.005502217514367897,
+          -0.0009703024235522073,
+          0.004132328230039233,
+          -0.004053129427903682,
+          -0.001895880626140975
+        ]
+      }
+    },
+    {
+      "time": 1934.85,
+      "type": "mutation",
+      "details": {
+        "ideology": "liberalism",
+        "perturbation": [
+          -0.018138023470828688,
+          0.00018150527945465158,
+          -0.012053959929111391,
+          0.00011827719134975713,
+          0.012694964932060902
+        ]
+      }
+    },
+    {
+      "time": 1957.95,
+      "type": "mutation",
+      "details": {
+        "ideology": "liberalism",
+        "perturbation": [
+          0.007393808840390141,
+          0.02432956284679927,
+          0.00702795788955417,
+          -0.010124999205494856,
+          -0.0009384525539919666
+        ]
+      }
+    },
+    {
+      "time": 1958.5,
+      "type": "mutation",
+      "details": {
+        "ideology": "nationalism",
+        "perturbation": [
+          0.0015629927193621673,
+          0.013872862671468237,
+          0.013058728262102701,
+          0.011532370381923354,
+          -0.0062881886993539195
+        ]
+      }
+    },
+    {
+      "time": 1960.75,
+      "type": "mutation",
+      "details": {
+        "ideology": "marxism",
+        "perturbation": [
+          -0.011919768259529551,
+          0.022181070076744334,
+          0.01374739965069977,
+          0.003544194053297085,
+          -0.008558899223922698
+        ]
+      }
+    },
+    {
+      "time": 1971.35,
+      "type": "mutation",
+      "details": {
+        "ideology": "marxism",
+        "perturbation": [
+          0.003458991462741695,
+          0.017736108966542766,
+          -0.01127970664562676,
+          0.0064463032776391075,
+          -0.0007289760468213104
+        ]
+      }
+    },
+    {
+      "time": 1984.6,
+      "type": "mutation",
+      "details": {
+        "ideology": "liberalism",
+        "perturbation": [
+          0.0037002598444821344,
+          0.014615103173579603,
+          0.002455754236051662,
+          -0.008167349242507829,
+          0.014930050869581586
+        ]
+      }
+    },
+    {
+      "time": 1989.1,
+      "type": "mutation",
+      "details": {
+        "ideology": "marxism",
+        "perturbation": [
+          -0.0014301452305724197,
+          -0.0038260722864699253,
+          -0.0036269937553848075,
+          0.0017464582428037446,
+          0.0030258102783821575
+        ]
+      }
+    },
+    {
+      "time": 1992.65,
+      "type": "mutation",
+      "details": {
+        "ideology": "marxism",
+        "perturbation": [
+          0.018084482003859387,
+          0.013484520608444754,
+          -0.010340745976463839,
+          0.002017694193317796,
+          0.00219310314122081
+        ]
+      }
+    },
+    {
+      "time": 1995.5,
+      "type": "mutation",
+      "details": {
+        "ideology": "nationalism",
+        "perturbation": [
+          0.014376189123394112,
+          0.0015039239302365435,
+          -0.010791317912974314,
+          0.0217784785267261,
+          0.017624482979459098
+        ]
+      }
+    },
+    {
+      "time": 1995.65,
+      "type": "mutation",
+      "details": {
+        "ideology": "traditionalism",
+        "perturbation": [
+          -0.0006836114582489584,
+          -0.013211099429393752,
+          0.020136824696973782,
+          0.005356991493023663,
+          0.002089067613041551
+        ]
+      }
+    },
+    {
+      "time": 2024.2,
+      "type": "mutation",
+      "details": {
+        "ideology": "nationalism",
+        "perturbation": [
+          -0.007428266092445683,
+          -0.012042226660064454,
+          0.0018540688538097266,
+          -0.01480316207781571,
+          -0.004715426894575158
+        ]
+      }
+    }
+  ],
+  "summary": {
+    "duration_years": 225.0,
+    "initial_ideologies": [
+      "liberalism",
+      "marxism",
+      "traditionalism",
+      "nationalism"
+    ],
+    "final_ideologies": [
+      "liberalism",
+      "marxism",
+      "traditionalism",
+      "nationalism"
+    ],
+    "hybridization_events": 0,
+    "mutation_events": 19,
+    "charisma_events": 2,
+    "ideologies": {
+      "liberalism": {
+        "initial_share": 0.15,
+        "final_share": 0.0048,
+        "peak_share": 0.15,
+        "peak_year": 1800.0,
+        "change": -0.1452
+      },
+      "marxism": {
+        "initial_share": 0.05,
+        "final_share": 0.1307,
+        "peak_share": 0.1307,
+        "peak_year": 2025.0,
+        "change": 0.0807
+      },
+      "traditionalism": {
+        "initial_share": 0.6,
+        "final_share": 0.8372,
+        "peak_share": 0.9375,
+        "peak_year": 1870.0,
+        "change": 0.2372
+      },
+      "nationalism": {
+        "initial_share": 0.2,
+        "final_share": 0.0273,
+        "peak_share": 0.3555,
+        "peak_year": 1828.0,
+        "change": -0.1727
+      }
+    },
+    "entropy": {
+      "initial": 1.0627,
+      "final": 0.5389,
+      "max": 1.1419,
+      "max_year": 1814.0,
+      "min": 0.292,
+      "min_year": 1870.0
+    }
+  }
+}

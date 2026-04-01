@@ -1,0 +1,9 @@
+services:
+  simulator:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./output:/app/output
+    # Default: run simulation, write results to ./output/results.json
+    # Override with: docker compose run simulator <command> <args>

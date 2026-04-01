@@ -1,0 +1,102 @@
+\section{Related Work}
+\label{sec:related}
+
+Our framework draws on and departs from three research traditions: cultural
+evolution theory, memetics, and computational models of opinion dynamics.
+
+\subsection{Cultural Evolution}
+
+The mathematical study of cultural transmission begins with
+\citet{cavalli1981cultural}, who adapted population genetics models to
+cultural traits, distinguishing vertical (parent--child), horizontal
+(peer--peer), and oblique (elder--youth) transmission modes.
+\citet{boyd2005origin} extended this program with models of biased
+transmission, conformist bias, and prestige bias, showing that cultural
+evolution can produce group-level adaptations not reducible to individual
+selection. \citet{mesoudi2011cultural} provides a comprehensive synthesis.
+
+These models treat cultural traits as discrete variants propagating through
+a population --- formally, alleles in a cultural genome. The framework is
+powerful for small-scale traits (tool designs, food taboos, phonemes) but
+encounters difficulties with \emph{ideologies}: large, internally structured
+systems of belief that interact with institutions, respond to economic
+conditions, and actively reshape the environments in which they propagate.
+The cultural evolution tradition typically assumes a fixed or slowly varying
+selective environment; our framework makes the environment endogenous.
+
+\citet{bisin2001economics} developed an economic model of cultural
+transmission where parents invest in socializing children into their own
+cultural group. Their model produces long-run coexistence of cultural types
+through a mechanism analogous to our latent sympathy: minority groups invest
+more heavily in transmission, preventing assimilation. Our latent variable
+$y_i$ generalizes this insight beyond the parent--child dyad.
+
+\subsection{Memetics}
+
+\citet{dawkins1976selfish} proposed that ideas (``memes'') replicate, mutate,
+and compete in a manner analogous to genes. The analogy has been productive
+as a heuristic but has resisted formalization. \citet{shennan2002genes}
+applied memetic reasoning to archaeological data with some success, but the
+field has struggled with a core problem: unlike genes, ideas do not have a
+well-defined unit of replication. A political ideology is not a single meme
+but a complex of mutually reinforcing propositions, aesthetic preferences,
+institutional practices, and identity markers.
+
+Our framework sidesteps this problem by working at the level of entire
+ideological systems rather than individual memes. We model ideologies as
+indivisible competitors on a simplex --- each characterized by a vector of
+responses to environmental conditions --- rather than attempting to decompose
+them into memetic atoms. This is a deliberate coarse-graining: it sacrifices
+internal structure for tractability at the population level.
+
+\subsection{Opinion Dynamics and Social Contagion}
+
+A large literature in computational social science models opinion spread as a
+contagion or threshold process. \citet{granovetter1978threshold} introduced
+threshold models where individuals adopt a behavior when a sufficient
+fraction of their neighbors have adopted it. \citet{watts1998collective}
+showed that small-world network structure can produce cascading adoption.
+\citet{acemoglu2011bayesian} studied Bayesian learning in social networks,
+showing how network structure determines whether populations converge to
+correct beliefs.
+
+These models typically operate at the individual level and model opinion as a
+continuous variable or binary choice. Our framework operates at the
+population level and models competition between multiple discrete ideologies.
+The two approaches are complementary: network models explain the
+micro-mechanisms of spread (why \emph{this} person adopted \emph{this} idea
+now), while our framework explains the macro-dynamics (why liberalism grew
+in the 19th century and contracted in the 21st).
+
+\subsection{Empirical Studies of Ideological Change}
+
+The empirical literature provides the calibration targets for our model.
+\citet{funke2016going} analyzed 800 elections in 20 democracies over 140
+years and found that financial crises increase far-right vote share by
+approximately 30\%. \citet{inglehart1997modernization} documented the
+``post-materialist'' value shift across generations using 50 years of World
+Values Survey data, confirming the generational transmission mechanism.
+\citet{jennings1968transmission} showed that parental party identification
+predicts children's at $r = 0.47$--$0.59$. \citet{pierson2000increasing}
+formalized the ``policy ratchet'' --- the tendency of institutional changes
+to become self-reinforcing --- providing the empirical basis for our
+institutional amplification mechanism. \citet{norris2019cultural}
+documented the rise of authoritarian populism as a cultural backlash against
+post-materialist values, a dynamic our model captures through the
+interaction between environmental variables and ideological fitness.
+
+\citet{king2008ordinary} showed that unemployment correlated with radical
+vote share across Weimar Germany's electoral districts, providing perhaps the
+cleanest quantitative evidence for crisis recruitment. These findings ground
+our treatment of exogenous shocks as temporary increases in the
+susceptibility of populations to ideological change.
+
+\subsection{What Is Missing}
+
+No existing framework, to our knowledge, combines all three features we
+address: dormancy with martyrdom dynamics, endogenous environment
+modification, and hybridization as speciation. Cultural evolution models
+handle transmission but not institutional feedback. Memetic models handle
+competition but not latency. Opinion dynamics models handle micro-level
+spread but not macro-level ideological competition. Our contribution is to
+integrate these mechanisms into a single, mathematically tractable system.

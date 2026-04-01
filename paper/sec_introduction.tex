@@ -1,0 +1,108 @@
+\section{Introduction}
+\label{sec:introduction}
+
+Ideas compete. This observation is as old as intellectual history itself, but
+its formal treatment has remained surprisingly underdeveloped. While
+evolutionary biology has produced a rich mathematical apparatus for modeling
+competition between species and strategies
+\citep{hofbauer1998evolutionary,nowak2006evolutionary,weibull1995evolutionary},
+and while cultural evolution theory has adapted some of these tools to the
+study of beliefs and norms
+\citep{cavalli1981cultural,boyd2005origin,mesoudi2011cultural}, the
+specific dynamics of \emph{ideological} competition --- the struggle between
+large-scale systems of political, religious, and philosophical thought ---
+has largely been left to historians and political theorists working without
+formal models.
+
+This is not for lack of metaphor. Since \citet{dawkins1976selfish} introduced
+the concept of the meme, the analogy between biological and cultural
+evolution has been widely explored. But the analogy breaks in places that
+matter. Three structural differences between species and ideas demand
+mathematical attention:
+
+\begin{enumerate}[label=(\roman*)]
+  \item \textbf{Dormancy.} Ideas do not die when their carriers die or
+  abandon them. Christianity survived the fall of Rome. Marxism survived the
+  collapse of the Soviet Union. An idea can persist in latency --- in
+  libraries, in diaspora communities, in private sympathy --- and reawaken
+  when conditions change. In the standard replicator equation, the boundary
+  $x_i = 0$ is absorbing: a strategy driven to zero stays at zero forever.
+  For ideas, this is empirically wrong.
+
+  \item \textbf{Hybridization.} A rabbit cannot also be a fox, but a person
+  can be a Christian Marxist, or a nationalist who believes in universal
+  rights. When ideas cohabit in a population, they can merge to form new
+  species: social democracy emerged from the synthesis of Marxist analysis
+  and liberal institutions \citep{berman2006primacy}; liberation theology
+  from Christianity and anti-colonial politics. Standard population dynamics
+  does not accommodate speciation during competition.
+
+  \item \textbf{Endogenous landscape modification.} The fitness of a
+  biological species depends on a niche that changes slowly relative to
+  evolutionary timescales. The fitness of an idea depends on a social
+  environment --- institutions, economic conditions, media structures ---
+  that the idea itself modifies when it achieves dominance. Liberalism
+  creates markets; markets create the inequality that fuels anti-liberal
+  reaction. The fitness landscape is not exogenous: it is partly constructed
+  by the competitors themselves.
+\end{enumerate}
+
+These are not minor perturbations of ecological dynamics. They are
+qualitatively different phenomena that produce qualitatively different
+behavior: oscillations driven by self-undermining dominance, resurrection
+from apparent extinction, and the creation of genuinely new competitors
+during the struggle.
+
+The present paper develops a formal framework that addresses all three
+features. We extend the replicator equation
+\citep{taylor1978evolutionary} in three corresponding directions.
+First, we introduce a \emph{latent sympathy} variable $y_i(t)$ alongside the
+manifest adoption share $x_i(t)$, producing a replicator--mutator system
+\citep{komarova2004replicator,page2002unifying} in which latent sympathy
+prevents absorbing extinction and enables re-emergence. Suppression of an
+ideology increases its latent sympathy (the \emph{martyrdom effect}),
+formalizing the historical observation that persecuted ideas gain moral
+authority. Second, we couple the replicator dynamics to an environment vector
+$e(t)$ whose evolution depends on the current ideological distribution,
+producing a co-evolutionary system with non-stationary fitness landscapes.
+Third, we overlay a stochastic hybridization process that creates new
+ideological types when latent sympathy overlap exceeds a threshold.
+
+The resulting system is a piecewise-deterministic Markov process (PDMP)
+\citep{davis1995piecewise}: continuous replicator--mutator dynamics
+punctuated by discrete stochastic events (hybridization, mutation, charismatic
+transmission). We implement this system in a simulation engine and apply it
+to a historical scenario: four ideological currents --- liberalism, Marxism,
+religious traditionalism, and nationalism --- competing in Europe from 1800 to
+2025, subject to exogenous shocks calibrated to major historical crises.
+
+The simulation is not a prediction engine. It is a tool for testing whether a
+set of hypothesized mechanisms, when combined and allowed to interact, can
+reproduce the qualitative shape of ideological history. We find that the
+framework reproduces several robust features: the persistence of
+traditionalism despite sustained modernization pressure, the crisis-driven
+surges of radical movements \citep{funke2016going}, the dormancy and
+reawakening of suppressed ideas, and the slow ideological drift produced by
+endogenous environment modification.
+
+We are explicit about the framework's deepest limitation. The replicator
+equation, even in its extended form, treats individuals as passive carriers
+of ideas whose adoption probabilities are determined by fitness and
+environment. It has no room for genuine deliberation --- for a person who
+sits quietly and changes their mind because they have thought carefully.
+This is not an oversight; it is a structural choice that makes the population-level
+dynamics tractable. But it means the model describes the ecology of ideas
+\emph{as seen from above}. The view from inside --- from the deliberating
+individual --- requires a different mathematics, perhaps one grounded in
+decision theory or phenomenology rather than population dynamics. We regard
+this boundary as the most important open problem in the field.
+
+The paper is organized as follows. Section~\ref{sec:related} surveys related
+work in cultural evolution, memetics, and computational social science.
+Section~\ref{sec:framework} presents the mathematical framework.
+Section~\ref{sec:software} describes the simulation software.
+Section~\ref{sec:experiments} details the experimental design --- the choice
+of ideological currents, parameter calibration, and historical shock
+schedule. Section~\ref{sec:results} analyzes the simulation results.
+Section~\ref{sec:discussion} discusses the contributions, limitations, and
+implications of the framework.

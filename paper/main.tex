@@ -1,0 +1,70 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{mathtools}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{natbib}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{enumitem}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{definition}{Definition}
+\newtheorem{remark}{Remark}
+
+\title{A Replicator--Mutator Framework for Ideological Dynamics:\\
+Dormancy, Martyrdom, and Endogenous Landscape Modification}
+
+\author{%
+  Working Paper --- March 2026
+}
+
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+We present a mathematical framework for modeling the dynamics of competing
+ideological systems in human populations. Standard evolutionary game theory
+treats competing strategies on a fixed fitness landscape with absorbing
+extinction boundaries --- assumptions that fail for ideas, which persist in
+latency, gain strength from suppression, hybridize to form new species, and
+modify the very environment in which they compete. Our framework extends the
+replicator equation in three directions: (1)~a latent sympathy variable that
+models dormancy and martyrdom dynamics, yielding a replicator--mutator system
+where extinction is no longer absorbing; (2)~endogenous environment
+modification, where dominant ideologies reshape the fitness landscape for all
+competitors; and (3)~hybridization as a stochastic jump process, enabling the
+emergence of new ideological species. The resulting system is a
+piecewise-deterministic Markov process (PDMP). We implement this framework in
+a simulation engine and apply it to a scenario of four competing ideological
+currents in Europe from 1800 to 2025, with exogenous historical shocks
+calibrated to major crises, wars, and technological disruptions. The
+simulation reproduces qualitative features of ideological history including
+the persistence of traditionalism despite modernization, the crisis-driven
+surges of radical movements, and the dormancy--reawakening cycle. We discuss
+the model's structural limitation: it treats individuals as passive hosts
+rather than deliberate agents, a constraint we regard as both the source of
+its tractability and the boundary of its explanatory reach.
+\end{abstract}
+
+\input{sec_introduction}
+\input{sec_related_work}
+\input{sec_framework}
+\input{sec_software}
+\input{sec_experiments}
+\input{sec_results}
+\input{sec_discussion}
+
+\bibliographystyle{apalike}
+\bibliography{references}
+
+\end{document}
