@@ -18,7 +18,7 @@ from typing import Any
 
 import numpy as np
 from numpy.typing import NDArray
-from scipy.optimize import differential_evolution, OptimizeResult
+from scipy.optimize import Bounds, differential_evolution, OptimizeResult
 
 from ideasim.engine import simulate
 from ideasim.evaluation.dataset import ObservedDataset
@@ -269,12 +269,15 @@ def fit_parameters(
         raise ValueError("Training dataset has no observations.")
 
     params_spec = build_parameter_spec(base_config)
-    bounds = [(p.low, p.high) for p in params_spec]
+    bounds = Bounds(
+        lb=np.array([p.low for p in params_spec], dtype=np.float64),
+        ub=np.array([p.high for p in params_spec], dtype=np.float64),
+    )
 
     # Use current config values as initial guess (inserted into population)
     x0 = _extract_parameters(base_config, params_spec)
     # Clip to bounds
-    x0 = np.clip(x0, [b[0] for b in bounds], [b[1] for b in bounds])
+    x0 = np.clip(x0, bounds.lb, bounds.ub)
 
     logger.info(
         "Fitting %d parameters against %d observations (%d years, %d ideologies)",

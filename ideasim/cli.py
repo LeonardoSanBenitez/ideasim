@@ -3,13 +3,18 @@
 from __future__ import annotations
 
 import argparse
+import json
 import logging
 import sys
 import time
 
+import numpy as np
+
 from ideasim.defaults import make_default_config
 from ideasim.engine import simulate
+from ideasim.health import check_health
 from ideasim.io import load_config, save_config, save_result
+from ideasim.validation import validate_config
 
 
 def _add_simulate_parser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
@@ -24,6 +29,16 @@ def _add_simulate_parser(subparsers: argparse._SubParsersAction[argparse.Argumen
         "-o", "--output",
         default="results.json",
         help="Output path for results JSON (default: results.json)",
+    )
+    sim_parser.add_argument(
+        "--skip-validation",
+        action="store_true",
+        help="Skip config validation before running.",
+    )
+    sim_parser.add_argument(
+        "--skip-health-check",
+        action="store_true",
+        help="Skip post-simulation health checks.",
     )
 
 
@@ -98,6 +113,37 @@ def _add_evaluate_parser(subparsers: argparse._SubParsersAction[argparse.Argumen
     )
 
 
+def _add_validate_parser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
+    val_parser = subparsers.add_parser(
+        "validate",
+        help="Validate a simulation config without running it",
+    )
+    val_parser.add_argument(
+        "config",
+        nargs="?",
+        default=None,
+        help="Path to JSON config file. If omitted, validates the default config.",
+    )
+
+
+def _add_check_parser(subparsers: argparse._SubParsersAction[argparse.ArgumentParser]) -> None:
+    check_parser = subparsers.add_parser(
+        "check",
+        help="Run simulation and check health of results",
+    )
+    check_parser.add_argument(
+        "config",
+        nargs="?",
+        default=None,
+        help="Path to JSON config file. If omitted, uses default.",
+    )
+    check_parser.add_argument(
+        "--json",
+        action="store_true",
+        help="Output health report as JSON.",
+    )
+
+
 def _run_simulate(args: argparse.Namespace) -> None:
     if args.config:
         print(f"Loading config from {args.config}...")
@@ -105,6 +151,18 @@ def _run_simulate(args: argparse.Namespace) -> None:
     else:
         print("Using default European 1800-2025 scenario...")
         config = make_default_config()
+
+    # Validate config
+    if not args.skip_validation:
+        validation = validate_config(config)
+        if not validation.is_valid:
+            print("\nConfig validation FAILED:")
+            print(validation.summary())
+            sys.exit(1)
+        if validation.warnings:
+            print(f"\nConfig validation passed with {len(validation.warnings)} warning(s):")
+            for warn in validation.warnings:
+                print(f"  {warn}")
 
     print(
         f"Simulating {config.n_ideologies} ideologies "
@@ -118,6 +176,15 @@ def _run_simulate(args: argparse.Namespace) -> None:
 
     print(f"Done in {elapsed:.2f}s — {result.metadata['total_steps']} steps, "
           f"{result.metadata['total_events']} stochastic events")
+
+    # Health check
+    if not args.skip_health_check:
+        health = check_health(result)
+        if not health.all_passed:
+            print("\n--- Health Check Issues ---")
+            print(health.summary())
+        else:
+            print(f"\nHealth check: all {len(health.checks)} checks passed.")
 
     # Print summary
     print("\n--- Summary ---")
@@ -164,6 +231,13 @@ def _run_evaluate(args: argparse.Namespace) -> None:
         print("Using default simulation config as base...")
         base_config = make_default_config()
 
+    # Validate config
+    validation = validate_config(base_config)
+    if not validation.is_valid:
+        print("\nConfig validation FAILED:")
+        print(validation.summary())
+        sys.exit(1)
+
     # Run evaluation
     mode = f"{args.n_folds}-fold temporal CV" if args.n_folds > 1 else "single temporal split"
     print(f"\nRunning evaluation ({mode})...")
@@ -205,6 +279,71 @@ def _run_evaluate(args: argparse.Namespace) -> None:
     print(f"\nResults saved to {args.output_dir}/")
 
 
+def _run_validate(args: argparse.Namespace) -> None:
+    if args.config:
+        print(f"Loading config from {args.config}...")
+        config = load_config(args.config)
+    else:
+        print("Validating default config...")
+        config = make_default_config()
+
+    validation = validate_config(config)
+    print(validation.summary())
+    if not validation.is_valid:
+        sys.exit(1)
+
+
+def _run_check(args: argparse.Namespace) -> None:
+    if args.config:
+        print(f"Loading config from {args.config}...")
+        config = load_config(args.config)
+    else:
+        print("Using default config...")
+        config = make_default_config()
+
+    # Validate first
+    validation = validate_config(config)
+    if not validation.is_valid:
+        print("Config validation FAILED:")
+        print(validation.summary())
+        sys.exit(1)
+
+    # Run simulation
+    print(f"Running simulation ({config.t_start:.0f}-{config.t_end:.0f})...")
+    t0 = time.time()
+    result = simulate(config)
+    elapsed = time.time() - t0
+    print(f"Simulation completed in {elapsed:.2f}s.")
+
+    # Health check
+    health = check_health(result)
+
+    if args.json:
+        report_data = health.to_dict()
+        report_data["simulation_time_seconds"] = round(elapsed, 2)
+        report_data["total_steps"] = result.metadata["total_steps"]
+        report_data["total_events"] = result.metadata["total_events"]
+        print(json.dumps(report_data, indent=2))
+    else:
+        print("\n--- Health Report ---")
+        print(health.summary())
+
+        # Also print basic metrics
+        last = result.history[-1]
+        print("\n--- Final State ---")
+        for i, name in enumerate(last.ideology_names):
+            if i < len(last.shares):
+                print(f"  {name}: {last.shares[i]:.4f}")
+
+        entropy = result.entropy_timeseries()
+        if len(entropy) > 0:
+            print(f"\n  Entropy: {float(entropy[-1]):.4f} "
+                  f"(range [{float(np.min(entropy)):.4f}, {float(np.max(entropy)):.4f}])")
+
+    if not health.all_passed:
+        sys.exit(1)
+
+
 def main(argv: list[str] | None = None) -> None:
     parser = argparse.ArgumentParser(
         prog="ideasim",
@@ -215,6 +354,8 @@ def main(argv: list[str] | None = None) -> None:
     _add_simulate_parser(subparsers)
     _add_default_config_parser(subparsers)
     _add_evaluate_parser(subparsers)
+    _add_validate_parser(subparsers)
+    _add_check_parser(subparsers)
 
     args = parser.parse_args(argv)
 
@@ -229,6 +370,12 @@ def main(argv: list[str] | None = None) -> None:
 
     if args.command == "evaluate":
         _run_evaluate(args)
+
+    if args.command == "validate":
+        _run_validate(args)
+
+    if args.command == "check":
+        _run_check(args)
 
 
 if __name__ == "__main__":

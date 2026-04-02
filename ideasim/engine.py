@@ -234,16 +234,16 @@ def _try_hybridization(
             old_B = config.interaction_matrix
             new_B = np.zeros((new_n, new_n))
             new_B[: old_B.shape[0], : old_B.shape[1]] = old_B
-            new_B[-1, :new_n - 1] = lam * old_B[i, :] + (1 - lam) * old_B[j, :]  # type: ignore[index]
-            new_B[:new_n - 1, -1] = lam * old_B[:, i] + (1 - lam) * old_B[:, j]  # type: ignore[index]
+            new_B[-1, :new_n - 1] = lam * old_B[i, :] + (1 - lam) * old_B[j, :]
+            new_B[:new_n - 1, -1] = lam * old_B[:, i] + (1 - lam) * old_B[:, j]
             config.interaction_matrix = new_B
 
             # Extend suppression matrix
             old_S = config.suppression_matrix
             new_S = np.zeros((new_n, new_n))
             new_S[: old_S.shape[0], : old_S.shape[1]] = old_S
-            new_S[-1, :new_n - 1] = (lam * old_S[i, :] + (1 - lam) * old_S[j, :])  # type: ignore[index]
-            new_S[:new_n - 1, -1] = (lam * old_S[:, i] + (1 - lam) * old_S[:, j])  # type: ignore[index]
+            new_S[-1, :new_n - 1] = (lam * old_S[i, :] + (1 - lam) * old_S[j, :])
+            new_S[:new_n - 1, -1] = (lam * old_S[:, i] + (1 - lam) * old_S[:, j])
             config.suppression_matrix = new_S
 
             # Extend stochastic matrices

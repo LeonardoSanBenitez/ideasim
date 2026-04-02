@@ -1,0 +1,52 @@
+{
+  "$comment": "JSON Schema for ideasim observed datasets. Place dataset files alongside this schema in data/datasets/.",
+  "type": "object",
+  "required": ["name", "ideology_names", "observations"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Short identifier for the dataset (e.g. 'parlgov_europe')"
+    },
+    "description": {
+      "type": "string",
+      "description": "Free-text description of data source and methodology"
+    },
+    "ideology_names": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Canonical ideology names as they appear in observations"
+    },
+    "ideology_mapping": {
+      "type": "object",
+      "additionalProperties": {"type": "string"},
+      "description": "Maps dataset ideology names to simulation ideology names. E.g. {\"social_democracy\": \"marxism\"}. Omit if names match simulation directly."
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Arbitrary metadata (source URL, version, date retrieved, etc.)"
+    },
+    "observations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["year", "ideology", "share"],
+        "properties": {
+          "year": {
+            "type": "number",
+            "description": "Year of observation (e.g. 1950.0)"
+          },
+          "ideology": {
+            "type": "string",
+            "description": "Ideology name (must be in ideology_names)"
+          },
+          "share": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Fraction of ideological share [0, 1]. Shares at each year should sum to approximately 1."
+          }
+        }
+      }
+    }
+  }
+}
