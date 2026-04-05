@@ -170,10 +170,20 @@ def check_health(result: SimulationResult) -> HealthReport:
             has_inf = True
 
     report.checks.append(
-        HealthCheck("no_nan", not has_nan, "No NaN values." if not has_nan else "NaN detected in history.", "error")
+        HealthCheck(
+            "no_nan",
+            not has_nan,
+            "No NaN values." if not has_nan else "NaN detected in history.",
+            "error",
+        )
     )
     report.checks.append(
-        HealthCheck("no_inf", not has_inf, "No Inf values." if not has_inf else "Inf detected in history.", "error")
+        HealthCheck(
+            "no_inf",
+            not has_inf,
+            "No Inf values." if not has_inf else "Inf detected in history.",
+            "error",
+        )
     )
 
     # 4. No total collapse (at least 2 ideologies above 1% at end)
@@ -231,10 +241,7 @@ def check_health(result: SimulationResult) -> HealthReport:
 
     # 8. Event plausibility
     valid_event_types = {"hybridization", "mutation", "charisma"}
-    bad_events = [
-        ev for ev in result.events
-        if ev.event_type not in valid_event_types
-    ]
+    bad_events = [ev for ev in result.events if ev.event_type not in valid_event_types]
     events_ok = len(bad_events) == 0
     report.checks.append(
         HealthCheck(

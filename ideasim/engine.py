@@ -21,7 +21,17 @@ from ideasim.types import (
 
 def _precompute_ideology_params(
     ideologies: list[Ideology],
-) -> tuple[NDArray[np.float64], NDArray[np.float64], NDArray[np.float64], NDArray[np.float64], NDArray[np.float64], NDArray[np.float64], NDArray[np.float64], NDArray[np.float64], NDArray[np.float64]]:
+) -> tuple[
+    NDArray[np.float64],
+    NDArray[np.float64],
+    NDArray[np.float64],
+    NDArray[np.float64],
+    NDArray[np.float64],
+    NDArray[np.float64],
+    NDArray[np.float64],
+    NDArray[np.float64],
+    NDArray[np.float64],
+]:
     """Extract ideology parameters into arrays for vectorized computation."""
     n = len(ideologies)
     m = len(ideologies[0].env_response)
@@ -65,9 +75,9 @@ def _compute_fitness(
     suppression = S_matrix[:n, :n] @ excess
 
     # Fitness terms (all vectorized)
-    f_base = W[:n] @ e                      # environmental
-    f_compete = B[:n, :n] @ x[:n]           # competitive interaction
-    f_latent = gamma[:n] * y[:n]            # latent reservoir
+    f_base = W[:n] @ e  # environmental
+    f_compete = B[:n, :n] @ x[:n]  # competitive interaction
+    f_latent = gamma[:n] * y[:n]  # latent reservoir
     f_inst = mu[:n] * np.maximum(x[:n] - theta[:n], 0.0)  # institutional
 
     f = f_base + f_compete + f_latent + f_inst
@@ -89,8 +99,16 @@ def _compute_derivatives(
     m = len(e)
 
     f, suppression = _compute_fitness(
-        x, y, e, W, gamma, mu, theta, theta_gov,
-        config.interaction_matrix, config.suppression_matrix,
+        x,
+        y,
+        e,
+        W,
+        gamma,
+        mu,
+        theta,
+        theta_gov,
+        config.interaction_matrix,
+        config.suppression_matrix,
     )
 
     # Add active charismatic boosts
@@ -106,7 +124,12 @@ def _compute_derivatives(
 
     # dy/dt: latent sympathy dynamics (vectorized)
     sigma = np.maximum(W[:n] @ e, 0.0) * 0.1
-    dy = alpha[:n] * x[:n] - beta[:n] * y[:n] + sigma * (1.0 - x[:n]) + delta[:n] * suppression
+    dy = (
+        alpha[:n] * x[:n]
+        - beta[:n] * y[:n]
+        + sigma * (1.0 - x[:n])
+        + delta[:n] * suppression
+    )
 
     # de/dt: environment dynamics (Cidral eq 5.1)
     de = np.zeros(m)
@@ -148,9 +171,7 @@ def _rk4_step(
     k3x, k3y, k3e = derivs(
         x + 0.5 * dt * k2x, y + 0.5 * dt * k2y, e + 0.5 * dt * k2e, t + 0.5 * dt
     )
-    k4x, k4y, k4e = derivs(
-        x + dt * k3x, y + dt * k3y, e + dt * k3e, t + dt
-    )
+    k4x, k4y, k4e = derivs(x + dt * k3x, y + dt * k3y, e + dt * k3e, t + dt)
 
     x_new = x + (dt / 6.0) * (k1x + 2 * k2x + 2 * k3x + k4x)
     y_new = y + (dt / 6.0) * (k1y + 2 * k2y + 2 * k3y + k4y)
@@ -195,7 +216,10 @@ def _try_hybridization(
 
     for i in range(n):
         for j in range(i + 1, n):
-            if i >= sp.hybridization_rates.shape[0] or j >= sp.hybridization_rates.shape[1]:
+            if (
+                i >= sp.hybridization_rates.shape[0]
+                or j >= sp.hybridization_rates.shape[1]
+            ):
                 continue
             overlap = y[i] * y[j]
             if overlap <= sp.hybridization_thresholds[i, j]:
@@ -215,13 +239,26 @@ def _try_hybridization(
             new_ideo = Ideology(
                 name=new_name,
                 env_response=new_env,
-                latent_conversion=(parent_a.latent_conversion + parent_b.latent_conversion) / 2,
-                latent_generation=(parent_a.latent_generation + parent_b.latent_generation) / 2,
+                latent_conversion=(
+                    parent_a.latent_conversion + parent_b.latent_conversion
+                )
+                / 2,
+                latent_generation=(
+                    parent_a.latent_generation + parent_b.latent_generation
+                )
+                / 2,
                 latent_decay=(parent_a.latent_decay + parent_b.latent_decay) / 2,
-                martyrdom_coeff=(parent_a.martyrdom_coeff + parent_b.martyrdom_coeff) / 2,
-                institutional_amp=max(parent_a.institutional_amp, parent_b.institutional_amp),
-                capture_threshold=max(parent_a.capture_threshold, parent_b.capture_threshold),
-                governance_threshold=max(parent_a.governance_threshold, parent_b.governance_threshold),
+                martyrdom_coeff=(parent_a.martyrdom_coeff + parent_b.martyrdom_coeff)
+                / 2,
+                institutional_amp=max(
+                    parent_a.institutional_amp, parent_b.institutional_amp
+                ),
+                capture_threshold=max(
+                    parent_a.capture_threshold, parent_b.capture_threshold
+                ),
+                governance_threshold=max(
+                    parent_a.governance_threshold, parent_b.governance_threshold
+                ),
                 mutation_rate=(parent_a.mutation_rate + parent_b.mutation_rate) / 2,
             )
 
@@ -234,24 +271,24 @@ def _try_hybridization(
             old_B = config.interaction_matrix
             new_B = np.zeros((new_n, new_n))
             new_B[: old_B.shape[0], : old_B.shape[1]] = old_B
-            new_B[-1, :new_n - 1] = lam * old_B[i, :] + (1 - lam) * old_B[j, :]
-            new_B[:new_n - 1, -1] = lam * old_B[:, i] + (1 - lam) * old_B[:, j]
+            new_B[-1, : new_n - 1] = lam * old_B[i, :] + (1 - lam) * old_B[j, :]
+            new_B[: new_n - 1, -1] = lam * old_B[:, i] + (1 - lam) * old_B[:, j]
             config.interaction_matrix = new_B
 
             # Extend suppression matrix
             old_S = config.suppression_matrix
             new_S = np.zeros((new_n, new_n))
             new_S[: old_S.shape[0], : old_S.shape[1]] = old_S
-            new_S[-1, :new_n - 1] = (lam * old_S[i, :] + (1 - lam) * old_S[j, :])
-            new_S[:new_n - 1, -1] = (lam * old_S[:, i] + (1 - lam) * old_S[:, j])
+            new_S[-1, : new_n - 1] = lam * old_S[i, :] + (1 - lam) * old_S[j, :]
+            new_S[: new_n - 1, -1] = lam * old_S[:, i] + (1 - lam) * old_S[:, j]
             config.suppression_matrix = new_S
 
             # Extend stochastic matrices
             old_hr = sp.hybridization_rates
             new_hr = np.zeros((new_n, new_n))
             new_hr[: old_hr.shape[0], : old_hr.shape[1]] = old_hr
-            new_hr[-1, :new_n - 1] = 0.005
-            new_hr[:new_n - 1, -1] = 0.005
+            new_hr[-1, : new_n - 1] = 0.005
+            new_hr[: new_n - 1, -1] = 0.005
             sp.hybridization_rates = new_hr
 
             old_ht = sp.hybridization_thresholds
@@ -270,7 +307,7 @@ def _try_hybridization(
 
             # Update shares: draw from parents
             x_new = np.zeros(new_n)
-            x_new[:len(x)] = x
+            x_new[: len(x)] = x
             half_eps = eps / 2
             x_new[i] -= half_eps
             x_new[j] -= half_eps
@@ -279,7 +316,7 @@ def _try_hybridization(
             x_new /= np.sum(x_new)
 
             y_new = np.zeros(new_n)
-            y_new[:len(y)] = y
+            y_new[: len(y)] = y
             y_new[-1] = (y[i] + y[j]) * 0.1
 
             return SimulationEvent(
@@ -305,9 +342,11 @@ def _try_mutation(
     dt: float,
 ) -> SimulationEvent | None:
     """Check for and execute mutation events."""
-    for i, ideo in enumerate(ideologies):
+    for _i, ideo in enumerate(ideologies):
         if rng.random() < ideo.mutation_rate * dt:
-            perturbation = rng.normal(0, config.stochastic.mutation_step_size, size=ideo.env_response.shape)
+            perturbation = rng.normal(
+                0, config.stochastic.mutation_step_size, size=ideo.env_response.shape
+            )
             ideo.env_response = ideo.env_response + perturbation
             return SimulationEvent(
                 time=t,
@@ -380,12 +419,20 @@ def simulate(config: SimulationConfig) -> SimulationResult:
 
     # Precompute ideology parameters for vectorized ops
     params = _precompute_ideology_params(ideologies)
-    W, gamma, alpha, beta, delta, mu, theta, theta_gov, _ = params
+    W, gamma, _alpha, _beta, _delta, mu, theta, theta_gov, _ = params
 
     # Record initial state
     f_init, _ = _compute_fitness(
-        x, y, e, W, gamma, mu, theta, theta_gov,
-        config.interaction_matrix, config.suppression_matrix,
+        x,
+        y,
+        e,
+        W,
+        gamma,
+        mu,
+        theta,
+        theta_gov,
+        config.interaction_matrix,
+        config.suppression_matrix,
     )
     history.append(
         StateSnapshot(
@@ -422,7 +469,7 @@ def simulate(config: SimulationConfig) -> SimulationResult:
             y = np.array(hyb_event.details["y"])
             # Recompute params after adding new ideology
             params = _precompute_ideology_params(ideologies)
-            W, gamma, alpha, beta, delta, mu, theta, theta_gov, _ = params
+            W, gamma, _alpha, _beta, _delta, mu, theta, theta_gov, _ = params
 
         mut_event = _try_mutation(ideologies, config, rng, t, dt)
         if mut_event is not None:
@@ -431,12 +478,14 @@ def simulate(config: SimulationConfig) -> SimulationResult:
         char_event = _try_charisma(x, y, ideologies, config, rng, t, dt)
         if char_event is not None:
             events.append(char_event)
-            active_charisma.append((
-                t,
-                char_event.details["ideology_index"],
-                char_event.details["amplitude"],
-                char_event.details["decay"],
-            ))
+            active_charisma.append(
+                (
+                    t,
+                    char_event.details["ideology_index"],
+                    char_event.details["amplitude"],
+                    char_event.details["decay"],
+                )
+            )
 
         t += dt
         step += 1
@@ -444,8 +493,16 @@ def simulate(config: SimulationConfig) -> SimulationResult:
         # Record state at intervals
         if step % config.record_interval == 0:
             f_now, _ = _compute_fitness(
-                x, y, e, W, gamma, mu, theta, theta_gov,
-                config.interaction_matrix, config.suppression_matrix,
+                x,
+                y,
+                e,
+                W,
+                gamma,
+                mu,
+                theta,
+                theta_gov,
+                config.interaction_matrix,
+                config.suppression_matrix,
             )
             history.append(
                 StateSnapshot(

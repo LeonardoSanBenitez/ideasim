@@ -24,13 +24,11 @@ from ideasim.evaluation.dataset import (
     load_dataset,
     save_dataset,
 )
-from ideasim.evaluation.metrics import EvaluationMetrics, compute_metrics
+from ideasim.evaluation.metrics import compute_metrics
 from ideasim.evaluation.splits import (
-    TemporalSplit,
     temporal_kfold,
     temporal_train_test_split,
 )
-
 
 # --- Fixtures ---
 
@@ -43,10 +41,10 @@ def _make_test_dataset() -> ObservedDataset:
     years = [1850, 1870, 1890, 1910, 1930, 1945, 1960, 1975, 1990, 2010]
     # Shares that roughly sum to 1 at each year
     shares_data = {
-        "liberalism":      [0.20, 0.30, 0.28, 0.25, 0.15, 0.25, 0.30, 0.32, 0.38, 0.35],
-        "marxism":         [0.05, 0.08, 0.15, 0.22, 0.25, 0.30, 0.28, 0.30, 0.22, 0.15],
-        "traditionalism":  [0.55, 0.42, 0.35, 0.28, 0.20, 0.25, 0.27, 0.23, 0.22, 0.22],
-        "nationalism":     [0.20, 0.20, 0.22, 0.25, 0.40, 0.20, 0.15, 0.15, 0.18, 0.28],
+        "liberalism": [0.20, 0.30, 0.28, 0.25, 0.15, 0.25, 0.30, 0.32, 0.38, 0.35],
+        "marxism": [0.05, 0.08, 0.15, 0.22, 0.25, 0.30, 0.28, 0.30, 0.22, 0.15],
+        "traditionalism": [0.55, 0.42, 0.35, 0.28, 0.20, 0.25, 0.27, 0.23, 0.22, 0.22],
+        "nationalism": [0.20, 0.20, 0.22, 0.25, 0.40, 0.20, 0.15, 0.15, 0.18, 0.28],
     }
 
     for t_idx, year in enumerate(years):
@@ -104,7 +102,7 @@ class TestObservedDataset:
     def test_as_matrix_missing_ideology(self) -> None:
         ds = _make_test_dataset()
         # Request an ideology that doesn't exist
-        years, shares = ds.as_matrix(["liberalism", "anarchism"])
+        _years, shares = ds.as_matrix(["liberalism", "anarchism"])
         assert shares.shape == (10, 2)
         assert not np.any(np.isnan(shares[:, 0]))  # liberalism present
         assert np.all(np.isnan(shares[:, 1]))  # anarchism missing
@@ -207,11 +205,13 @@ class TestTemporalSplits:
 class TestMetrics:
     def test_perfect_prediction(self) -> None:
         years = np.array([1900.0, 1950.0, 2000.0])
-        shares = np.array([
-            [0.3, 0.7],
-            [0.4, 0.6],
-            [0.5, 0.5],
-        ])
+        shares = np.array(
+            [
+                [0.3, 0.7],
+                [0.4, 0.6],
+                [0.5, 0.5],
+            ]
+        )
         metrics = compute_metrics(
             observed_years=years,
             observed_shares=shares,
@@ -259,10 +259,12 @@ class TestMetrics:
         obs_shares = np.array([[0.5, 0.5]])
         # Simulation has data at 1900 and 2000
         sim_years = np.array([1900.0, 2000.0])
-        sim_shares = np.array([
-            [0.4, 0.6],
-            [0.6, 0.4],
-        ])
+        sim_shares = np.array(
+            [
+                [0.4, 0.6],
+                [0.6, 0.4],
+            ]
+        )
         metrics = compute_metrics(
             observed_years=obs_years,
             observed_shares=obs_shares,

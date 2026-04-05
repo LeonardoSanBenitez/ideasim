@@ -139,7 +139,7 @@ def compute_metrics(
     pred_flat = interp_shares[mask]
     errors = obs_flat - pred_flat
 
-    mse = float(np.mean(errors ** 2))
+    mse = float(np.mean(errors**2))
     rmse = float(np.sqrt(mse))
     mae = float(np.mean(np.abs(errors)))
     r2 = _r_squared(obs_flat, pred_flat)
@@ -157,7 +157,7 @@ def compute_metrics(
         obs_col = observed_shares[col_mask, i]
         pred_col = interp_shares[col_mask, i]
         col_errors = obs_col - pred_col
-        per_mse[name] = float(np.mean(col_errors ** 2))
+        per_mse[name] = float(np.mean(col_errors**2))
         per_mae[name] = float(np.mean(np.abs(col_errors)))
         per_r2[name] = _r_squared(obs_col, pred_col)
 

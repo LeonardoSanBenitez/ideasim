@@ -65,9 +65,7 @@ class ObservedDataset:
         result: dict[str, float] = {}
         for obs in self.observations:
             if obs.year == year:
-                mapped_name = self.ideology_mapping.get(
-                    obs.ideology, obs.ideology
-                )
+                mapped_name = self.ideology_mapping.get(obs.ideology, obs.ideology)
                 # Accumulate in case multiple dataset ideologies map
                 # to the same simulation ideology
                 result[mapped_name] = result.get(mapped_name, 0.0) + obs.share
@@ -95,13 +93,10 @@ class ObservedDataset:
 
         return years, shares
 
-    def filter_years(
-        self, min_year: float, max_year: float
-    ) -> ObservedDataset:
+    def filter_years(self, min_year: float, max_year: float) -> ObservedDataset:
         """Return a new dataset with only observations in [min_year, max_year]."""
         filtered = [
-            obs for obs in self.observations
-            if min_year <= obs.year <= max_year
+            obs for obs in self.observations if min_year <= obs.year <= max_year
         ]
         return ObservedDataset(
             name=self.name,
@@ -120,10 +115,7 @@ class ObservedDataset:
         The min_year boundary is exclusive to prevent overlap with a
         preceding training split that uses [start, min_year].
         """
-        filtered = [
-            obs for obs in self.observations
-            if min_year < obs.year <= max_year
-        ]
+        filtered = [obs for obs in self.observations if min_year < obs.year <= max_year]
         return ObservedDataset(
             name=self.name,
             description=self.description,

@@ -74,11 +74,13 @@ def result_to_dict(result: SimulationResult) -> dict[str, Any]:
 
     event_records = []
     for ev in result.events:
-        event_records.append({
-            "time": round(ev.time, 2),
-            "type": ev.event_type,
-            "details": ev.details,
-        })
+        event_records.append(
+            {
+                "time": round(ev.time, 2),
+                "type": ev.event_type,
+                "details": ev.details,
+            }
+        )
 
     return {
         "config": result.config_summary,
@@ -103,7 +105,9 @@ def _compute_summary(result: SimulationResult) -> dict[str, Any]:
         "duration_years": round(last.time - first.time, 1),
         "initial_ideologies": first.ideology_names,
         "final_ideologies": last.ideology_names,
-        "hybridization_events": sum(1 for e in result.events if e.event_type == "hybridization"),
+        "hybridization_events": sum(
+            1 for e in result.events if e.event_type == "hybridization"
+        ),
         "mutation_events": sum(1 for e in result.events if e.event_type == "mutation"),
         "charisma_events": sum(1 for e in result.events if e.event_type == "charisma"),
     }
@@ -112,7 +116,9 @@ def _compute_summary(result: SimulationResult) -> dict[str, Any]:
     ideology_summary = {}
     for i, name in enumerate(last.ideology_names):
         final_share = float(last.shares[i]) if i < len(last.shares) else 0.0
-        initial_share = float(first.shares[i]) if i < n_initial and i < len(first.shares) else 0.0
+        initial_share = (
+            float(first.shares[i]) if i < n_initial and i < len(first.shares) else 0.0
+        )
 
         # Find peak share
         peak_share = 0.0
@@ -201,15 +207,23 @@ def load_config(path: str | Path) -> SimulationConfig:
         variable_names=env_data["variable_names"],
         initial=np.array(env_data["initial"]),
         exogenous_shocks=shocks,
-        autonomous_decay=np.array(env_data["autonomous_decay"]) if "autonomous_decay" in env_data else None,
-        policy_influence=np.array(env_data["policy_influence"]) if "policy_influence" in env_data else None,
+        autonomous_decay=np.array(env_data["autonomous_decay"])
+        if "autonomous_decay" in env_data
+        else None,
+        policy_influence=np.array(env_data["policy_influence"])
+        if "policy_influence" in env_data
+        else None,
     )
 
     stoch_data = data.get("stochastic", {})
     stochastic = StochasticParams(
-        hybridization_rates=np.array(stoch_data.get("hybridization_rates", np.full((n, n), 0.005))),
+        hybridization_rates=np.array(
+            stoch_data.get("hybridization_rates", np.full((n, n), 0.005))
+        ),
         hybridization_thresholds=np.array(
-            _deserialize_with_inf(stoch_data.get("hybridization_thresholds", np.full((n, n), 0.1)))
+            _deserialize_with_inf(
+                stoch_data.get("hybridization_thresholds", np.full((n, n), 0.1))
+            )
         ),
         charisma_rate=stoch_data.get("charisma_rate", 0.02),
         charisma_decay=stoch_data.get("charisma_decay", 20.0),

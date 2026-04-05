@@ -181,9 +181,7 @@ def _aggregate_metrics(folds: list[FoldResult]) -> dict[str, Any]:
     val_mses = [f.val_metrics.mse for f in folds if not np.isnan(f.val_metrics.mse)]
     val_maes = [f.val_metrics.mae for f in folds if not np.isnan(f.val_metrics.mae)]
     val_r2s = [
-        f.val_metrics.r_squared
-        for f in folds
-        if not np.isnan(f.val_metrics.r_squared)
+        f.val_metrics.r_squared for f in folds if not np.isnan(f.val_metrics.r_squared)
     ]
 
     result: dict[str, Any] = {
@@ -214,6 +212,11 @@ def run_evaluation(
     population_size: int = 15,
     seed: int | None = 42,
     tolerance: float = 1e-6,
+    polish: bool = False,
+    include_initial_shares: bool = False,
+    include_initial_latent: bool = False,
+    align_t_start: bool = False,
+    fit_dt: float | None = None,
 ) -> EvaluationResult:
     """Run a full evaluation: temporal k-fold CV with fitting and validation.
 
@@ -232,6 +235,14 @@ def run_evaluation(
         population_size: DE population size multiplier.
         seed: Random seed.
         tolerance: Optimizer convergence tolerance.
+        polish: Whether to run local optimization after DE (default: False).
+        include_initial_shares: If True, also optimize initial ideology
+            shares (renormalized to the simplex after each evaluation).
+        include_initial_latent: If True, also optimize initial latent
+            sympathy values.
+        align_t_start: If True, align t_start to near the first
+            observation year for faster fitting.
+        fit_dt: If provided, use this coarser dt during fitting for speed.
 
     Returns:
         EvaluationResult with per-fold and aggregate metrics.
@@ -250,6 +261,11 @@ def run_evaluation(
         "population_size": population_size,
         "seed": seed,
         "tolerance": tolerance,
+        "polish": polish,
+        "include_initial_shares": include_initial_shares,
+        "include_initial_latent": include_initial_latent,
+        "align_t_start": align_t_start,
+        "fit_dt": fit_dt,
     }
 
     # Run each fold
@@ -274,6 +290,11 @@ def run_evaluation(
             "population_size": population_size,
             "seed": seed,
             "tolerance": tolerance,
+            "polish": polish,
+            "include_initial_shares": include_initial_shares,
+            "include_initial_latent": include_initial_latent,
+            "align_t_start": align_t_start,
+            "fit_dt": fit_dt,
             "ideology_names": base_config.ideology_names(),
         },
     )

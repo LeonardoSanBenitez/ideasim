@@ -7,7 +7,7 @@ import pytest
 
 from ideasim.defaults import make_default_config
 from ideasim.engine import simulate
-from ideasim.health import check_health, HealthReport
+from ideasim.health import HealthReport, check_health
 from ideasim.types import SimulationResult, StateSnapshot
 
 
@@ -42,7 +42,6 @@ class TestHealthCheckDefaultScenario:
 
 
 class TestHealthCheckEdgeCases:
-
     def test_empty_history(self) -> None:
         result = SimulationResult(
             config_summary={},
@@ -89,12 +88,13 @@ class TestHealthCheckEdgeCases:
             ideology_names=["a", "b"],
         )
         report = check_health(result)
-        dominance_check = next(c for c in report.checks if c.name == "no_total_dominance")
+        dominance_check = next(
+            c for c in report.checks if c.name == "no_total_dominance"
+        )
         assert not dominance_check.passed
 
 
 class TestHealthReport:
-
     def test_to_dict_serializable(self) -> None:
         """Health report should be JSON-serializable."""
         config = make_default_config()
@@ -102,6 +102,7 @@ class TestHealthReport:
         report = check_health(result)
         d = report.to_dict()
         import json
+
         json.dumps(d)  # Should not raise
 
     def test_summary_all_passed(self) -> None:

@@ -5,8 +5,34 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "ideasim"
 version = "0.1.0"
-description = "Simulator for ideological competition dynamics — replicator-mutator model with dormancy, hybridization, and endogenous environment modification"
+description = "Simulator for ideological competition dynamics -- replicator-mutator model with dormancy, hybridization, and endogenous environment modification"
+readme = "README.md"
+license = {text = "Apache-2.0"}
 requires-python = ">=3.11"
+authors = [
+    {name = "Leonardo San Benitez"},
+]
+keywords = [
+    "simulation",
+    "ideology",
+    "replicator-mutator",
+    "PDMP",
+    "political-science",
+    "agent-based-model",
+    "computational-social-science",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Mathematics",
+    "Typing :: Typed",
+]
 dependencies = [
     "numpy>=1.26",
     "scipy>=1.11",
@@ -16,9 +42,20 @@ dependencies = [
 dev = [
     "pytest>=7.4",
     "mypy>=1.8",
-    "numpy>=1.26",
-    "scipy>=1.11",
+    "ruff>=0.4",
+    "pre-commit>=3.6",
 ]
+docs = [
+    "sphinx>=7.0",
+    "sphinx-rtd-theme>=2.0",
+    "sphinx-autodoc-typehints>=2.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/LeonardoSanBenitez/ideasim"
+Repository = "https://github.com/LeonardoSanBenitez/ideasim"
+Documentation = "https://ideasim.readthedocs.io"
+"Bug Tracker" = "https://github.com/LeonardoSanBenitez/ideasim/issues"
 
 [project.scripts]
 ideasim = "ideasim.cli:main"
@@ -27,7 +64,7 @@ ideasim = "ideasim.cli:main"
 include = ["ideasim*"]
 
 [tool.setuptools.package-data]
-ideasim = ["data/*.json"]
+ideasim = ["data/*.json", "py.typed"]
 
 [tool.mypy]
 strict = true
@@ -39,3 +76,25 @@ testpaths = ["tests"]
 markers = [
     "slow: marks tests as slow (run with --run-slow or -m slow)",
 ]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 88
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "UP",   # pyupgrade
+    "B",    # flake8-bugbear
+    "SIM",  # flake8-simplify
+    "RUF",  # ruff-specific rules
+]
+ignore = [
+    "E501",  # line too long (handled by formatter)
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["ideasim"]

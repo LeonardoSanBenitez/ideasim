@@ -18,11 +18,11 @@ from typing import Any
 
 import numpy as np
 from numpy.typing import NDArray
-from scipy.optimize import Bounds, differential_evolution, OptimizeResult
+from scipy.optimize import Bounds, OptimizeResult, differential_evolution
 
 from ideasim.engine import simulate
 from ideasim.evaluation.dataset import ObservedDataset
-from ideasim.evaluation.metrics import compute_metrics, EvaluationMetrics
+from ideasim.evaluation.metrics import EvaluationMetrics, compute_metrics
 from ideasim.types import SimulationConfig
 
 logger = logging.getLogger(__name__)
@@ -103,10 +103,20 @@ _GLOBAL_PARAMS: list[tuple[str, float, float]] = [
 
 def build_parameter_spec(
     config: SimulationConfig,
+    *,
+    include_initial_shares: bool = False,
+    include_initial_latent: bool = False,
 ) -> list[FittableParameter]:
     """Build the list of fittable parameters for a given config.
 
     Returns one FittableParameter per tunable scalar in the config.
+
+    Args:
+        config: The simulation config (provides structure and initial values).
+        include_initial_shares: If True, also fit per-ideology initial shares
+            (constrained to [0.01, 0.95]).
+        include_initial_latent: If True, also fit per-ideology initial latent
+            sympathy values (constrained to [0.01, 1.0]).
     """
     params: list[FittableParameter] = []
 
@@ -133,6 +143,30 @@ def build_parameter_spec(
             )
         )
 
+    if include_initial_shares:
+        for i, ideo in enumerate(config.ideologies):
+            params.append(
+                FittableParameter(
+                    name=f"initial_share.{ideo.name}",
+                    low=0.01,
+                    high=0.95,
+                    _ideology_idx=i,
+                    _param_name="__initial_share__",
+                )
+            )
+
+    if include_initial_latent:
+        for i, ideo in enumerate(config.ideologies):
+            params.append(
+                FittableParameter(
+                    name=f"initial_latent.{ideo.name}",
+                    low=0.01,
+                    high=1.0,
+                    _ideology_idx=i,
+                    _param_name="__initial_latent__",
+                )
+            )
+
     return params
 
 
@@ -141,11 +175,24 @@ def _inject_parameters(
     params_spec: list[FittableParameter],
     values: NDArray[np.float64],
 ) -> SimulationConfig:
-    """Create a new config with the given parameter values injected."""
+    """Create a new config with the given parameter values injected.
+
+    Handles standard ideology params, global params, and special
+    __initial_share__ / __initial_latent__ synthetic params.
+    When initial shares are injected, they are renormalized to sum to 1.
+    """
     new_config = copy.deepcopy(config)
 
-    for param, value in zip(params_spec, values):
-        if param._ideology_idx is not None and param._param_name is not None:
+    shares_modified = False
+    for param, value in zip(params_spec, values, strict=True):
+        if param._param_name == "__initial_share__":
+            if param._ideology_idx is not None:
+                new_config.initial_shares[param._ideology_idx] = float(value)
+                shares_modified = True
+        elif param._param_name == "__initial_latent__":
+            if param._ideology_idx is not None:
+                new_config.initial_latent[param._ideology_idx] = float(value)
+        elif param._ideology_idx is not None and param._param_name is not None:
             setattr(
                 new_config.ideologies[param._ideology_idx],
                 param._param_name,
@@ -153,6 +200,12 @@ def _inject_parameters(
             )
         elif param._param_name is not None:
             setattr(new_config, param._param_name, float(value))
+
+    # Renormalize initial shares to the simplex
+    if shares_modified:
+        total = float(np.sum(new_config.initial_shares))
+        if total > 0:
+            new_config.initial_shares = new_config.initial_shares / total
 
     return new_config
 
@@ -165,7 +218,13 @@ def _extract_parameters(
     values = np.zeros(len(params_spec), dtype=np.float64)
 
     for i, param in enumerate(params_spec):
-        if param._ideology_idx is not None and param._param_name is not None:
+        if param._param_name == "__initial_share__":
+            if param._ideology_idx is not None:
+                values[i] = config.initial_shares[param._ideology_idx]
+        elif param._param_name == "__initial_latent__":
+            if param._ideology_idx is not None:
+                values[i] = config.initial_latent[param._ideology_idx]
+        elif param._ideology_idx is not None and param._param_name is not None:
             values[i] = getattr(
                 config.ideologies[param._ideology_idx],
                 param._param_name,
@@ -242,6 +301,11 @@ def fit_parameters(
     seed: int | None = 42,
     tolerance: float = 1e-6,
     workers: int = 1,
+    polish: bool = False,
+    include_initial_shares: bool = False,
+    include_initial_latent: bool = False,
+    align_t_start: bool = False,
+    fit_dt: float | None = None,
 ) -> FitResult:
     """Fit simulation parameters to observed training data.
 
@@ -258,6 +322,21 @@ def fit_parameters(
         seed: Random seed for the optimizer.
         tolerance: Convergence tolerance.
         workers: Number of parallel workers (1 = serial).
+        polish: Whether to run L-BFGS-B local optimization after DE
+            (default: False, since it can be slow with many parameters).
+        include_initial_shares: If True, also optimize initial ideology
+            shares (renormalized to the simplex after each evaluation).
+        include_initial_latent: If True, also optimize initial latent
+            sympathy values.
+        align_t_start: If True, set t_start to 10 years before the
+            first observation year during fitting. This greatly speeds
+            up fitting when observations start much later than the
+            default t_start (e.g., 1900 vs 1800). Note: exogenous
+            shocks before the aligned t_start will be skipped.
+        fit_dt: If provided, use this dt during fitting instead of the
+            config's dt. Larger dt (e.g., 0.5) speeds up fitting at
+            the cost of integration accuracy. The final best_config
+            retains the original dt.
 
     Returns:
         FitResult with optimized config and training metrics.
@@ -268,7 +347,11 @@ def fit_parameters(
     if len(observed_years) == 0:
         raise ValueError("Training dataset has no observations.")
 
-    params_spec = build_parameter_spec(base_config)
+    params_spec = build_parameter_spec(
+        base_config,
+        include_initial_shares=include_initial_shares,
+        include_initial_latent=include_initial_latent,
+    )
     bounds = Bounds(
         lb=np.array([p.low for p in params_spec], dtype=np.float64),
         ub=np.array([p.high for p in params_spec], dtype=np.float64),
@@ -295,6 +378,39 @@ def fit_parameters(
     for ideo in fit_config.ideologies:
         ideo.mutation_rate = 0.0
 
+    # Optionally align t_start to first observation for speed
+    if align_t_start:
+        aligned_start = float(observed_years[0]) - 10.0
+        if aligned_start > fit_config.t_start:
+            logger.info(
+                "Aligning t_start from %.0f to %.0f (first obs at %.0f)",
+                fit_config.t_start,
+                aligned_start,
+                observed_years[0],
+            )
+            fit_config.t_start = aligned_start
+
+    # Optionally use coarser dt during fitting for speed
+    original_dt = fit_config.dt
+    if fit_dt is not None:
+        logger.info("Using fit_dt=%.3f (original dt=%.3f)", fit_dt, original_dt)
+        fit_config.dt = fit_dt
+
+    _gen_count = [0]
+
+    def _progress_callback(
+        xk: NDArray[np.float64],
+        convergence: float | np.floating[Any] | np.integer[Any] | np.bool_[bool] = 0.0,
+    ) -> None:
+        """Log progress after each DE generation."""
+        _gen_count[0] += 1
+        logger.info(
+            "  DE generation %d/%d, convergence=%.6f",
+            _gen_count[0],
+            max_iterations,
+            float(convergence),
+        )
+
     result: OptimizeResult = differential_evolution(
         func=_objective,
         bounds=bounds,
@@ -313,12 +429,14 @@ def fit_parameters(
         x0=x0,
         workers=workers,
         disp=False,
+        polish=polish,
+        callback=_progress_callback,
     )
 
     # Build the best config
     best_config = _inject_parameters(base_config, params_spec, result.x)
     param_values = {
-        p.name: float(v) for p, v in zip(params_spec, result.x)
+        p.name: float(v) for p, v in zip(params_spec, result.x, strict=True)
     }
 
     # Compute training metrics with the best config
@@ -360,6 +478,11 @@ def fit_parameters(
             "max_iterations": max_iterations,
             "population_size": population_size,
             "converged": bool(result.success),
+            "polish": polish,
             "optimizer_message": str(result.message),
+            "include_initial_shares": include_initial_shares,
+            "include_initial_latent": include_initial_latent,
+            "align_t_start": align_t_start,
+            "fit_dt": fit_dt,
         },
     )

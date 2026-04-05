@@ -2,13 +2,10 @@
 
 from __future__ import annotations
 
-import copy
-
 import numpy as np
-import pytest
 
 from ideasim.defaults import make_default_config
-from ideasim.validation import validate_config, ValidationResult
+from ideasim.validation import ValidationResult, validate_config
 
 
 class TestValidateDefaultConfig:
@@ -61,7 +58,6 @@ class TestSharesValidation:
 
 
 class TestLatentValidation:
-
     def test_latent_wrong_length(self) -> None:
         config = make_default_config()
         config.initial_latent = np.array([0.1])
@@ -76,7 +72,6 @@ class TestLatentValidation:
 
 
 class TestTimeRangeValidation:
-
     def test_start_after_end(self) -> None:
         config = make_default_config()
         config.t_start = 2025.0
@@ -98,7 +93,6 @@ class TestTimeRangeValidation:
 
 
 class TestMatrixValidation:
-
     def test_interaction_matrix_wrong_shape(self) -> None:
         config = make_default_config()
         config.interaction_matrix = np.zeros((2, 2))
@@ -120,7 +114,6 @@ class TestMatrixValidation:
 
 
 class TestEnvironmentValidation:
-
     def test_env_initial_wrong_length(self) -> None:
         config = make_default_config()
         config.environment.initial = np.array([1.0])
@@ -137,7 +130,6 @@ class TestEnvironmentValidation:
 
 
 class TestIdeologyParamValidation:
-
     def test_negative_latent_conversion_is_error(self) -> None:
         config = make_default_config()
         config.ideologies[0].latent_conversion = -0.1
@@ -154,7 +146,6 @@ class TestIdeologyParamValidation:
 
 
 class TestValidationResult:
-
     def test_summary_no_issues(self) -> None:
         result = ValidationResult()
         assert "no issues" in result.summary().lower()

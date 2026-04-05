@@ -1,7 +1,6 @@
 """Tests for the ideological dynamics simulation engine."""
 
 import numpy as np
-import pytest
 
 from ideasim.defaults import make_default_config
 from ideasim.engine import simulate
@@ -30,7 +29,9 @@ class TestSimplexInvariance:
         config = _quick_config()
         result = simulate(config)
         for snap in result.history:
-            assert np.all(snap.shares >= -1e-10), f"Negative share at t={snap.time}: {snap.shares}"
+            assert np.all(snap.shares >= -1e-10), (
+                f"Negative share at t={snap.time}: {snap.shares}"
+            )
 
     def test_latent_non_negative(self) -> None:
         config = _quick_config()
@@ -113,7 +114,7 @@ class TestReproducibility:
         r1 = simulate(config1)
         r2 = simulate(config2)
 
-        for s1, s2 in zip(r1.history, r2.history):
+        for s1, s2 in zip(r1.history, r2.history, strict=True):
             np.testing.assert_array_almost_equal(s1.shares, s2.shares)
 
     def test_different_seed_differs(self) -> None:
@@ -128,7 +129,7 @@ class TestReproducibility:
         # At least some states should differ
         diffs = [
             np.max(np.abs(s1.shares - s2.shares))
-            for s1, s2 in zip(r1.history, r2.history)
+            for s1, s2 in zip(r1.history, r2.history, strict=False)
             if len(s1.shares) == len(s2.shares)
         ]
         assert max(diffs) > 0.001, "Different seeds produced identical results"
