@@ -55,7 +55,7 @@ docs = [
 [project.urls]
 Homepage = "https://github.com/LeonardoSanBenitez/ideasim"
 Repository = "https://github.com/LeonardoSanBenitez/ideasim"
-Documentation = "https://ideasim.readthedocs.io"
+Documentation = "https://leonardosanbenitez.github.io/ideasim/"
 "Bug Tracker" = "https://github.com/LeonardoSanBenitez/ideasim/issues"
 
 [project.scripts]

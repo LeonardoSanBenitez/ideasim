@@ -1,8 +1,7 @@
 # ideasim
 
-[![PyPI version](https://img.shields.io/pypi/v/ideasim.svg)](https://pypi.org/project/ideasim/)
-[![Python versions](https://img.shields.io/pypi/pyversions/ideasim.svg)](https://pypi.org/project/ideasim/)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Python versions](https://img.shields.io/badge/python-3.11%20%7C%203.12%20%7C%203.13-blue.svg)](https://github.com/LeonardoSanBenitez/ideasim)
 [![Tests](https://github.com/LeonardoSanBenitez/ideasim/actions/workflows/test.yml/badge.svg)](https://github.com/LeonardoSanBenitez/ideasim/actions/workflows/test.yml)
 
 A simulator for ideological competition dynamics over historical timescales.
@@ -45,7 +44,7 @@ nationalism, and their hybrids) evolve over time. The model captures:
   parents), charismatic bursts, and parameter mutation.
 
 For the full mathematical framework, see the `paper/` directory or
-[the documentation](https://ideasim.readthedocs.io).
+[the documentation](https://leonardosanbenitez.github.io/ideasim/).
 
 ## Installation
 
