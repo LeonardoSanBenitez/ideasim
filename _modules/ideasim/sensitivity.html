@@ -1,0 +1,569 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ideasim.sensitivity &mdash; ideasim 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            ideasim
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mathematical-model.html">Mathematical Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../evaluation.html">Evaluation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ideasim</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">ideasim.sensitivity</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for ideasim.sensitivity</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Sensitivity analysis for ideological dynamics simulations.</span>
+
+<span class="sd">Two complementary approaches:</span>
+
+<span class="sd">1. **One-At-a-Time (OAT)**: vary each parameter individually across its</span>
+<span class="sd">   range while holding all others at baseline. Reveals per-parameter</span>
+<span class="sd">   response curves.</span>
+
+<span class="sd">2. **Latin Hypercube Sampling (LHS)**: sample N points from the full</span>
+<span class="sd">   parameter space using quasi-random LHS. Captures interaction effects</span>
+<span class="sd">   and provides global summary statistics.</span>
+
+<span class="sd">Both methods collect final ideology shares and health-check metrics for</span>
+<span class="sd">each simulation run, packaging results into typed dataclasses that</span>
+<span class="sd">serialize cleanly to JSON.</span>
+
+<span class="sd">This module is pure computation -- no I/O, no CLI, no side effects.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy.typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">NDArray</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats.qmc</span><span class="w"> </span><span class="kn">import</span> <span class="n">LatinHypercube</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ideasim.engine</span><span class="w"> </span><span class="kn">import</span> <span class="n">simulate</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ideasim.evaluation.fitting</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">FittableParameter</span><span class="p">,</span>
+    <span class="n">_extract_parameters</span><span class="p">,</span>
+    <span class="n">_inject_parameters</span><span class="p">,</span>
+    <span class="n">build_parameter_spec</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ideasim.health</span><span class="w"> </span><span class="kn">import</span> <span class="n">HealthReport</span><span class="p">,</span> <span class="n">check_health</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ideasim.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">SimulationConfig</span><span class="p">,</span> <span class="n">SimulationResult</span>
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Result types</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="RunSummary">
+<a class="viewcode-back" href="../../api.html#ideasim.sensitivity.RunSummary">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">RunSummary</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Condensed output of a single simulation run.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        parameter_values: Mapping of parameter name to the value used.</span>
+<span class="sd">        final_shares: Mapping of ideology name to final share.</span>
+<span class="sd">        health: HealthReport for the run.</span>
+<span class="sd">        final_entropy: Shannon entropy of the final share distribution.</span>
+<span class="sd">        n_events: Total number of stochastic events that occurred.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">parameter_values</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
+    <span class="n">final_shares</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span>
+    <span class="n">health</span><span class="p">:</span> <span class="n">HealthReport</span>
+    <span class="n">final_entropy</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">n_events</span><span class="p">:</span> <span class="nb">int</span>
+
+<div class="viewcode-block" id="RunSummary.to_dict">
+<a class="viewcode-back" href="../../api.html#ideasim.sensitivity.RunSummary.to_dict">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;parameter_values&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameter_values</span><span class="p">,</span>
+            <span class="s2">&quot;final_shares&quot;</span><span class="p">:</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">final_shares</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
+            <span class="s2">&quot;health&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">health</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(),</span>
+            <span class="s2">&quot;final_entropy&quot;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">final_entropy</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+            <span class="s2">&quot;n_events&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_events</span><span class="p">,</span>
+        <span class="p">}</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="OATParameterResult">
+<a class="viewcode-back" href="../../api.html#ideasim.sensitivity.OATParameterResult">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">OATParameterResult</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;OAT sweep result for a single parameter.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        parameter_name: The parameter that was varied.</span>
+<span class="sd">        values: The parameter values tested.</span>
+<span class="sd">        runs: One RunSummary per value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">parameter_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">values</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span>
+    <span class="n">runs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">RunSummary</span><span class="p">]</span>
+
+<div class="viewcode-block" id="OATParameterResult.to_dict">
+<a class="viewcode-back" href="../../api.html#ideasim.sensitivity.OATParameterResult.to_dict">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;parameter_name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameter_name</span><span class="p">,</span>
+            <span class="s2">&quot;values&quot;</span><span class="p">:</span> <span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">],</span>
+            <span class="s2">&quot;runs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">r</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">runs</span><span class="p">],</span>
+        <span class="p">}</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="LHSSummaryStats">
+<a class="viewcode-back" href="../../api.html#ideasim.sensitivity.LHSSummaryStats">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">LHSSummaryStats</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Aggregate statistics across all LHS samples for one output metric.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        metric_name: e.g. &quot;liberalism_final_share&quot; or &quot;final_entropy&quot;.</span>
+<span class="sd">        mean: Mean across all samples.</span>
+<span class="sd">        std: Standard deviation.</span>
+<span class="sd">        min: Minimum.</span>
+<span class="sd">        max: Maximum.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">metric_name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">mean</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">std</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="nb">min</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="nb">max</span><span class="p">:</span> <span class="nb">float</span>
+
+<div class="viewcode-block" id="LHSSummaryStats.to_dict">
+<a class="viewcode-back" href="../../api.html#ideasim.sensitivity.LHSSummaryStats.to_dict">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;metric_name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">metric_name</span><span class="p">,</span>
+            <span class="s2">&quot;mean&quot;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mean</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+            <span class="s2">&quot;std&quot;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">std</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+            <span class="s2">&quot;min&quot;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">min</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+            <span class="s2">&quot;max&quot;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span>
+        <span class="p">}</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="SensitivityResult">
+<a class="viewcode-back" href="../../api.html#ideasim.sensitivity.SensitivityResult">[docs]</a>
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">SensitivityResult</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Complete sensitivity analysis result.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        oat: OAT results, one per parameter. Empty if OAT was not run.</span>
+<span class="sd">        lhs_runs: Individual LHS run summaries. Empty if LHS was not run.</span>
+<span class="sd">        lhs_stats: Summary statistics across LHS runs. Empty if LHS was not run.</span>
+<span class="sd">        n_parameters: Number of parameters analyzed.</span>
+<span class="sd">        metadata: Additional info (e.g. n_oat_steps, n_lhs_samples).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">oat</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">OATParameterResult</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">lhs_runs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">RunSummary</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">lhs_stats</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">LHSSummaryStats</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">n_parameters</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SensitivityResult.to_dict">
+<a class="viewcode-back" href="../../api.html#ideasim.sensitivity.SensitivityResult.to_dict">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;oat&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">o</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">o</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">oat</span><span class="p">],</span>
+            <span class="s2">&quot;lhs_runs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">r</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lhs_runs</span><span class="p">],</span>
+            <span class="s2">&quot;lhs_stats&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">lhs_stats</span><span class="p">],</span>
+            <span class="s2">&quot;n_parameters&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_parameters</span><span class="p">,</span>
+            <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">,</span>
+        <span class="p">}</span></div>
+</div>
+
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Internal helpers</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_summarize_run</span><span class="p">(</span>
+    <span class="n">result</span><span class="p">:</span> <span class="n">SimulationResult</span><span class="p">,</span>
+    <span class="n">param_values</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RunSummary</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Distill a full SimulationResult into a lightweight RunSummary.&quot;&quot;&quot;</span>
+    <span class="n">health</span> <span class="o">=</span> <span class="n">check_health</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+    <span class="n">last</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="c1"># Final shares by ideology name</span>
+    <span class="n">final_shares</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">ideology_names</span><span class="p">:</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">ideology_names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">last</span><span class="o">.</span><span class="n">shares</span><span class="p">):</span>
+            <span class="n">final_shares</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">last</span><span class="o">.</span><span class="n">shares</span><span class="p">[</span><span class="n">idx</span><span class="p">])</span>
+
+    <span class="c1"># Shannon entropy</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">last</span><span class="o">.</span><span class="n">shares</span>
+    <span class="n">x_pos</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">x</span> <span class="o">&gt;</span> <span class="mf">1e-15</span><span class="p">]</span>
+    <span class="n">entropy</span> <span class="o">=</span> <span class="o">-</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x_pos</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x_pos</span><span class="p">)))</span>
+
+    <span class="k">return</span> <span class="n">RunSummary</span><span class="p">(</span>
+        <span class="n">parameter_values</span><span class="o">=</span><span class="n">param_values</span><span class="p">,</span>
+        <span class="n">final_shares</span><span class="o">=</span><span class="n">final_shares</span><span class="p">,</span>
+        <span class="n">health</span><span class="o">=</span><span class="n">health</span><span class="p">,</span>
+        <span class="n">final_entropy</span><span class="o">=</span><span class="n">entropy</span><span class="p">,</span>
+        <span class="n">n_events</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">events</span><span class="p">),</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_make_deterministic</span><span class="p">(</span><span class="n">config</span><span class="p">:</span> <span class="n">SimulationConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SimulationConfig</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return a deep copy with stochastic events disabled for reproducibility.&quot;&quot;&quot;</span>
+    <span class="n">cfg</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">stochastic</span><span class="o">.</span><span class="n">charisma_rate</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="n">cfg</span><span class="o">.</span><span class="n">stochastic</span><span class="o">.</span><span class="n">hybridization_rates</span><span class="p">[:]</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">for</span> <span class="n">ideo</span> <span class="ow">in</span> <span class="n">cfg</span><span class="o">.</span><span class="n">ideologies</span><span class="p">:</span>
+        <span class="n">ideo</span><span class="o">.</span><span class="n">mutation_rate</span> <span class="o">=</span> <span class="mf">0.0</span>
+    <span class="k">return</span> <span class="n">cfg</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_run_with_values</span><span class="p">(</span>
+    <span class="n">base_config</span><span class="p">:</span> <span class="n">SimulationConfig</span><span class="p">,</span>
+    <span class="n">params_spec</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">FittableParameter</span><span class="p">],</span>
+    <span class="n">values</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RunSummary</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Inject parameter values, simulate, and return a summary.&quot;&quot;&quot;</span>
+    <span class="n">cfg</span> <span class="o">=</span> <span class="n">_inject_parameters</span><span class="p">(</span><span class="n">base_config</span><span class="p">,</span> <span class="n">params_spec</span><span class="p">,</span> <span class="n">values</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">cfg</span><span class="p">)</span>
+    <span class="n">param_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">params_spec</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">)}</span>
+    <span class="k">return</span> <span class="n">_summarize_run</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">param_dict</span><span class="p">)</span>
+
+
+<span class="c1"># ---------------------------------------------------------------------------</span>
+<span class="c1"># Public API</span>
+<span class="c1"># ---------------------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="run_oat">
+<a class="viewcode-back" href="../../api.html#ideasim.sensitivity.run_oat">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_oat</span><span class="p">(</span>
+    <span class="n">config</span><span class="p">:</span> <span class="n">SimulationConfig</span><span class="p">,</span>
+    <span class="n">n_steps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="n">deterministic</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">OATParameterResult</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;One-At-a-Time sensitivity analysis.</span>
+
+<span class="sd">    For each fittable parameter, holds all others at baseline and varies</span>
+<span class="sd">    that parameter across ``n_steps`` evenly spaced values between its</span>
+<span class="sd">    lower and upper bounds.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        config: Baseline SimulationConfig.</span>
+<span class="sd">        n_steps: Number of values to test per parameter (including endpoints).</span>
+<span class="sd">        deterministic: If True, disable stochastic events for reproducibility.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List of OATParameterResult, one per parameter.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">n_steps</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;n_steps must be &gt;= 2&quot;</span><span class="p">)</span>
+
+    <span class="n">base</span> <span class="o">=</span> <span class="n">_make_deterministic</span><span class="p">(</span><span class="n">config</span><span class="p">)</span> <span class="k">if</span> <span class="n">deterministic</span> <span class="k">else</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">params_spec</span> <span class="o">=</span> <span class="n">build_parameter_spec</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
+    <span class="n">baseline_values</span> <span class="o">=</span> <span class="n">_extract_parameters</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">params_spec</span><span class="p">)</span>
+    <span class="n">baseline_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span>
+        <span class="n">baseline_values</span><span class="p">,</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">p</span><span class="o">.</span><span class="n">low</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params_spec</span><span class="p">]),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">p</span><span class="o">.</span><span class="n">high</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params_spec</span><span class="p">]),</span>
+    <span class="p">)</span>
+
+    <span class="n">results</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">OATParameterResult</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">params_spec</span><span class="p">):</span>
+        <span class="n">sweep_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">low</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">high</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">)</span>
+        <span class="n">runs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">RunSummary</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">sweep_values</span><span class="p">:</span>
+            <span class="n">trial_values</span> <span class="o">=</span> <span class="n">baseline_values</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">trial_values</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+            <span class="n">summary</span> <span class="o">=</span> <span class="n">_run_with_values</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">params_spec</span><span class="p">,</span> <span class="n">trial_values</span><span class="p">)</span>
+            <span class="n">runs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">summary</span><span class="p">)</span>
+
+        <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">OATParameterResult</span><span class="p">(</span>
+                <span class="n">parameter_name</span><span class="o">=</span><span class="n">param</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">values</span><span class="o">=</span><span class="n">sweep_values</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+                <span class="n">runs</span><span class="o">=</span><span class="n">runs</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">results</span></div>
+
+
+
+<div class="viewcode-block" id="run_lhs">
+<a class="viewcode-back" href="../../api.html#ideasim.sensitivity.run_lhs">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_lhs</span><span class="p">(</span>
+    <span class="n">config</span><span class="p">:</span> <span class="n">SimulationConfig</span><span class="p">,</span>
+    <span class="n">n_samples</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
+    <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="mi">42</span><span class="p">,</span>
+    <span class="n">deterministic</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="n">RunSummary</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="n">LHSSummaryStats</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Latin Hypercube Sampling sensitivity analysis.</span>
+
+<span class="sd">    Draws ``n_samples`` parameter combinations that cover the full</span>
+<span class="sd">    parameter space quasi-randomly, runs the simulation for each, and</span>
+<span class="sd">    computes summary statistics across all runs.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        config: Baseline SimulationConfig (provides structure and bounds).</span>
+<span class="sd">        n_samples: Number of LHS samples to draw.</span>
+<span class="sd">        seed: Random seed for LHS sampling reproducibility.</span>
+<span class="sd">        deterministic: If True, disable stochastic events for reproducibility.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Tuple of (list of RunSummary, list of LHSSummaryStats).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">n_samples</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;n_samples must be &gt;= 1&quot;</span><span class="p">)</span>
+
+    <span class="n">base</span> <span class="o">=</span> <span class="n">_make_deterministic</span><span class="p">(</span><span class="n">config</span><span class="p">)</span> <span class="k">if</span> <span class="n">deterministic</span> <span class="k">else</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">params_spec</span> <span class="o">=</span> <span class="n">build_parameter_spec</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
+    <span class="n">n_params</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">params_spec</span><span class="p">)</span>
+
+    <span class="n">lows</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">p</span><span class="o">.</span><span class="n">low</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params_spec</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+    <span class="n">highs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">p</span><span class="o">.</span><span class="n">high</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params_spec</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+
+    <span class="c1"># Generate LHS samples in [0, 1]^d and scale to parameter bounds</span>
+    <span class="n">sampler</span> <span class="o">=</span> <span class="n">LatinHypercube</span><span class="p">(</span><span class="n">d</span><span class="o">=</span><span class="n">n_params</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">unit_samples</span> <span class="o">=</span> <span class="n">sampler</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">n_samples</span><span class="p">)</span>  <span class="c1"># shape (n_samples, n_params)</span>
+    <span class="n">scaled_samples</span> <span class="o">=</span> <span class="n">lows</span> <span class="o">+</span> <span class="n">unit_samples</span> <span class="o">*</span> <span class="p">(</span><span class="n">highs</span> <span class="o">-</span> <span class="n">lows</span><span class="p">)</span>
+
+    <span class="n">runs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">RunSummary</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_samples</span><span class="p">):</span>
+        <span class="n">summary</span> <span class="o">=</span> <span class="n">_run_with_values</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">params_spec</span><span class="p">,</span> <span class="n">scaled_samples</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">runs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">summary</span><span class="p">)</span>
+
+    <span class="c1"># Compute summary statistics</span>
+    <span class="n">stats</span> <span class="o">=</span> <span class="n">_compute_lhs_stats</span><span class="p">(</span><span class="n">runs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">runs</span><span class="p">,</span> <span class="n">stats</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_compute_lhs_stats</span><span class="p">(</span><span class="n">runs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">RunSummary</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">LHSSummaryStats</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute aggregate statistics across LHS runs.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">runs</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+
+    <span class="c1"># Collect all ideology names from first run</span>
+    <span class="n">ideology_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">runs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">final_shares</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+    <span class="n">stats</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">LHSSummaryStats</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># Per-ideology final share stats</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">ideology_names</span><span class="p">:</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">r</span><span class="o">.</span><span class="n">final_shares</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">runs</span><span class="p">])</span>
+        <span class="n">stats</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">LHSSummaryStats</span><span class="p">(</span>
+                <span class="n">metric_name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">_final_share&quot;</span><span class="p">,</span>
+                <span class="n">mean</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">values</span><span class="p">)),</span>
+                <span class="n">std</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">values</span><span class="p">)),</span>
+                <span class="nb">min</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">values</span><span class="p">)),</span>
+                <span class="nb">max</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">values</span><span class="p">)),</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="c1"># Entropy stats</span>
+    <span class="n">entropies</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">r</span><span class="o">.</span><span class="n">final_entropy</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">runs</span><span class="p">])</span>
+    <span class="n">stats</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="n">LHSSummaryStats</span><span class="p">(</span>
+            <span class="n">metric_name</span><span class="o">=</span><span class="s2">&quot;final_entropy&quot;</span><span class="p">,</span>
+            <span class="n">mean</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">entropies</span><span class="p">)),</span>
+            <span class="n">std</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">entropies</span><span class="p">)),</span>
+            <span class="nb">min</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">entropies</span><span class="p">)),</span>
+            <span class="nb">max</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">entropies</span><span class="p">)),</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Health pass rate</span>
+    <span class="n">health_passes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span> <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">health</span><span class="o">.</span><span class="n">all_passed</span> <span class="k">else</span> <span class="mf">0.0</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">runs</span><span class="p">])</span>
+    <span class="n">stats</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="n">LHSSummaryStats</span><span class="p">(</span>
+            <span class="n">metric_name</span><span class="o">=</span><span class="s2">&quot;health_pass_rate&quot;</span><span class="p">,</span>
+            <span class="n">mean</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">health_passes</span><span class="p">)),</span>
+            <span class="n">std</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">health_passes</span><span class="p">)),</span>
+            <span class="nb">min</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">health_passes</span><span class="p">)),</span>
+            <span class="nb">max</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">health_passes</span><span class="p">)),</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Event count stats</span>
+    <span class="n">event_counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">float</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">n_events</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">runs</span><span class="p">])</span>
+    <span class="n">stats</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="n">LHSSummaryStats</span><span class="p">(</span>
+            <span class="n">metric_name</span><span class="o">=</span><span class="s2">&quot;n_events&quot;</span><span class="p">,</span>
+            <span class="n">mean</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">event_counts</span><span class="p">)),</span>
+            <span class="n">std</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">event_counts</span><span class="p">)),</span>
+            <span class="nb">min</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">event_counts</span><span class="p">)),</span>
+            <span class="nb">max</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">event_counts</span><span class="p">)),</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">stats</span>
+
+
+<div class="viewcode-block" id="run_sensitivity">
+<a class="viewcode-back" href="../../api.html#ideasim.sensitivity.run_sensitivity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_sensitivity</span><span class="p">(</span>
+    <span class="n">config</span><span class="p">:</span> <span class="n">SimulationConfig</span><span class="p">,</span>
+    <span class="n">oat_steps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="n">lhs_samples</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
+    <span class="n">seed</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="mi">42</span><span class="p">,</span>
+    <span class="n">deterministic</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">run_oat_analysis</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="n">run_lhs_analysis</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SensitivityResult</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run full sensitivity analysis combining OAT and LHS.</span>
+
+<span class="sd">    This is the main entry point. Runs both analyses (or either one</span>
+<span class="sd">    independently) and packages everything into a single result object.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        config: Baseline SimulationConfig.</span>
+<span class="sd">        oat_steps: Number of values per parameter in OAT sweep.</span>
+<span class="sd">        lhs_samples: Number of LHS samples.</span>
+<span class="sd">        seed: Random seed for LHS.</span>
+<span class="sd">        deterministic: Disable stochastic events for reproducibility.</span>
+<span class="sd">        run_oat_analysis: Whether to run OAT analysis.</span>
+<span class="sd">        run_lhs_analysis: Whether to run LHS analysis.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        SensitivityResult with all collected data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">params_spec</span> <span class="o">=</span> <span class="n">build_parameter_spec</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+    <span class="n">n_params</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">params_spec</span><span class="p">)</span>
+
+    <span class="n">result</span> <span class="o">=</span> <span class="n">SensitivityResult</span><span class="p">(</span>
+        <span class="n">n_parameters</span><span class="o">=</span><span class="n">n_params</span><span class="p">,</span>
+        <span class="n">metadata</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;parameter_names&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">params_spec</span><span class="p">],</span>
+            <span class="s2">&quot;oat_steps&quot;</span><span class="p">:</span> <span class="n">oat_steps</span> <span class="k">if</span> <span class="n">run_oat_analysis</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">&quot;lhs_samples&quot;</span><span class="p">:</span> <span class="n">lhs_samples</span> <span class="k">if</span> <span class="n">run_lhs_analysis</span> <span class="k">else</span> <span class="mi">0</span><span class="p">,</span>
+            <span class="s2">&quot;deterministic&quot;</span><span class="p">:</span> <span class="n">deterministic</span><span class="p">,</span>
+            <span class="s2">&quot;seed&quot;</span><span class="p">:</span> <span class="n">seed</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">run_oat_analysis</span><span class="p">:</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">oat</span> <span class="o">=</span> <span class="n">run_oat</span><span class="p">(</span>
+            <span class="n">config</span><span class="p">,</span>
+            <span class="n">n_steps</span><span class="o">=</span><span class="n">oat_steps</span><span class="p">,</span>
+            <span class="n">deterministic</span><span class="o">=</span><span class="n">deterministic</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">run_lhs_analysis</span><span class="p">:</span>
+        <span class="n">lhs_runs</span><span class="p">,</span> <span class="n">lhs_stats</span> <span class="o">=</span> <span class="n">run_lhs</span><span class="p">(</span>
+            <span class="n">config</span><span class="p">,</span>
+            <span class="n">n_samples</span><span class="o">=</span><span class="n">lhs_samples</span><span class="p">,</span>
+            <span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">,</span>
+            <span class="n">deterministic</span><span class="o">=</span><span class="n">deterministic</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">lhs_runs</span> <span class="o">=</span> <span class="n">lhs_runs</span>
+        <span class="n">result</span><span class="o">.</span><span class="n">lhs_stats</span> <span class="o">=</span> <span class="n">lhs_stats</span>
+
+    <span class="k">return</span> <span class="n">result</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Leonardo San Benitez.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

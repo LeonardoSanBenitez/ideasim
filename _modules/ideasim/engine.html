@@ -1,0 +1,648 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ideasim.engine &mdash; ideasim 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            ideasim
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../quickstart.html">Quick Start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../mathematical-model.html">Mathematical Model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../evaluation.html">Evaluation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ideasim</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">ideasim.engine</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for ideasim.engine</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;PDMP simulation engine for ideological dynamics.</span>
+
+<span class="sd">Implements Cidral&#39;s framework: continuous replicator-mutator ODE dynamics</span>
+<span class="sd">punctuated by discrete stochastic events (hybridization, mutation, charisma).</span>
+<span class="sd">Integration via RK4; events via Poisson process overlay.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy.typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">NDArray</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ideasim.types</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">Ideology</span><span class="p">,</span>
+    <span class="n">SimulationConfig</span><span class="p">,</span>
+    <span class="n">SimulationEvent</span><span class="p">,</span>
+    <span class="n">SimulationResult</span><span class="p">,</span>
+    <span class="n">StateSnapshot</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_precompute_ideology_params</span><span class="p">(</span>
+    <span class="n">ideologies</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Ideology</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span>
+    <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
+    <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
+    <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
+    <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
+    <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
+    <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
+    <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
+    <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
+    <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
+<span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract ideology parameters into arrays for vectorized computation.&quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ideologies</span><span class="p">)</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ideologies</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">env_response</span><span class="p">)</span>
+    <span class="n">W</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">m</span><span class="p">))</span>
+    <span class="n">gamma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">theta_gov</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">sigma_scale</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>  <span class="c1"># for crisis recruitment</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">ideo</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ideologies</span><span class="p">):</span>
+        <span class="n">W</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ideo</span><span class="o">.</span><span class="n">env_response</span>
+        <span class="n">gamma</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ideo</span><span class="o">.</span><span class="n">latent_conversion</span>
+        <span class="n">alpha</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ideo</span><span class="o">.</span><span class="n">latent_generation</span>
+        <span class="n">beta</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ideo</span><span class="o">.</span><span class="n">latent_decay</span>
+        <span class="n">delta</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ideo</span><span class="o">.</span><span class="n">martyrdom_coeff</span>
+        <span class="n">mu</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ideo</span><span class="o">.</span><span class="n">institutional_amp</span>
+        <span class="n">theta</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ideo</span><span class="o">.</span><span class="n">capture_threshold</span>
+        <span class="n">theta_gov</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ideo</span><span class="o">.</span><span class="n">governance_threshold</span>
+    <span class="k">return</span> <span class="n">W</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">theta_gov</span><span class="p">,</span> <span class="n">sigma_scale</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_compute_fitness</span><span class="p">(</span>
+    <span class="n">x</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
+    <span class="n">y</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
+    <span class="n">e</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
+    <span class="n">W</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
+    <span class="n">gamma</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
+    <span class="n">mu</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
+    <span class="n">theta</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
+    <span class="n">theta_gov</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
+    <span class="n">B</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
+    <span class="n">S_matrix</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute fitness f_i for each ideology and suppression S_i (vectorized).&quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="c1"># Suppression: S_i = sum_j s_{ij} * max(0, x_j - theta_j^gov)</span>
+    <span class="n">excess</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">x</span><span class="p">[:</span><span class="n">n</span><span class="p">]</span> <span class="o">-</span> <span class="n">theta_gov</span><span class="p">[:</span><span class="n">n</span><span class="p">],</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="n">suppression</span> <span class="o">=</span> <span class="n">S_matrix</span><span class="p">[:</span><span class="n">n</span><span class="p">,</span> <span class="p">:</span><span class="n">n</span><span class="p">]</span> <span class="o">@</span> <span class="n">excess</span>
+
+    <span class="c1"># Fitness terms (all vectorized)</span>
+    <span class="n">f_base</span> <span class="o">=</span> <span class="n">W</span><span class="p">[:</span><span class="n">n</span><span class="p">]</span> <span class="o">@</span> <span class="n">e</span>  <span class="c1"># environmental</span>
+    <span class="n">f_compete</span> <span class="o">=</span> <span class="n">B</span><span class="p">[:</span><span class="n">n</span><span class="p">,</span> <span class="p">:</span><span class="n">n</span><span class="p">]</span> <span class="o">@</span> <span class="n">x</span><span class="p">[:</span><span class="n">n</span><span class="p">]</span>  <span class="c1"># competitive interaction</span>
+    <span class="n">f_latent</span> <span class="o">=</span> <span class="n">gamma</span><span class="p">[:</span><span class="n">n</span><span class="p">]</span> <span class="o">*</span> <span class="n">y</span><span class="p">[:</span><span class="n">n</span><span class="p">]</span>  <span class="c1"># latent reservoir</span>
+    <span class="n">f_inst</span> <span class="o">=</span> <span class="n">mu</span><span class="p">[:</span><span class="n">n</span><span class="p">]</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">x</span><span class="p">[:</span><span class="n">n</span><span class="p">]</span> <span class="o">-</span> <span class="n">theta</span><span class="p">[:</span><span class="n">n</span><span class="p">],</span> <span class="mf">0.0</span><span class="p">)</span>  <span class="c1"># institutional</span>
+
+    <span class="n">f</span> <span class="o">=</span> <span class="n">f_base</span> <span class="o">+</span> <span class="n">f_compete</span> <span class="o">+</span> <span class="n">f_latent</span> <span class="o">+</span> <span class="n">f_inst</span>
+    <span class="k">return</span> <span class="n">f</span><span class="p">,</span> <span class="n">suppression</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_compute_derivatives</span><span class="p">(</span>
+    <span class="n">x</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
+    <span class="n">y</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
+    <span class="n">e</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
+    <span class="n">params</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="o">...</span><span class="p">],</span>
+    <span class="n">config</span><span class="p">:</span> <span class="n">SimulationConfig</span><span class="p">,</span>
+    <span class="n">active_charisma</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
+    <span class="n">t</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute dx/dt, dy/dt, de/dt for the coupled ODE system (vectorized).&quot;&quot;&quot;</span>
+    <span class="n">W</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">theta_gov</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">params</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+    <span class="n">f</span><span class="p">,</span> <span class="n">suppression</span> <span class="o">=</span> <span class="n">_compute_fitness</span><span class="p">(</span>
+        <span class="n">x</span><span class="p">,</span>
+        <span class="n">y</span><span class="p">,</span>
+        <span class="n">e</span><span class="p">,</span>
+        <span class="n">W</span><span class="p">,</span>
+        <span class="n">gamma</span><span class="p">,</span>
+        <span class="n">mu</span><span class="p">,</span>
+        <span class="n">theta</span><span class="p">,</span>
+        <span class="n">theta_gov</span><span class="p">,</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">interaction_matrix</span><span class="p">,</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">suppression_matrix</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Add active charismatic boosts</span>
+    <span class="k">for</span> <span class="n">t_event</span><span class="p">,</span> <span class="n">ideo_idx</span><span class="p">,</span> <span class="n">amplitude</span><span class="p">,</span> <span class="n">decay</span> <span class="ow">in</span> <span class="n">active_charisma</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ideo_idx</span> <span class="o">&lt;</span> <span class="n">n</span><span class="p">:</span>
+            <span class="n">f</span><span class="p">[</span><span class="n">ideo_idx</span><span class="p">]</span> <span class="o">+=</span> <span class="n">amplitude</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">t</span> <span class="o">-</span> <span class="n">t_event</span><span class="p">)</span> <span class="o">/</span> <span class="n">decay</span><span class="p">)</span>
+
+    <span class="n">f_bar</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="p">[:</span><span class="n">n</span><span class="p">],</span> <span class="n">f</span><span class="p">))</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">y</span><span class="p">[:</span><span class="n">n</span><span class="p">]))</span>
+
+    <span class="c1"># dx/dt: replicator-mutator with latent immigration (Cidral eq 8.2)</span>
+    <span class="n">dx</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:</span><span class="n">n</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">f</span> <span class="o">-</span> <span class="n">f_bar</span><span class="p">)</span> <span class="o">+</span> <span class="n">config</span><span class="o">.</span><span class="n">rho</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span><span class="p">[:</span><span class="n">n</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[:</span><span class="n">n</span><span class="p">]</span> <span class="o">*</span> <span class="n">Y</span><span class="p">)</span>
+
+    <span class="c1"># dy/dt: latent sympathy dynamics (vectorized)</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">W</span><span class="p">[:</span><span class="n">n</span><span class="p">]</span> <span class="o">@</span> <span class="n">e</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.1</span>
+    <span class="n">dy</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">alpha</span><span class="p">[:</span><span class="n">n</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span><span class="p">[:</span><span class="n">n</span><span class="p">]</span>
+        <span class="o">-</span> <span class="n">beta</span><span class="p">[:</span><span class="n">n</span><span class="p">]</span> <span class="o">*</span> <span class="n">y</span><span class="p">[:</span><span class="n">n</span><span class="p">]</span>
+        <span class="o">+</span> <span class="n">sigma</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">x</span><span class="p">[:</span><span class="n">n</span><span class="p">])</span>
+        <span class="o">+</span> <span class="n">delta</span><span class="p">[:</span><span class="n">n</span><span class="p">]</span> <span class="o">*</span> <span class="n">suppression</span>
+    <span class="p">)</span>
+
+    <span class="c1"># de/dt: environment dynamics (Cidral eq 5.1)</span>
+    <span class="n">de</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+    <span class="n">env</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">environment</span>
+    <span class="k">if</span> <span class="n">env</span><span class="o">.</span><span class="n">autonomous_decay</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">de</span> <span class="o">-=</span> <span class="n">env</span><span class="o">.</span><span class="n">autonomous_decay</span> <span class="o">*</span> <span class="p">(</span><span class="n">e</span> <span class="o">-</span> <span class="n">env</span><span class="o">.</span><span class="n">initial</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">env</span><span class="o">.</span><span class="n">policy_influence</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">P</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">policy_influence</span>
+        <span class="k">if</span> <span class="n">P</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">n</span><span class="p">:</span>
+            <span class="n">de</span> <span class="o">+=</span> <span class="n">x</span><span class="p">[:</span><span class="n">n</span><span class="p">]</span> <span class="o">@</span> <span class="n">P</span><span class="p">[:</span><span class="n">n</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">,</span> <span class="n">de</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_rk4_step</span><span class="p">(</span>
+    <span class="n">x</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
+    <span class="n">y</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
+    <span class="n">e</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
+    <span class="n">params</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="o">...</span><span class="p">],</span>
+    <span class="n">config</span><span class="p">:</span> <span class="n">SimulationConfig</span><span class="p">,</span>
+    <span class="n">active_charisma</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
+    <span class="n">t</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">dt</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Single RK4 integration step.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">derivs</span><span class="p">(</span>
+        <span class="n">x_</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
+        <span class="n">y_</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
+        <span class="n">e_</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
+        <span class="n">t_</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]]:</span>
+        <span class="k">return</span> <span class="n">_compute_derivatives</span><span class="p">(</span><span class="n">x_</span><span class="p">,</span> <span class="n">y_</span><span class="p">,</span> <span class="n">e_</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">active_charisma</span><span class="p">,</span> <span class="n">t_</span><span class="p">)</span>
+
+    <span class="n">k1x</span><span class="p">,</span> <span class="n">k1y</span><span class="p">,</span> <span class="n">k1e</span> <span class="o">=</span> <span class="n">derivs</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">t</span><span class="p">)</span>
+    <span class="n">k2x</span><span class="p">,</span> <span class="n">k2y</span><span class="p">,</span> <span class="n">k2e</span> <span class="o">=</span> <span class="n">derivs</span><span class="p">(</span>
+        <span class="n">x</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">dt</span> <span class="o">*</span> <span class="n">k1x</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">dt</span> <span class="o">*</span> <span class="n">k1y</span><span class="p">,</span> <span class="n">e</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">dt</span> <span class="o">*</span> <span class="n">k1e</span><span class="p">,</span> <span class="n">t</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="p">)</span>
+    <span class="n">k3x</span><span class="p">,</span> <span class="n">k3y</span><span class="p">,</span> <span class="n">k3e</span> <span class="o">=</span> <span class="n">derivs</span><span class="p">(</span>
+        <span class="n">x</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">dt</span> <span class="o">*</span> <span class="n">k2x</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">dt</span> <span class="o">*</span> <span class="n">k2y</span><span class="p">,</span> <span class="n">e</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">dt</span> <span class="o">*</span> <span class="n">k2e</span><span class="p">,</span> <span class="n">t</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="p">)</span>
+    <span class="n">k4x</span><span class="p">,</span> <span class="n">k4y</span><span class="p">,</span> <span class="n">k4e</span> <span class="o">=</span> <span class="n">derivs</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">dt</span> <span class="o">*</span> <span class="n">k3x</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">dt</span> <span class="o">*</span> <span class="n">k3y</span><span class="p">,</span> <span class="n">e</span> <span class="o">+</span> <span class="n">dt</span> <span class="o">*</span> <span class="n">k3e</span><span class="p">,</span> <span class="n">t</span> <span class="o">+</span> <span class="n">dt</span><span class="p">)</span>
+
+    <span class="n">x_new</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="p">(</span><span class="n">dt</span> <span class="o">/</span> <span class="mf">6.0</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">k1x</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">k2x</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">k3x</span> <span class="o">+</span> <span class="n">k4x</span><span class="p">)</span>
+    <span class="n">y_new</span> <span class="o">=</span> <span class="n">y</span> <span class="o">+</span> <span class="p">(</span><span class="n">dt</span> <span class="o">/</span> <span class="mf">6.0</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">k1y</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">k2y</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">k3y</span> <span class="o">+</span> <span class="n">k4y</span><span class="p">)</span>
+    <span class="n">e_new</span> <span class="o">=</span> <span class="n">e</span> <span class="o">+</span> <span class="p">(</span><span class="n">dt</span> <span class="o">/</span> <span class="mf">6.0</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">k1e</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">k2e</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">k3e</span> <span class="o">+</span> <span class="n">k4e</span><span class="p">)</span>
+
+    <span class="c1"># Project x back to simplex (numerical safety)</span>
+    <span class="n">x_new</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">x_new</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="n">x_new</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x_new</span><span class="p">)</span>
+
+    <span class="c1"># Ensure latent sympathy non-negative</span>
+    <span class="n">y_new</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">y_new</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">x_new</span><span class="p">,</span> <span class="n">y_new</span><span class="p">,</span> <span class="n">e_new</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_apply_exogenous_shocks</span><span class="p">(</span>
+    <span class="n">e</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
+    <span class="n">t</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">dt</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">shocks</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply any shocks that fall within [t, t+dt).&quot;&quot;&quot;</span>
+    <span class="n">e_new</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">shock_t</span><span class="p">,</span> <span class="n">var_idx</span><span class="p">,</span> <span class="n">delta</span> <span class="ow">in</span> <span class="n">shocks</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">t</span> <span class="o">&lt;=</span> <span class="n">shock_t</span> <span class="o">&lt;</span> <span class="n">t</span> <span class="o">+</span> <span class="n">dt</span> <span class="ow">and</span> <span class="n">var_idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">e_new</span><span class="p">):</span>
+            <span class="n">e_new</span><span class="p">[</span><span class="n">var_idx</span><span class="p">]</span> <span class="o">+=</span> <span class="n">delta</span>
+    <span class="k">return</span> <span class="n">e_new</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_try_hybridization</span><span class="p">(</span>
+    <span class="n">x</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
+    <span class="n">y</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
+    <span class="n">ideologies</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Ideology</span><span class="p">],</span>
+    <span class="n">config</span><span class="p">:</span> <span class="n">SimulationConfig</span><span class="p">,</span>
+    <span class="n">rng</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">Generator</span><span class="p">,</span>
+    <span class="n">t</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">dt</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SimulationEvent</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check for and execute hybridization events.&quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ideologies</span><span class="p">)</span>
+    <span class="n">sp</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">stochastic</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">i</span> <span class="o">&gt;=</span> <span class="n">sp</span><span class="o">.</span><span class="n">hybridization_rates</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="ow">or</span> <span class="n">j</span> <span class="o">&gt;=</span> <span class="n">sp</span><span class="o">.</span><span class="n">hybridization_rates</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="n">overlap</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">y</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">overlap</span> <span class="o">&lt;=</span> <span class="n">sp</span><span class="o">.</span><span class="n">hybridization_thresholds</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]:</span>
+                <span class="k">continue</span>
+            <span class="n">rate</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">hybridization_rates</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">rng</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="n">rate</span> <span class="o">*</span> <span class="n">dt</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># Hybridization happens!</span>
+            <span class="n">lam</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">)</span>
+            <span class="n">parent_a</span> <span class="o">=</span> <span class="n">ideologies</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">parent_b</span> <span class="o">=</span> <span class="n">ideologies</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+
+            <span class="n">new_env</span> <span class="o">=</span> <span class="n">lam</span> <span class="o">*</span> <span class="n">parent_a</span><span class="o">.</span><span class="n">env_response</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">lam</span><span class="p">)</span> <span class="o">*</span> <span class="n">parent_b</span><span class="o">.</span><span class="n">env_response</span>
+            <span class="n">new_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">parent_a</span><span class="o">.</span><span class="n">name</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">parent_b</span><span class="o">.</span><span class="n">name</span><span class="p">[:</span><span class="mi">4</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+
+            <span class="n">new_ideo</span> <span class="o">=</span> <span class="n">Ideology</span><span class="p">(</span>
+                <span class="n">name</span><span class="o">=</span><span class="n">new_name</span><span class="p">,</span>
+                <span class="n">env_response</span><span class="o">=</span><span class="n">new_env</span><span class="p">,</span>
+                <span class="n">latent_conversion</span><span class="o">=</span><span class="p">(</span>
+                    <span class="n">parent_a</span><span class="o">.</span><span class="n">latent_conversion</span> <span class="o">+</span> <span class="n">parent_b</span><span class="o">.</span><span class="n">latent_conversion</span>
+                <span class="p">)</span>
+                <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="n">latent_generation</span><span class="o">=</span><span class="p">(</span>
+                    <span class="n">parent_a</span><span class="o">.</span><span class="n">latent_generation</span> <span class="o">+</span> <span class="n">parent_b</span><span class="o">.</span><span class="n">latent_generation</span>
+                <span class="p">)</span>
+                <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="n">latent_decay</span><span class="o">=</span><span class="p">(</span><span class="n">parent_a</span><span class="o">.</span><span class="n">latent_decay</span> <span class="o">+</span> <span class="n">parent_b</span><span class="o">.</span><span class="n">latent_decay</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="n">martyrdom_coeff</span><span class="o">=</span><span class="p">(</span><span class="n">parent_a</span><span class="o">.</span><span class="n">martyrdom_coeff</span> <span class="o">+</span> <span class="n">parent_b</span><span class="o">.</span><span class="n">martyrdom_coeff</span><span class="p">)</span>
+                <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+                <span class="n">institutional_amp</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span>
+                    <span class="n">parent_a</span><span class="o">.</span><span class="n">institutional_amp</span><span class="p">,</span> <span class="n">parent_b</span><span class="o">.</span><span class="n">institutional_amp</span>
+                <span class="p">),</span>
+                <span class="n">capture_threshold</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span>
+                    <span class="n">parent_a</span><span class="o">.</span><span class="n">capture_threshold</span><span class="p">,</span> <span class="n">parent_b</span><span class="o">.</span><span class="n">capture_threshold</span>
+                <span class="p">),</span>
+                <span class="n">governance_threshold</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span>
+                    <span class="n">parent_a</span><span class="o">.</span><span class="n">governance_threshold</span><span class="p">,</span> <span class="n">parent_b</span><span class="o">.</span><span class="n">governance_threshold</span>
+                <span class="p">),</span>
+                <span class="n">mutation_rate</span><span class="o">=</span><span class="p">(</span><span class="n">parent_a</span><span class="o">.</span><span class="n">mutation_rate</span> <span class="o">+</span> <span class="n">parent_b</span><span class="o">.</span><span class="n">mutation_rate</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="n">eps</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">hybridization_seed_share</span>
+            <span class="c1"># Extend state vectors</span>
+            <span class="n">ideologies</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_ideo</span><span class="p">)</span>
+            <span class="n">new_n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ideologies</span><span class="p">)</span>
+
+            <span class="c1"># Extend interaction matrix</span>
+            <span class="n">old_B</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">interaction_matrix</span>
+            <span class="n">new_B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">new_n</span><span class="p">,</span> <span class="n">new_n</span><span class="p">))</span>
+            <span class="n">new_B</span><span class="p">[:</span> <span class="n">old_B</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">:</span> <span class="n">old_B</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">old_B</span>
+            <span class="n">new_B</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:</span> <span class="n">new_n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">lam</span> <span class="o">*</span> <span class="n">old_B</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">lam</span><span class="p">)</span> <span class="o">*</span> <span class="n">old_B</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="n">new_B</span><span class="p">[:</span> <span class="n">new_n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">lam</span> <span class="o">*</span> <span class="n">old_B</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">lam</span><span class="p">)</span> <span class="o">*</span> <span class="n">old_B</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">interaction_matrix</span> <span class="o">=</span> <span class="n">new_B</span>
+
+            <span class="c1"># Extend suppression matrix</span>
+            <span class="n">old_S</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">suppression_matrix</span>
+            <span class="n">new_S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">new_n</span><span class="p">,</span> <span class="n">new_n</span><span class="p">))</span>
+            <span class="n">new_S</span><span class="p">[:</span> <span class="n">old_S</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">:</span> <span class="n">old_S</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">old_S</span>
+            <span class="n">new_S</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:</span> <span class="n">new_n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">lam</span> <span class="o">*</span> <span class="n">old_S</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">lam</span><span class="p">)</span> <span class="o">*</span> <span class="n">old_S</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="n">new_S</span><span class="p">[:</span> <span class="n">new_n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">lam</span> <span class="o">*</span> <span class="n">old_S</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">lam</span><span class="p">)</span> <span class="o">*</span> <span class="n">old_S</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span>
+            <span class="n">config</span><span class="o">.</span><span class="n">suppression_matrix</span> <span class="o">=</span> <span class="n">new_S</span>
+
+            <span class="c1"># Extend stochastic matrices</span>
+            <span class="n">old_hr</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">hybridization_rates</span>
+            <span class="n">new_hr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">new_n</span><span class="p">,</span> <span class="n">new_n</span><span class="p">))</span>
+            <span class="n">new_hr</span><span class="p">[:</span> <span class="n">old_hr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">:</span> <span class="n">old_hr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">old_hr</span>
+            <span class="n">new_hr</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:</span> <span class="n">new_n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.005</span>
+            <span class="n">new_hr</span><span class="p">[:</span> <span class="n">new_n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.005</span>
+            <span class="n">sp</span><span class="o">.</span><span class="n">hybridization_rates</span> <span class="o">=</span> <span class="n">new_hr</span>
+
+            <span class="n">old_ht</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">hybridization_thresholds</span>
+            <span class="n">new_ht</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">((</span><span class="n">new_n</span><span class="p">,</span> <span class="n">new_n</span><span class="p">),</span> <span class="mf">0.1</span><span class="p">)</span>
+            <span class="n">new_ht</span><span class="p">[:</span> <span class="n">old_ht</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">:</span> <span class="n">old_ht</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">old_ht</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">fill_diagonal</span><span class="p">(</span><span class="n">new_ht</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">)</span>
+            <span class="n">sp</span><span class="o">.</span><span class="n">hybridization_thresholds</span> <span class="o">=</span> <span class="n">new_ht</span>
+
+            <span class="c1"># Extend policy influence</span>
+            <span class="k">if</span> <span class="n">config</span><span class="o">.</span><span class="n">environment</span><span class="o">.</span><span class="n">policy_influence</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">old_P</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">environment</span><span class="o">.</span><span class="n">policy_influence</span>
+                <span class="n">new_P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">new_n</span><span class="p">,</span> <span class="n">old_P</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+                <span class="n">new_P</span><span class="p">[:</span> <span class="n">old_P</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">old_P</span>
+                <span class="n">new_P</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">lam</span> <span class="o">*</span> <span class="n">old_P</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">lam</span><span class="p">)</span> <span class="o">*</span> <span class="n">old_P</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="p">:]</span>
+                <span class="n">config</span><span class="o">.</span><span class="n">environment</span><span class="o">.</span><span class="n">policy_influence</span> <span class="o">=</span> <span class="n">new_P</span>
+
+            <span class="c1"># Update shares: draw from parents</span>
+            <span class="n">x_new</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">new_n</span><span class="p">)</span>
+            <span class="n">x_new</span><span class="p">[:</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)]</span> <span class="o">=</span> <span class="n">x</span>
+            <span class="n">half_eps</span> <span class="o">=</span> <span class="n">eps</span> <span class="o">/</span> <span class="mi">2</span>
+            <span class="n">x_new</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="n">half_eps</span>
+            <span class="n">x_new</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-=</span> <span class="n">half_eps</span>
+            <span class="n">x_new</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">eps</span>
+            <span class="n">x_new</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">x_new</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+            <span class="n">x_new</span> <span class="o">/=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x_new</span><span class="p">)</span>
+
+            <span class="n">y_new</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">new_n</span><span class="p">)</span>
+            <span class="n">y_new</span><span class="p">[:</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)]</span> <span class="o">=</span> <span class="n">y</span>
+            <span class="n">y_new</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">y</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="o">*</span> <span class="mf">0.1</span>
+
+            <span class="k">return</span> <span class="n">SimulationEvent</span><span class="p">(</span>
+                <span class="n">time</span><span class="o">=</span><span class="n">t</span><span class="p">,</span>
+                <span class="n">event_type</span><span class="o">=</span><span class="s2">&quot;hybridization&quot;</span><span class="p">,</span>
+                <span class="n">details</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s2">&quot;parents&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">parent_a</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">parent_b</span><span class="o">.</span><span class="n">name</span><span class="p">],</span>
+                    <span class="s2">&quot;child&quot;</span><span class="p">:</span> <span class="n">new_name</span><span class="p">,</span>
+                    <span class="s2">&quot;lambda&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">lam</span><span class="p">),</span>
+                    <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">x_new</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+                    <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="n">y_new</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+                <span class="p">},</span>
+            <span class="p">)</span>
+
+    <span class="k">return</span> <span class="kc">None</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_try_mutation</span><span class="p">(</span>
+    <span class="n">ideologies</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Ideology</span><span class="p">],</span>
+    <span class="n">config</span><span class="p">:</span> <span class="n">SimulationConfig</span><span class="p">,</span>
+    <span class="n">rng</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">Generator</span><span class="p">,</span>
+    <span class="n">t</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">dt</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SimulationEvent</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check for and execute mutation events.&quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">_i</span><span class="p">,</span> <span class="n">ideo</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ideologies</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">rng</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">ideo</span><span class="o">.</span><span class="n">mutation_rate</span> <span class="o">*</span> <span class="n">dt</span><span class="p">:</span>
+            <span class="n">perturbation</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span>
+                <span class="mi">0</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">stochastic</span><span class="o">.</span><span class="n">mutation_step_size</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">ideo</span><span class="o">.</span><span class="n">env_response</span><span class="o">.</span><span class="n">shape</span>
+            <span class="p">)</span>
+            <span class="n">ideo</span><span class="o">.</span><span class="n">env_response</span> <span class="o">=</span> <span class="n">ideo</span><span class="o">.</span><span class="n">env_response</span> <span class="o">+</span> <span class="n">perturbation</span>
+            <span class="k">return</span> <span class="n">SimulationEvent</span><span class="p">(</span>
+                <span class="n">time</span><span class="o">=</span><span class="n">t</span><span class="p">,</span>
+                <span class="n">event_type</span><span class="o">=</span><span class="s2">&quot;mutation&quot;</span><span class="p">,</span>
+                <span class="n">details</span><span class="o">=</span><span class="p">{</span>
+                    <span class="s2">&quot;ideology&quot;</span><span class="p">:</span> <span class="n">ideo</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                    <span class="s2">&quot;perturbation&quot;</span><span class="p">:</span> <span class="n">perturbation</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span>
+                <span class="p">},</span>
+            <span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_try_charisma</span><span class="p">(</span>
+    <span class="n">x</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
+    <span class="n">y</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">],</span>
+    <span class="n">ideologies</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Ideology</span><span class="p">],</span>
+    <span class="n">config</span><span class="p">:</span> <span class="n">SimulationConfig</span><span class="p">,</span>
+    <span class="n">rng</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">Generator</span><span class="p">,</span>
+    <span class="n">t</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">dt</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SimulationEvent</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check for and execute charismatic events.&quot;&quot;&quot;</span>
+    <span class="n">sp</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">stochastic</span>
+    <span class="k">if</span> <span class="n">rng</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="n">sp</span><span class="o">.</span><span class="n">charisma_rate</span> <span class="o">*</span> <span class="n">dt</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="c1"># Choose ideology proportional to x_i * y_i</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ideologies</span><span class="p">)</span>
+    <span class="n">weights</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:</span><span class="n">n</span><span class="p">]</span> <span class="o">*</span> <span class="n">y</span><span class="p">[:</span><span class="n">n</span><span class="p">]</span>
+    <span class="n">total</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">weights</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">total</span> <span class="o">&lt;</span> <span class="mf">1e-15</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="n">probs</span> <span class="o">=</span> <span class="n">weights</span> <span class="o">/</span> <span class="n">total</span>
+    <span class="n">chosen</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">rng</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">probs</span><span class="p">))</span>
+
+    <span class="n">amplitude</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">lognormal</span><span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">sp</span><span class="o">.</span><span class="n">charisma_amplitude_mean</span><span class="p">),</span> <span class="n">sp</span><span class="o">.</span><span class="n">charisma_amplitude_std</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">SimulationEvent</span><span class="p">(</span>
+        <span class="n">time</span><span class="o">=</span><span class="n">t</span><span class="p">,</span>
+        <span class="n">event_type</span><span class="o">=</span><span class="s2">&quot;charisma&quot;</span><span class="p">,</span>
+        <span class="n">details</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;ideology&quot;</span><span class="p">:</span> <span class="n">ideologies</span><span class="p">[</span><span class="n">chosen</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="s2">&quot;amplitude&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">amplitude</span><span class="p">),</span>
+            <span class="s2">&quot;decay&quot;</span><span class="p">:</span> <span class="n">sp</span><span class="o">.</span><span class="n">charisma_decay</span><span class="p">,</span>
+            <span class="s2">&quot;ideology_index&quot;</span><span class="p">:</span> <span class="n">chosen</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span>
+
+
+<div class="viewcode-block" id="simulate">
+<a class="viewcode-back" href="../../api.html#ideasim.engine.simulate">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">simulate</span><span class="p">(</span><span class="n">config</span><span class="p">:</span> <span class="n">SimulationConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SimulationResult</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run the full PDMP simulation.</span>
+
+<span class="sd">    Returns a SimulationResult with time series and event log.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">seed</span><span class="p">)</span>
+
+    <span class="n">x</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">initial_shares</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">initial_latent</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">environment</span><span class="o">.</span><span class="n">initial</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">ideologies</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">config</span><span class="o">.</span><span class="n">ideologies</span><span class="p">)</span>
+
+    <span class="n">history</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">StateSnapshot</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">events</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">SimulationEvent</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">active_charisma</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="n">t</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">t_start</span>
+    <span class="n">step</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># Precompute ideology parameters for vectorized ops</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">_precompute_ideology_params</span><span class="p">(</span><span class="n">ideologies</span><span class="p">)</span>
+    <span class="n">W</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">_alpha</span><span class="p">,</span> <span class="n">_beta</span><span class="p">,</span> <span class="n">_delta</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">theta_gov</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">params</span>
+
+    <span class="c1"># Record initial state</span>
+    <span class="n">f_init</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">_compute_fitness</span><span class="p">(</span>
+        <span class="n">x</span><span class="p">,</span>
+        <span class="n">y</span><span class="p">,</span>
+        <span class="n">e</span><span class="p">,</span>
+        <span class="n">W</span><span class="p">,</span>
+        <span class="n">gamma</span><span class="p">,</span>
+        <span class="n">mu</span><span class="p">,</span>
+        <span class="n">theta</span><span class="p">,</span>
+        <span class="n">theta_gov</span><span class="p">,</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">interaction_matrix</span><span class="p">,</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">suppression_matrix</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="n">StateSnapshot</span><span class="p">(</span>
+            <span class="n">time</span><span class="o">=</span><span class="n">t</span><span class="p">,</span>
+            <span class="n">shares</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>
+            <span class="n">latent</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>
+            <span class="n">environment</span><span class="o">=</span><span class="n">e</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>
+            <span class="n">ideology_names</span><span class="o">=</span><span class="p">[</span><span class="n">ideo</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">ideo</span> <span class="ow">in</span> <span class="n">ideologies</span><span class="p">],</span>
+            <span class="n">fitness</span><span class="o">=</span><span class="n">f_init</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="k">while</span> <span class="n">t</span> <span class="o">&lt;</span> <span class="n">config</span><span class="o">.</span><span class="n">t_end</span><span class="p">:</span>
+        <span class="n">dt</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">dt</span>
+
+        <span class="c1"># Apply exogenous shocks</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="n">_apply_exogenous_shocks</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">config</span><span class="o">.</span><span class="n">environment</span><span class="o">.</span><span class="n">exogenous_shocks</span><span class="p">)</span>
+
+        <span class="c1"># Clean up expired charismatic effects (&gt; 5 decay constants)</span>
+        <span class="n">active_charisma</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="p">(</span><span class="n">te</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">dec</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">te</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">amp</span><span class="p">,</span> <span class="n">dec</span> <span class="ow">in</span> <span class="n">active_charisma</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">t</span> <span class="o">-</span> <span class="n">te</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">dec</span>
+        <span class="p">]</span>
+
+        <span class="c1"># RK4 integration step</span>
+        <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="n">_rk4_step</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">active_charisma</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+
+        <span class="c1"># Stochastic events</span>
+        <span class="n">hyb_event</span> <span class="o">=</span> <span class="n">_try_hybridization</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ideologies</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">rng</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">hyb_event</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">events</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hyb_event</span><span class="p">)</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">hyb_event</span><span class="o">.</span><span class="n">details</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">])</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">hyb_event</span><span class="o">.</span><span class="n">details</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">])</span>
+            <span class="c1"># Recompute params after adding new ideology</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="n">_precompute_ideology_params</span><span class="p">(</span><span class="n">ideologies</span><span class="p">)</span>
+            <span class="n">W</span><span class="p">,</span> <span class="n">gamma</span><span class="p">,</span> <span class="n">_alpha</span><span class="p">,</span> <span class="n">_beta</span><span class="p">,</span> <span class="n">_delta</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">theta_gov</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">params</span>
+
+        <span class="n">mut_event</span> <span class="o">=</span> <span class="n">_try_mutation</span><span class="p">(</span><span class="n">ideologies</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">rng</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">mut_event</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">events</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mut_event</span><span class="p">)</span>
+
+        <span class="n">char_event</span> <span class="o">=</span> <span class="n">_try_charisma</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">ideologies</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">rng</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">char_event</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">events</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">char_event</span><span class="p">)</span>
+            <span class="n">active_charisma</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="n">t</span><span class="p">,</span>
+                    <span class="n">char_event</span><span class="o">.</span><span class="n">details</span><span class="p">[</span><span class="s2">&quot;ideology_index&quot;</span><span class="p">],</span>
+                    <span class="n">char_event</span><span class="o">.</span><span class="n">details</span><span class="p">[</span><span class="s2">&quot;amplitude&quot;</span><span class="p">],</span>
+                    <span class="n">char_event</span><span class="o">.</span><span class="n">details</span><span class="p">[</span><span class="s2">&quot;decay&quot;</span><span class="p">],</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+        <span class="n">t</span> <span class="o">+=</span> <span class="n">dt</span>
+        <span class="n">step</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="c1"># Record state at intervals</span>
+        <span class="k">if</span> <span class="n">step</span> <span class="o">%</span> <span class="n">config</span><span class="o">.</span><span class="n">record_interval</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">f_now</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">_compute_fitness</span><span class="p">(</span>
+                <span class="n">x</span><span class="p">,</span>
+                <span class="n">y</span><span class="p">,</span>
+                <span class="n">e</span><span class="p">,</span>
+                <span class="n">W</span><span class="p">,</span>
+                <span class="n">gamma</span><span class="p">,</span>
+                <span class="n">mu</span><span class="p">,</span>
+                <span class="n">theta</span><span class="p">,</span>
+                <span class="n">theta_gov</span><span class="p">,</span>
+                <span class="n">config</span><span class="o">.</span><span class="n">interaction_matrix</span><span class="p">,</span>
+                <span class="n">config</span><span class="o">.</span><span class="n">suppression_matrix</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">StateSnapshot</span><span class="p">(</span>
+                    <span class="n">time</span><span class="o">=</span><span class="n">t</span><span class="p">,</span>
+                    <span class="n">shares</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>
+                    <span class="n">latent</span><span class="o">=</span><span class="n">y</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>
+                    <span class="n">environment</span><span class="o">=</span><span class="n">e</span><span class="o">.</span><span class="n">copy</span><span class="p">(),</span>
+                    <span class="n">ideology_names</span><span class="o">=</span><span class="p">[</span><span class="n">ideo</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">ideo</span> <span class="ow">in</span> <span class="n">ideologies</span><span class="p">],</span>
+                    <span class="n">fitness</span><span class="o">=</span><span class="n">f_now</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+
+    <span class="c1"># Config summary for JSON serialization</span>
+    <span class="n">config_summary</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;ideologies&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">ideo</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">ideo</span> <span class="ow">in</span> <span class="n">config</span><span class="o">.</span><span class="n">ideologies</span><span class="p">],</span>
+        <span class="s2">&quot;t_start&quot;</span><span class="p">:</span> <span class="n">config</span><span class="o">.</span><span class="n">t_start</span><span class="p">,</span>
+        <span class="s2">&quot;t_end&quot;</span><span class="p">:</span> <span class="n">config</span><span class="o">.</span><span class="n">t_end</span><span class="p">,</span>
+        <span class="s2">&quot;dt&quot;</span><span class="p">:</span> <span class="n">config</span><span class="o">.</span><span class="n">dt</span><span class="p">,</span>
+        <span class="s2">&quot;rho&quot;</span><span class="p">:</span> <span class="n">config</span><span class="o">.</span><span class="n">rho</span><span class="p">,</span>
+        <span class="s2">&quot;seed&quot;</span><span class="p">:</span> <span class="n">config</span><span class="o">.</span><span class="n">seed</span><span class="p">,</span>
+        <span class="s2">&quot;n_env_vars&quot;</span><span class="p">:</span> <span class="n">config</span><span class="o">.</span><span class="n">n_env_vars</span><span class="p">,</span>
+        <span class="s2">&quot;env_var_names&quot;</span><span class="p">:</span> <span class="n">config</span><span class="o">.</span><span class="n">environment</span><span class="o">.</span><span class="n">variable_names</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">SimulationResult</span><span class="p">(</span>
+        <span class="n">config_summary</span><span class="o">=</span><span class="n">config_summary</span><span class="p">,</span>
+        <span class="n">history</span><span class="o">=</span><span class="n">history</span><span class="p">,</span>
+        <span class="n">events</span><span class="o">=</span><span class="n">events</span><span class="p">,</span>
+        <span class="n">ideology_names</span><span class="o">=</span><span class="p">[</span><span class="n">ideo</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">ideo</span> <span class="ow">in</span> <span class="n">ideologies</span><span class="p">],</span>
+        <span class="n">metadata</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;total_steps&quot;</span><span class="p">:</span> <span class="n">step</span><span class="p">,</span>
+            <span class="s2">&quot;total_events&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">events</span><span class="p">),</span>
+            <span class="s2">&quot;final_n_ideologies&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">ideologies</span><span class="p">),</span>
+        <span class="p">},</span>
+    <span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Leonardo San Benitez.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
