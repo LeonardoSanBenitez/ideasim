@@ -10,6 +10,8 @@ using replicator-mutator dynamics with dormancy, hybridization, and endogenous
 environment modification. The full system is a Piecewise Deterministic Markov
 Process (PDMP).
 
+**Disclaimer: this projects makes heavy use of AI assistants, from ideation to implementation.**
+
 ## Quick Start
 
 ```bash

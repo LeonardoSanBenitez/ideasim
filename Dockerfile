@@ -1,6 +1,6 @@
 FROM python:3.12-slim
 
-LABEL maintainer="stephan"
+LABEL maintainer="priya"
 LABEL description="Ideological Dynamics Simulator"
 
 WORKDIR /app
