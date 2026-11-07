@@ -585,7 +585,7 @@ class TestBuildParlgovDataset:
 class TestWithRealData:
     """Tests using the cached real ParlGov data (if available)."""
 
-    CACHE_DIR = Path("/home/leonardo/Desktop/zoo/ideasim/data/parlgov_cache")
+    CACHE_DIR = Path(__file__).resolve().parents[1] / "data" / "parlgov_cache"
 
     @pytest.fixture
     def real_election_csv(self) -> Path:
