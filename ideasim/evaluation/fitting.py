@@ -328,10 +328,12 @@ def fit_parameters(
             shares (renormalized to the simplex after each evaluation).
         include_initial_latent: If True, also optimize initial latent
             sympathy values.
-        align_t_start: If True, set t_start to 10 years before the
-            first observation year during fitting. This greatly speeds
-            up fitting when observations start much later than the
-            default t_start (e.g., 1900 vs 1800). Note: exogenous
+        align_t_start: If True, advance t_start to 10 years before the
+            first observation, when this is later than the original start.
+            The returned best_config preserves this epoch: its initial
+            shares and latent values belong to the aligned start year.
+            This speeds up fitting when observations start much later
+            than the default t_start (e.g., 1900 vs 1800). Exogenous
             shocks before the aligned t_start will be skipped.
         fit_dt: If provided, use this dt during fitting instead of the
             config's dt. Larger dt (e.g., 0.5) speeds up fitting at
@@ -435,6 +437,9 @@ def fit_parameters(
 
     # Build the best config
     best_config = _inject_parameters(base_config, params_spec, result.x)
+    # Initial states fitted at an aligned epoch must retain that meaning when
+    # rescored, saved, or used for validation. Keep the original evaluation dt.
+    best_config.t_start = fit_config.t_start
     param_values = {
         p.name: float(v) for p, v in zip(params_spec, result.x, strict=True)
     }
@@ -483,6 +488,7 @@ def fit_parameters(
             "include_initial_shares": include_initial_shares,
             "include_initial_latent": include_initial_latent,
             "align_t_start": align_t_start,
+            "effective_t_start": best_config.t_start,
             "fit_dt": fit_dt,
         },
     )

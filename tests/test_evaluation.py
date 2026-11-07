@@ -12,7 +12,9 @@ from __future__ import annotations
 
 import json
 import tempfile
+from collections.abc import Callable
 from pathlib import Path
+from typing import Any
 
 import numpy as np
 import pytest
@@ -288,6 +290,89 @@ class TestMetrics:
         d = metrics.to_dict()
         # Should be JSON-serializable
         json.dumps(d)
+
+
+# --- Fitting epoch contract ---
+
+
+@pytest.mark.parametrize(
+    ("base_start", "align", "fit_dt", "expected_start"),
+    [
+        (1800.0, False, None, 1800.0),
+        (1800.0, True, None, 1840.0),
+        (1840.0, True, None, 1840.0),
+        (1845.0, True, None, 1845.0),
+        (1800.0, True, 1.0, 1840.0),
+    ],
+)
+def test_fitting_preserves_effective_epoch(
+    monkeypatch: pytest.MonkeyPatch,
+    base_start: float,
+    align: bool,
+    fit_dt: float | None,
+    expected_start: float,
+) -> None:
+    """Saving fitted initial states must preserve the epoch used to fit them.
+
+    Evaluate one candidate through the real engine. Replacing only the optimizer
+    makes this deterministic and cheap while retaining simulation and metrics.
+    A coarser fitting dt is intentionally restored for final evaluation.
+    """
+    from scipy.optimize import Bounds, OptimizeResult
+
+    from ideasim.evaluation import fitting
+    from ideasim.types import SimulationConfig
+
+    config = make_default_config()
+    config.t_start = base_start
+    config.dt = 0.5
+    train = _make_test_dataset().filter_years(1850.0, 1870.0)
+    calls: list[tuple[float, float]] = []
+    losses: list[float] = []
+    simulate_and_extract = fitting._simulate_and_extract
+
+    def capture_simulation(
+        candidate: SimulationConfig,
+        years: np.ndarray[Any, np.dtype[np.float64]],
+        names: list[str],
+    ) -> tuple[
+        np.ndarray[Any, np.dtype[np.float64]],
+        np.ndarray[Any, np.dtype[np.float64]],
+    ]:
+        calls.append((candidate.t_start, candidate.dt))
+        return simulate_and_extract(candidate, years, names)
+
+    def evaluate_one_candidate(
+        func: Callable[..., float],
+        bounds: Bounds,
+        args: tuple[Any, ...],
+        **kwargs: Any,
+    ) -> OptimizeResult:
+        values = kwargs["x0"]
+        loss = func(values, *args)
+        assert loss != 1e6, "the objective must execute rather than swallow an error"
+        losses.append(loss)
+        return OptimizeResult(
+            x=values, fun=loss, nfev=1, success=True, message="one candidate"
+        )
+
+    monkeypatch.setattr(fitting, "_simulate_and_extract", capture_simulation)
+    monkeypatch.setattr(fitting, "differential_evolution", evaluate_one_candidate)
+    result = fitting.fit_parameters(
+        config,
+        train,
+        align_t_start=align,
+        fit_dt=fit_dt,
+        include_initial_shares=True,
+        include_initial_latent=True,
+    )
+
+    assert result.best_config.t_start == expected_start
+    assert result.best_config.dt == config.dt == 0.5
+    assert config.t_start == base_start
+    assert calls == [(expected_start, fit_dt or 0.5), (expected_start, 0.5)]
+    if fit_dt is None:
+        assert result.train_metrics.mse == pytest.approx(losses[0], abs=1e-12)
 
 
 # --- Fitting smoke test ---
