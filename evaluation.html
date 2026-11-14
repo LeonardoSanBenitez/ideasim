@@ -9,6 +9,7 @@
   <title>Evaluation &mdash; ideasim 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx_autodoc_typehints.css?v=057ac668" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
@@ -50,6 +51,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Evaluation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#parlgov-integration">ParlGov Integration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#data-fetching">Data Fetching</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fitted-initial-state-epochs">Fitted Initial-State Epochs</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
@@ -98,11 +100,27 @@ maps parties to ideological families for comparison with simulated trajectories.
 <p>ParlGov data is not bundled with the package. To fetch it manually:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">ideasim.evaluation.parlgov</span><span class="w"> </span><span class="kn">import</span> <span class="n">fetch_parlgov_data</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">fetch_parlgov_data</span><span class="p">(</span><span class="n">cache_dir</span><span class="o">=</span><span class="s2">&quot;data/parlgov&quot;</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">fetch_parlgov_data</span><span class="p">(</span><span class="n">cache_dir</span><span class="o">=</span><span class="s2">"data/parlgov"</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The fetched data includes party positions, election results, and cabinet
 compositions across European democracies.</p>
+</section>
+<section id="fitted-initial-state-epochs">
+<h2>Fitted Initial-State Epochs<a class="headerlink" href="#fitted-initial-state-epochs" title="Link to this heading"></a></h2>
+<p>When <code class="docutils literal notranslate"><span class="pre">fit_parameters(...,</span> <span class="pre">align_t_start=True)</span></code> advances the simulation start
+to ten years before the first training observation, the returned configuration
+preserves that starting year. Its initial adoption and latent-sympathy values
+are states at this aligned epoch. The effective year is also recorded as
+<code class="docutils literal notranslate"><span class="pre">effective_t_start</span></code> in the fitting metadata.</p>
+<p>For example, a configuration starting in 1800 with its first observation in
+1900 is fitted and returned with a start of 1890. Earlier environmental shocks
+are skipped. This defines a model starting in 1890; it does not reconstruct
+the original trajectory from 1800.</p>
+<p><code class="docutils literal notranslate"><span class="pre">fit_dt</span></code> may use a different integration step during optimization. The
+returned configuration and reported training metrics retain the original
+evaluation step, so their loss can differ from the optimization loss when
+<code class="docutils literal notranslate"><span class="pre">fit_dt</span></code> is supplied.</p>
 </section>
 </section>
 

@@ -9,6 +9,7 @@
   <title>Quick Start &mdash; ideasim 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/sphinx_autodoc_typehints.css?v=057ac668" />
 
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
@@ -91,7 +92,7 @@
 <p>From source:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">LeonardoSanBenitez</span><span class="o">/</span><span class="n">ideasim</span><span class="o">.</span><span class="n">git</span>
 <span class="n">cd</span> <span class="n">ideasim</span>
-<span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">e</span> <span class="s2">&quot;.[dev]&quot;</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">e</span> <span class="s2">".[dev]"</span>
 </pre></div>
 </div>
 </section>
@@ -108,8 +109,8 @@
 <span class="n">config</span> <span class="o">=</span> <span class="n">load_default_config</span><span class="p">()</span>
 <span class="n">result</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Final shares: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">final_shares</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Events triggered: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">events</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Final shares: </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">final_shares</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Events triggered: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">events</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>

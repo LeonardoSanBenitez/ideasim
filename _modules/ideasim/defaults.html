@@ -8,6 +8,7 @@
   <title>ideasim.defaults &mdash; ideasim 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sphinx_autodoc_typehints.css?v=057ac668" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
@@ -73,14 +74,14 @@
            <div itemprop="articleBody">
              
   <h1>Source code for ideasim.defaults</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Default scenario: 4 ideologies in Europe, 1800-2025.</span>
+<span></span><span class="sd">"""Default scenario: 4 ideologies in Europe, 1800-2025.</span>
 
-<span class="sd">Parameters from Cidral&#39;s formalization (Section 7.3-7.6),</span>
-<span class="sd">validated against Jose&#39;s mechanisms and Mark&#39;s historical cases.</span>
+<span class="sd">Parameters from Cidral's formalization (Section 7.3-7.6),</span>
+<span class="sd">validated against Jose's mechanisms and Mark's historical cases.</span>
 
 <span class="sd">The default scenario is stored as a JSON file in data/default_scenario.json.</span>
 <span class="sd">This module loads that file and exposes the same API as before.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -92,14 +93,14 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_default_scenario_path</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the path to the bundled default scenario JSON.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">Path</span><span class="p">(</span><span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="s2">&quot;ideasim&quot;</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;data&quot;</span> <span class="o">/</span> <span class="s2">&quot;default_scenario.json&quot;</span><span class="p">)</span>  <span class="c1"># type: ignore[arg-type]</span>
+<span class="w">    </span><span class="sd">"""Return the path to the bundled default scenario JSON."""</span>
+    <span class="k">return</span> <span class="n">Path</span><span class="p">(</span><span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="s2">"ideasim"</span><span class="p">)</span> <span class="o">/</span> <span class="s2">"data"</span> <span class="o">/</span> <span class="s2">"default_scenario.json"</span><span class="p">)</span>  <span class="c1"># type: ignore[arg-type]</span>
 
 
 <div class="viewcode-block" id="make_default_ideologies">
 <a class="viewcode-back" href="../../api.html#ideasim.defaults.make_default_ideologies">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">make_default_ideologies</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Ideology</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create the default 4-ideology system.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Create the default 4-ideology system."""</span>
     <span class="n">config</span> <span class="o">=</span> <span class="n">load_config</span><span class="p">(</span><span class="n">_default_scenario_path</span><span class="p">())</span>
     <span class="k">return</span> <span class="n">config</span><span class="o">.</span><span class="n">ideologies</span></div>
 
@@ -108,7 +109,7 @@
 <div class="viewcode-block" id="make_default_config">
 <a class="viewcode-back" href="../../api.html#ideasim.defaults.make_default_config">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">make_default_config</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">SimulationConfig</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create the default European 1800-2025 simulation config.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Create the default European 1800-2025 simulation config."""</span>
     <span class="k">return</span> <span class="n">load_config</span><span class="p">(</span><span class="n">_default_scenario_path</span><span class="p">())</span></div>
 
 </pre></div>

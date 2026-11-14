@@ -8,6 +8,7 @@
   <title>ideasim.cli &mdash; ideasim 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sphinx_autodoc_typehints.css?v=057ac668" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
@@ -73,7 +74,7 @@
            <div itemprop="articleBody">
              
   <h1>Source code for ideasim.cli</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;CLI entry point for the Ideological Dynamics Simulator.&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""CLI entry point for the Ideological Dynamics Simulator."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -96,28 +97,28 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">_add_simulate_parser</span><span class="p">(</span>
     <span class="n">subparsers</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">_SubParsersAction</span><span class="p">[</span><span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-    <span class="n">sim_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s2">&quot;simulate&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Run a simulation&quot;</span><span class="p">)</span>
+    <span class="n">sim_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s2">"simulate"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Run a simulation"</span><span class="p">)</span>
     <span class="n">sim_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;config&quot;</span><span class="p">,</span>
-        <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">,</span>
+        <span class="s2">"config"</span><span class="p">,</span>
+        <span class="n">nargs</span><span class="o">=</span><span class="s2">"?"</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Path to JSON config file. If omitted, uses default European 1800-2025 scenario.&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Path to JSON config file. If omitted, uses default European 1800-2025 scenario."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">sim_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-o&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;--output&quot;</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;results.json&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Output path for results JSON (default: results.json)&quot;</span><span class="p">,</span>
+        <span class="s2">"-o"</span><span class="p">,</span>
+        <span class="s2">"--output"</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s2">"results.json"</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Output path for results JSON (default: results.json)"</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">sim_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--skip-validation&quot;</span><span class="p">,</span>
-        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Skip config validation before running.&quot;</span><span class="p">,</span>
+        <span class="s2">"--skip-validation"</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">"store_true"</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Skip config validation before running."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">sim_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--skip-health-check&quot;</span><span class="p">,</span>
-        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Skip post-simulation health checks.&quot;</span><span class="p">,</span>
+        <span class="s2">"--skip-health-check"</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">"store_true"</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Skip post-simulation health checks."</span><span class="p">,</span>
     <span class="p">)</span>
 
 
@@ -125,13 +126,13 @@
     <span class="n">subparsers</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">_SubParsersAction</span><span class="p">[</span><span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">def_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span>
-        <span class="s2">&quot;default-config&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Export the default config to JSON&quot;</span>
+        <span class="s2">"default-config"</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">"Export the default config to JSON"</span>
     <span class="p">)</span>
     <span class="n">def_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-o&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;--output&quot;</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;default_config.json&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Output path (default: default_config.json)&quot;</span><span class="p">,</span>
+        <span class="s2">"-o"</span><span class="p">,</span>
+        <span class="s2">"--output"</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s2">"default_config.json"</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Output path (default: default_config.json)"</span><span class="p">,</span>
     <span class="p">)</span>
 
 
@@ -139,91 +140,91 @@
     <span class="n">subparsers</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">_SubParsersAction</span><span class="p">[</span><span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">eval_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span>
-        <span class="s2">&quot;evaluate&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Evaluate simulation against observed data&quot;</span><span class="p">,</span>
+        <span class="s2">"evaluate"</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Evaluate simulation against observed data"</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">eval_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;dataset&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Path to observed dataset JSON file.&quot;</span><span class="p">,</span>
+        <span class="s2">"dataset"</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Path to observed dataset JSON file."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">eval_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--config&quot;</span><span class="p">,</span>
+        <span class="s2">"--config"</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Path to base simulation config JSON. If omitted, uses default.&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Path to base simulation config JSON. If omitted, uses default."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">eval_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-o&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;--output-dir&quot;</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;output/evaluation&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Directory for evaluation results (default: output/evaluation)&quot;</span><span class="p">,</span>
+        <span class="s2">"-o"</span><span class="p">,</span>
+        <span class="s2">"--output-dir"</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s2">"output/evaluation"</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Directory for evaluation results (default: output/evaluation)"</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">eval_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--n-folds&quot;</span><span class="p">,</span>
+        <span class="s2">"--n-folds"</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Number of CV folds. 1 = single train/test split (default: 1).&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Number of CV folds. 1 = single train/test split (default: 1)."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">eval_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--train-fraction&quot;</span><span class="p">,</span>
+        <span class="s2">"--train-fraction"</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Fraction of years for training in single-split mode (default: 0.7).&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Fraction of years for training in single-split mode (default: 0.7)."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">eval_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--max-iterations&quot;</span><span class="p">,</span>
+        <span class="s2">"--max-iterations"</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Max optimizer iterations per fold (default: 100).&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Max optimizer iterations per fold (default: 100)."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">eval_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--population-size&quot;</span><span class="p">,</span>
+        <span class="s2">"--population-size"</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Differential evolution population size multiplier (default: 15).&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Differential evolution population size multiplier (default: 15)."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">eval_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--seed&quot;</span><span class="p">,</span>
+        <span class="s2">"--seed"</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Random seed (default: 42).&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Random seed (default: 42)."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">eval_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--tolerance&quot;</span><span class="p">,</span>
+        <span class="s2">"--tolerance"</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="mf">1e-6</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Optimizer convergence tolerance (default: 1e-6).&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Optimizer convergence tolerance (default: 1e-6)."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">eval_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--polish&quot;</span><span class="p">,</span>
-        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Run L-BFGS-B local optimization after DE (default: off).&quot;</span><span class="p">,</span>
+        <span class="s2">"--polish"</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">"store_true"</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Run L-BFGS-B local optimization after DE (default: off)."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">eval_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--fit-initial-shares&quot;</span><span class="p">,</span>
-        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Also optimize initial ideology shares (default: off).&quot;</span><span class="p">,</span>
+        <span class="s2">"--fit-initial-shares"</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">"store_true"</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Also optimize initial ideology shares (default: off)."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">eval_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--fit-initial-latent&quot;</span><span class="p">,</span>
-        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Also optimize initial latent sympathy values (default: off).&quot;</span><span class="p">,</span>
+        <span class="s2">"--fit-initial-latent"</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">"store_true"</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Also optimize initial latent sympathy values (default: off)."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">eval_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--align-t-start&quot;</span><span class="p">,</span>
-        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Align t_start to near first observation year for faster fitting.&quot;</span><span class="p">,</span>
+        <span class="s2">"--align-t-start"</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">"store_true"</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Align t_start to near first observation year for faster fitting."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">eval_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--fit-dt&quot;</span><span class="p">,</span>
+        <span class="s2">"--fit-dt"</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Use coarser dt during fitting for speed (e.g., 0.5).&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Use coarser dt during fitting for speed (e.g., 0.5)."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">eval_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-v&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;--verbose&quot;</span><span class="p">,</span>
-        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Enable verbose logging.&quot;</span><span class="p">,</span>
+        <span class="s2">"-v"</span><span class="p">,</span>
+        <span class="s2">"--verbose"</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">"store_true"</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Enable verbose logging."</span><span class="p">,</span>
     <span class="p">)</span>
 
 
@@ -231,14 +232,14 @@
     <span class="n">subparsers</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">_SubParsersAction</span><span class="p">[</span><span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">val_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span>
-        <span class="s2">&quot;validate&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Validate a simulation config without running it&quot;</span><span class="p">,</span>
+        <span class="s2">"validate"</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Validate a simulation config without running it"</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">val_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;config&quot;</span><span class="p">,</span>
-        <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">,</span>
+        <span class="s2">"config"</span><span class="p">,</span>
+        <span class="n">nargs</span><span class="o">=</span><span class="s2">"?"</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Path to JSON config file. If omitted, validates the default config.&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Path to JSON config file. If omitted, validates the default config."</span><span class="p">,</span>
     <span class="p">)</span>
 
 
@@ -246,19 +247,19 @@
     <span class="n">subparsers</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">_SubParsersAction</span><span class="p">[</span><span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">check_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span>
-        <span class="s2">&quot;check&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Run simulation and check health of results&quot;</span><span class="p">,</span>
+        <span class="s2">"check"</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Run simulation and check health of results"</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">check_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;config&quot;</span><span class="p">,</span>
-        <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">,</span>
+        <span class="s2">"config"</span><span class="p">,</span>
+        <span class="n">nargs</span><span class="o">=</span><span class="s2">"?"</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Path to JSON config file. If omitted, uses default.&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Path to JSON config file. If omitted, uses default."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">check_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--json&quot;</span><span class="p">,</span>
-        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Output health report as JSON.&quot;</span><span class="p">,</span>
+        <span class="s2">"--json"</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">"store_true"</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Output health report as JSON."</span><span class="p">,</span>
     <span class="p">)</span>
 
 
@@ -266,39 +267,39 @@
     <span class="n">subparsers</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">_SubParsersAction</span><span class="p">[</span><span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">ingest_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span>
-        <span class="s2">&quot;ingest-parlgov&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Download ParlGov data and produce an ObservedDataset JSON&quot;</span><span class="p">,</span>
+        <span class="s2">"ingest-parlgov"</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Download ParlGov data and produce an ObservedDataset JSON"</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">ingest_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-o&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;--output&quot;</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;parlgov_dataset.json&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Output path for the dataset JSON (default: parlgov_dataset.json)&quot;</span><span class="p">,</span>
+        <span class="s2">"-o"</span><span class="p">,</span>
+        <span class="s2">"--output"</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s2">"parlgov_dataset.json"</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Output path for the dataset JSON (default: parlgov_dataset.json)"</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">ingest_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--cache-dir&quot;</span><span class="p">,</span>
+        <span class="s2">"--cache-dir"</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Directory to cache downloaded CSV files. If omitted, uses data/parlgov_cache/.&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Directory to cache downloaded CSV files. If omitted, uses data/parlgov_cache/."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">ingest_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--election-csv&quot;</span><span class="p">,</span>
+        <span class="s2">"--election-csv"</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Path to an already-downloaded view_election.csv (skips download).&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Path to an already-downloaded view_election.csv (skips download)."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">ingest_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--party-csv&quot;</span><span class="p">,</span>
+        <span class="s2">"--party-csv"</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Path to an already-downloaded view_party.csv (skips download).&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Path to an already-downloaded view_party.csv (skips download)."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">ingest_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--per-year&quot;</span><span class="p">,</span>
-        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Aggregate per election year instead of per decade.&quot;</span><span class="p">,</span>
+        <span class="s2">"--per-year"</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">"store_true"</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Aggregate per election year instead of per decade."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">ingest_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--name&quot;</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;parlgov_europe&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Dataset name (default: parlgov_europe).&quot;</span><span class="p">,</span>
+        <span class="s2">"--name"</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s2">"parlgov_europe"</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Dataset name (default: parlgov_europe)."</span><span class="p">,</span>
     <span class="p">)</span>
 
 
@@ -306,87 +307,87 @@
     <span class="n">subparsers</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">_SubParsersAction</span><span class="p">[</span><span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">sens_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span>
-        <span class="s2">&quot;sensitivity&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Run sensitivity analysis (OAT and/or LHS)&quot;</span><span class="p">,</span>
+        <span class="s2">"sensitivity"</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Run sensitivity analysis (OAT and/or LHS)"</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">sens_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;config&quot;</span><span class="p">,</span>
-        <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">,</span>
+        <span class="s2">"config"</span><span class="p">,</span>
+        <span class="n">nargs</span><span class="o">=</span><span class="s2">"?"</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Path to JSON config file. If omitted, uses default.&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Path to JSON config file. If omitted, uses default."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">sens_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;-o&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;--output&quot;</span><span class="p">,</span>
-        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;sensitivity_results.json&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Output path for results JSON (default: sensitivity_results.json)&quot;</span><span class="p">,</span>
+        <span class="s2">"-o"</span><span class="p">,</span>
+        <span class="s2">"--output"</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s2">"sensitivity_results.json"</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Output path for results JSON (default: sensitivity_results.json)"</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">sens_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--oat-steps&quot;</span><span class="p">,</span>
+        <span class="s2">"--oat-steps"</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Number of values per parameter in OAT sweep (default: 10).&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Number of values per parameter in OAT sweep (default: 10)."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">sens_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--lhs-samples&quot;</span><span class="p">,</span>
+        <span class="s2">"--lhs-samples"</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Number of LHS samples (default: 50).&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Number of LHS samples (default: 50)."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">sens_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--seed&quot;</span><span class="p">,</span>
+        <span class="s2">"--seed"</span><span class="p">,</span>
         <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Random seed for LHS sampling (default: 42).&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Random seed for LHS sampling (default: 42)."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">sens_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--no-oat&quot;</span><span class="p">,</span>
-        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Skip OAT analysis.&quot;</span><span class="p">,</span>
+        <span class="s2">"--no-oat"</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">"store_true"</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Skip OAT analysis."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">sens_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--no-lhs&quot;</span><span class="p">,</span>
-        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Skip LHS analysis.&quot;</span><span class="p">,</span>
+        <span class="s2">"--no-lhs"</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">"store_true"</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Skip LHS analysis."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">sens_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--stochastic&quot;</span><span class="p">,</span>
-        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Enable stochastic events (default: deterministic for reproducibility).&quot;</span><span class="p">,</span>
+        <span class="s2">"--stochastic"</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">"store_true"</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Enable stochastic events (default: deterministic for reproducibility)."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">sens_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--json&quot;</span><span class="p">,</span>
-        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Output full results as JSON to stdout instead of human-readable summary.&quot;</span><span class="p">,</span>
+        <span class="s2">"--json"</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">"store_true"</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Output full results as JSON to stdout instead of human-readable summary."</span><span class="p">,</span>
     <span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_run_simulate</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">config</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loading config from </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">config</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Loading config from </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">config</span><span class="si">}</span><span class="s2">..."</span><span class="p">)</span>
         <span class="n">config</span> <span class="o">=</span> <span class="n">load_config</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Using default European 1800-2025 scenario...&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Using default European 1800-2025 scenario..."</span><span class="p">)</span>
         <span class="n">config</span> <span class="o">=</span> <span class="n">make_default_config</span><span class="p">()</span>
 
     <span class="c1"># Validate config</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">args</span><span class="o">.</span><span class="n">skip_validation</span><span class="p">:</span>
         <span class="n">validation</span> <span class="o">=</span> <span class="n">validate_config</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">validation</span><span class="o">.</span><span class="n">is_valid</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Config validation FAILED:&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Config validation FAILED:"</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">validation</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
             <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">validation</span><span class="o">.</span><span class="n">warnings</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Config validation passed with </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">validation</span><span class="o">.</span><span class="n">warnings</span><span class="p">)</span><span class="si">}</span><span class="s2"> warning(s):&quot;</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Config validation passed with </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">validation</span><span class="o">.</span><span class="n">warnings</span><span class="p">)</span><span class="si">}</span><span class="s2"> warning(s):"</span>
             <span class="p">)</span>
             <span class="k">for</span> <span class="n">warn</span> <span class="ow">in</span> <span class="n">validation</span><span class="o">.</span><span class="n">warnings</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">warn</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">warn</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="nb">print</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;Simulating </span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">n_ideologies</span><span class="si">}</span><span class="s2"> ideologies &quot;</span>
-        <span class="sa">f</span><span class="s2">&quot;from </span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">t_start</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">t_end</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> &quot;</span>
-        <span class="sa">f</span><span class="s2">&quot;(dt=</span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">dt</span><span class="si">}</span><span class="s2">, seed=</span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">seed</span><span class="si">}</span><span class="s2">)...&quot;</span>
+        <span class="sa">f</span><span class="s2">"Simulating </span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">n_ideologies</span><span class="si">}</span><span class="s2"> ideologies "</span>
+        <span class="sa">f</span><span class="s2">"from </span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">t_start</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">t_end</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> "</span>
+        <span class="sa">f</span><span class="s2">"(dt=</span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">dt</span><span class="si">}</span><span class="s2">, seed=</span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">seed</span><span class="si">}</span><span class="s2">)..."</span>
     <span class="p">)</span>
 
     <span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
@@ -394,39 +395,39 @@
     <span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">t0</span>
 
     <span class="nb">print</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;Done in </span><span class="si">{</span><span class="n">elapsed</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s — </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;total_steps&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> steps, &quot;</span>
-        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;total_events&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> stochastic events&quot;</span>
+        <span class="sa">f</span><span class="s2">"Done in </span><span class="si">{</span><span class="n">elapsed</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s — </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">'total_steps'</span><span class="p">]</span><span class="si">}</span><span class="s2"> steps, "</span>
+        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">'total_events'</span><span class="p">]</span><span class="si">}</span><span class="s2"> stochastic events"</span>
     <span class="p">)</span>
 
     <span class="c1"># Health check</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">args</span><span class="o">.</span><span class="n">skip_health_check</span><span class="p">:</span>
         <span class="n">health</span> <span class="o">=</span> <span class="n">check_health</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">health</span><span class="o">.</span><span class="n">all_passed</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Health Check Issues ---&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">--- Health Check Issues ---"</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">health</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Health check: all </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">health</span><span class="o">.</span><span class="n">checks</span><span class="p">)</span><span class="si">}</span><span class="s2"> checks passed.&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Health check: all </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">health</span><span class="o">.</span><span class="n">checks</span><span class="p">)</span><span class="si">}</span><span class="s2"> checks passed."</span><span class="p">)</span>
 
     <span class="c1"># Print summary</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Summary ---&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">--- Summary ---"</span><span class="p">)</span>
     <span class="n">last</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">last</span><span class="o">.</span><span class="n">ideology_names</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">last</span><span class="o">.</span><span class="n">shares</span><span class="p">):</span>
             <span class="n">share</span> <span class="o">=</span> <span class="n">last</span><span class="o">.</span><span class="n">shares</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">share</span><span class="si">:</span><span class="s2">.1%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">share</span><span class="si">:</span><span class="s2">.1%</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-    <span class="n">hyb_count</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">events</span> <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">event_type</span> <span class="o">==</span> <span class="s2">&quot;hybridization&quot;</span><span class="p">)</span>
+    <span class="n">hyb_count</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">events</span> <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">event_type</span> <span class="o">==</span> <span class="s2">"hybridization"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">hyb_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">  Hybrid ideologies emerged: </span><span class="si">{</span><span class="n">hyb_count</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">  Hybrid ideologies emerged: </span><span class="si">{</span><span class="n">hyb_count</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">ev</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">events</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">ev</span><span class="o">.</span><span class="n">event_type</span> <span class="o">==</span> <span class="s2">&quot;hybridization&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ev</span><span class="o">.</span><span class="n">event_type</span> <span class="o">==</span> <span class="s2">"hybridization"</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;    </span><span class="si">{</span><span class="n">ev</span><span class="o">.</span><span class="n">details</span><span class="p">[</span><span class="s1">&#39;child&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">ev</span><span class="o">.</span><span class="n">details</span><span class="p">[</span><span class="s1">&#39;parents&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> + &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ev</span><span class="o">.</span><span class="n">details</span><span class="p">[</span><span class="s1">&#39;parents&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">) at year </span><span class="si">{</span><span class="n">ev</span><span class="o">.</span><span class="n">time</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="sa">f</span><span class="s2">"    </span><span class="si">{</span><span class="n">ev</span><span class="o">.</span><span class="n">details</span><span class="p">[</span><span class="s1">'child'</span><span class="p">]</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">ev</span><span class="o">.</span><span class="n">details</span><span class="p">[</span><span class="s1">'parents'</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2"> + "</span>
+                    <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">ev</span><span class="o">.</span><span class="n">details</span><span class="p">[</span><span class="s1">'parents'</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">) at year </span><span class="si">{</span><span class="n">ev</span><span class="o">.</span><span class="n">time</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">"</span>
                 <span class="p">)</span>
 
     <span class="n">save_result</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">output</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Full results saved to </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">output</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Full results saved to </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">output</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_run_evaluate</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -434,43 +435,43 @@
     <span class="kn">from</span><span class="w"> </span><span class="nn">ideasim.evaluation.runner</span><span class="w"> </span><span class="kn">import</span> <span class="n">run_evaluation</span>
 
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%(levelname)s</span><span class="s2">: </span><span class="si">%(message)s</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">"</span><span class="si">%(levelname)s</span><span class="s2">: </span><span class="si">%(message)s</span><span class="s2">"</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%(levelname)s</span><span class="s2">: </span><span class="si">%(message)s</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">logging</span><span class="o">.</span><span class="n">WARNING</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">"</span><span class="si">%(levelname)s</span><span class="s2">: </span><span class="si">%(message)s</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="c1"># Load dataset</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loading dataset from </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">dataset</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Loading dataset from </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">dataset</span><span class="si">}</span><span class="s2">..."</span><span class="p">)</span>
     <span class="n">dataset</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">dataset</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Dataset: </span><span class="si">{</span><span class="n">dataset</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Years: </span><span class="si">{</span><span class="n">dataset</span><span class="o">.</span><span class="n">year_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">dataset</span><span class="o">.</span><span class="n">year_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Ideologies: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">ideology_names</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Observations: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">observations</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Dataset: </span><span class="si">{</span><span class="n">dataset</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Years: </span><span class="si">{</span><span class="n">dataset</span><span class="o">.</span><span class="n">year_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">dataset</span><span class="o">.</span><span class="n">year_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Ideologies: </span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">ideology_names</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Observations: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">observations</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="c1"># Load or create base config</span>
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">config</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loading base config from </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">config</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Loading base config from </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">config</span><span class="si">}</span><span class="s2">..."</span><span class="p">)</span>
         <span class="n">base_config</span> <span class="o">=</span> <span class="n">load_config</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Using default simulation config as base...&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Using default simulation config as base..."</span><span class="p">)</span>
         <span class="n">base_config</span> <span class="o">=</span> <span class="n">make_default_config</span><span class="p">()</span>
 
     <span class="c1"># Validate config</span>
     <span class="n">validation</span> <span class="o">=</span> <span class="n">validate_config</span><span class="p">(</span><span class="n">base_config</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">validation</span><span class="o">.</span><span class="n">is_valid</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Config validation FAILED:&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Config validation FAILED:"</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">validation</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
     <span class="c1"># Run evaluation</span>
     <span class="n">mode</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">n_folds</span><span class="si">}</span><span class="s2">-fold temporal CV&quot;</span>
+        <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">n_folds</span><span class="si">}</span><span class="s2">-fold temporal CV"</span>
         <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">n_folds</span> <span class="o">&gt;</span> <span class="mi">1</span>
-        <span class="k">else</span> <span class="s2">&quot;single temporal split&quot;</span>
+        <span class="k">else</span> <span class="s2">"single temporal split"</span>
     <span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Running evaluation (</span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s2">)...&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Max iterations: </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">max_iterations</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Population size: </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">population_size</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Seed: </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">seed</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Running evaluation (</span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s2">)..."</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Max iterations: </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">max_iterations</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Population size: </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">population_size</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Seed: </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">seed</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="n">eval_result</span> <span class="o">=</span> <span class="n">run_evaluation</span><span class="p">(</span>
         <span class="n">base_config</span><span class="o">=</span><span class="n">base_config</span><span class="p">,</span>
@@ -490,41 +491,41 @@
     <span class="p">)</span>
 
     <span class="c1"># Print results</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Evaluation Results (</span><span class="si">{</span><span class="n">eval_result</span><span class="o">.</span><span class="n">elapsed_seconds</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">s) ---&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">--- Evaluation Results (</span><span class="si">{</span><span class="n">eval_result</span><span class="o">.</span><span class="n">elapsed_seconds</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">s) ---"</span><span class="p">)</span>
     <span class="n">agg</span> <span class="o">=</span> <span class="n">eval_result</span><span class="o">.</span><span class="n">aggregate_val_metrics</span>
-    <span class="k">if</span> <span class="s2">&quot;mse_mean&quot;</span> <span class="ow">in</span> <span class="n">agg</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s2">"mse_mean"</span> <span class="ow">in</span> <span class="n">agg</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;  Validation MSE:  </span><span class="si">{</span><span class="n">agg</span><span class="p">[</span><span class="s1">&#39;mse_mean&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2"> (+/- </span><span class="si">{</span><span class="n">agg</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;mse_std&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">)&quot;</span>
+            <span class="sa">f</span><span class="s2">"  Validation MSE:  </span><span class="si">{</span><span class="n">agg</span><span class="p">[</span><span class="s1">'mse_mean'</span><span class="p">]</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2"> (+/- </span><span class="si">{</span><span class="n">agg</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'mse_std'</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">)"</span>
         <span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Validation RMSE: </span><span class="si">{</span><span class="n">agg</span><span class="p">[</span><span class="s1">&#39;rmse_mean&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="s2">&quot;mae_mean&quot;</span> <span class="ow">in</span> <span class="n">agg</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Validation RMSE: </span><span class="si">{</span><span class="n">agg</span><span class="p">[</span><span class="s1">'rmse_mean'</span><span class="p">]</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">"mae_mean"</span> <span class="ow">in</span> <span class="n">agg</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;  Validation MAE:  </span><span class="si">{</span><span class="n">agg</span><span class="p">[</span><span class="s1">&#39;mae_mean&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2"> (+/- </span><span class="si">{</span><span class="n">agg</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;mae_std&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">)&quot;</span>
+            <span class="sa">f</span><span class="s2">"  Validation MAE:  </span><span class="si">{</span><span class="n">agg</span><span class="p">[</span><span class="s1">'mae_mean'</span><span class="p">]</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2"> (+/- </span><span class="si">{</span><span class="n">agg</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'mae_std'</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">)"</span>
         <span class="p">)</span>
-    <span class="k">if</span> <span class="s2">&quot;r_squared_mean&quot;</span> <span class="ow">in</span> <span class="n">agg</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s2">"r_squared_mean"</span> <span class="ow">in</span> <span class="n">agg</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;  Validation R^2:  </span><span class="si">{</span><span class="n">agg</span><span class="p">[</span><span class="s1">&#39;r_squared_mean&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> (+/- </span><span class="si">{</span><span class="n">agg</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;r_squared_std&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">)&quot;</span>
+            <span class="sa">f</span><span class="s2">"  Validation R^2:  </span><span class="si">{</span><span class="n">agg</span><span class="p">[</span><span class="s1">'r_squared_mean'</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> (+/- </span><span class="si">{</span><span class="n">agg</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'r_squared_std'</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">)"</span>
         <span class="p">)</span>
 
     <span class="k">for</span> <span class="n">fold</span> <span class="ow">in</span> <span class="n">eval_result</span><span class="o">.</span><span class="n">folds</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">  Fold </span><span class="si">{</span><span class="n">fold</span><span class="o">.</span><span class="n">fold_index</span><span class="si">}</span><span class="s2">: &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;train [</span><span class="si">{</span><span class="n">fold</span><span class="o">.</span><span class="n">split</span><span class="o">.</span><span class="n">train_start</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">fold</span><span class="o">.</span><span class="n">split</span><span class="o">.</span><span class="n">train_end</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">], &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;val (</span><span class="si">{</span><span class="n">fold</span><span class="o">.</span><span class="n">split</span><span class="o">.</span><span class="n">train_end</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">fold</span><span class="o">.</span><span class="n">split</span><span class="o">.</span><span class="n">val_end</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">]&quot;</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">  Fold </span><span class="si">{</span><span class="n">fold</span><span class="o">.</span><span class="n">fold_index</span><span class="si">}</span><span class="s2">: "</span>
+            <span class="sa">f</span><span class="s2">"train [</span><span class="si">{</span><span class="n">fold</span><span class="o">.</span><span class="n">split</span><span class="o">.</span><span class="n">train_start</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">fold</span><span class="o">.</span><span class="n">split</span><span class="o">.</span><span class="n">train_end</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">], "</span>
+            <span class="sa">f</span><span class="s2">"val (</span><span class="si">{</span><span class="n">fold</span><span class="o">.</span><span class="n">split</span><span class="o">.</span><span class="n">train_end</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">fold</span><span class="o">.</span><span class="n">split</span><span class="o">.</span><span class="n">val_end</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">]"</span>
         <span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    Train MSE: </span><span class="si">{</span><span class="n">fold</span><span class="o">.</span><span class="n">fit_result</span><span class="o">.</span><span class="n">train_metrics</span><span class="o">.</span><span class="n">mse</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    Val MSE:   </span><span class="si">{</span><span class="n">fold</span><span class="o">.</span><span class="n">val_metrics</span><span class="o">.</span><span class="n">mse</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    Val R^2:   </span><span class="si">{</span><span class="n">fold</span><span class="o">.</span><span class="n">val_metrics</span><span class="o">.</span><span class="n">r_squared</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"    Train MSE: </span><span class="si">{</span><span class="n">fold</span><span class="o">.</span><span class="n">fit_result</span><span class="o">.</span><span class="n">train_metrics</span><span class="o">.</span><span class="n">mse</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"    Val MSE:   </span><span class="si">{</span><span class="n">fold</span><span class="o">.</span><span class="n">val_metrics</span><span class="o">.</span><span class="n">mse</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"    Val R^2:   </span><span class="si">{</span><span class="n">fold</span><span class="o">.</span><span class="n">val_metrics</span><span class="o">.</span><span class="n">r_squared</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Results saved to </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">output_dir</span><span class="si">}</span><span class="s2">/&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Results saved to </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">output_dir</span><span class="si">}</span><span class="s2">/"</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_run_validate</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">config</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loading config from </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">config</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Loading config from </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">config</span><span class="si">}</span><span class="s2">..."</span><span class="p">)</span>
         <span class="n">config</span> <span class="o">=</span> <span class="n">load_config</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Validating default config...&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Validating default config..."</span><span class="p">)</span>
         <span class="n">config</span> <span class="o">=</span> <span class="n">make_default_config</span><span class="p">()</span>
 
     <span class="n">validation</span> <span class="o">=</span> <span class="n">validate_config</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
@@ -535,51 +536,51 @@
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_run_check</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">config</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loading config from </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">config</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Loading config from </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">config</span><span class="si">}</span><span class="s2">..."</span><span class="p">)</span>
         <span class="n">config</span> <span class="o">=</span> <span class="n">load_config</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Using default config...&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Using default config..."</span><span class="p">)</span>
         <span class="n">config</span> <span class="o">=</span> <span class="n">make_default_config</span><span class="p">()</span>
 
     <span class="c1"># Validate first</span>
     <span class="n">validation</span> <span class="o">=</span> <span class="n">validate_config</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">validation</span><span class="o">.</span><span class="n">is_valid</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Config validation FAILED:&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Config validation FAILED:"</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">validation</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
     <span class="c1"># Run simulation</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Running simulation (</span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">t_start</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">t_end</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">)...&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Running simulation (</span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">t_start</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">config</span><span class="o">.</span><span class="n">t_end</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">)..."</span><span class="p">)</span>
     <span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
     <span class="n">result</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
     <span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">t0</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Simulation completed in </span><span class="si">{</span><span class="n">elapsed</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s.&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Simulation completed in </span><span class="si">{</span><span class="n">elapsed</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s."</span><span class="p">)</span>
 
     <span class="c1"># Health check</span>
     <span class="n">health</span> <span class="o">=</span> <span class="n">check_health</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">json</span><span class="p">:</span>
         <span class="n">report_data</span> <span class="o">=</span> <span class="n">health</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
-        <span class="n">report_data</span><span class="p">[</span><span class="s2">&quot;simulation_time_seconds&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">elapsed</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-        <span class="n">report_data</span><span class="p">[</span><span class="s2">&quot;total_steps&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;total_steps&quot;</span><span class="p">]</span>
-        <span class="n">report_data</span><span class="p">[</span><span class="s2">&quot;total_events&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;total_events&quot;</span><span class="p">]</span>
+        <span class="n">report_data</span><span class="p">[</span><span class="s2">"simulation_time_seconds"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">elapsed</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">report_data</span><span class="p">[</span><span class="s2">"total_steps"</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">"total_steps"</span><span class="p">]</span>
+        <span class="n">report_data</span><span class="p">[</span><span class="s2">"total_events"</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">"total_events"</span><span class="p">]</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">report_data</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Health Report ---&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">--- Health Report ---"</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">health</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
 
         <span class="c1"># Also print basic metrics</span>
         <span class="n">last</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">history</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Final State ---&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">--- Final State ---"</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">last</span><span class="o">.</span><span class="n">ideology_names</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">last</span><span class="o">.</span><span class="n">shares</span><span class="p">):</span>
-                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">last</span><span class="o">.</span><span class="n">shares</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">last</span><span class="o">.</span><span class="n">shares</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
         <span class="n">entropy</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">entropy_timeseries</span><span class="p">()</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">entropy</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">  Entropy: </span><span class="si">{</span><span class="nb">float</span><span class="p">(</span><span class="n">entropy</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;(range [</span><span class="si">{</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">entropy</span><span class="p">))</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">entropy</span><span class="p">))</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">])&quot;</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">  Entropy: </span><span class="si">{</span><span class="nb">float</span><span class="p">(</span><span class="n">entropy</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> "</span>
+                <span class="sa">f</span><span class="s2">"(range [</span><span class="si">{</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">entropy</span><span class="p">))</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">entropy</span><span class="p">))</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">])"</span>
             <span class="p">)</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">health</span><span class="o">.</span><span class="n">all_passed</span><span class="p">:</span>
@@ -599,7 +600,7 @@
 
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">election_csv</span> <span class="ow">and</span> <span class="n">args</span><span class="o">.</span><span class="n">party_csv</span><span class="p">:</span>
         <span class="c1"># Use local files</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using local CSVs: </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">election_csv</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">party_csv</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Using local CSVs: </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">election_csv</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">party_csv</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="n">dataset</span> <span class="o">=</span> <span class="n">build_parlgov_dataset</span><span class="p">(</span>
             <span class="n">election_csv</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">election_csv</span><span class="p">),</span>
             <span class="n">party_csv</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">party_csv</span><span class="p">),</span>
@@ -609,9 +610,9 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># Download from ParlGov</span>
         <span class="n">cache_dir</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">Path</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">cache_dir</span><span class="p">)</span> <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">cache_dir</span> <span class="k">else</span> <span class="n">Path</span><span class="p">(</span><span class="s2">&quot;data/parlgov_cache&quot;</span><span class="p">)</span>
+            <span class="n">Path</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">cache_dir</span><span class="p">)</span> <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">cache_dir</span> <span class="k">else</span> <span class="n">Path</span><span class="p">(</span><span class="s2">"data/parlgov_cache"</span><span class="p">)</span>
         <span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Downloading ParlGov data (cache: </span><span class="si">{</span><span class="n">cache_dir</span><span class="si">}</span><span class="s2">)...&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Downloading ParlGov data (cache: </span><span class="si">{</span><span class="n">cache_dir</span><span class="si">}</span><span class="s2">)..."</span><span class="p">)</span>
         <span class="n">dataset</span> <span class="o">=</span> <span class="n">download_and_build</span><span class="p">(</span>
             <span class="n">cache_dir</span><span class="o">=</span><span class="n">cache_dir</span><span class="p">,</span>
             <span class="n">decade_aggregation</span><span class="o">=</span><span class="n">decade_aggregation</span><span class="p">,</span>
@@ -620,35 +621,35 @@
 
     <span class="n">save_dataset</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">output</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Dataset: </span><span class="si">{</span><span class="n">dataset</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Years: </span><span class="si">{</span><span class="n">dataset</span><span class="o">.</span><span class="n">year_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">dataset</span><span class="o">.</span><span class="n">year_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ideologies: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">ideology_names</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Observations: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">observations</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="n">agg_mode</span> <span class="o">=</span> <span class="s2">&quot;per-year&quot;</span> <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">per_year</span> <span class="k">else</span> <span class="s2">&quot;decade&quot;</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Aggregation: </span><span class="si">{</span><span class="n">agg_mode</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Dataset: </span><span class="si">{</span><span class="n">dataset</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Years: </span><span class="si">{</span><span class="n">dataset</span><span class="o">.</span><span class="n">year_range</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">dataset</span><span class="o">.</span><span class="n">year_range</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Ideologies: </span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">ideology_names</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Observations: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">dataset</span><span class="o">.</span><span class="n">observations</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="n">agg_mode</span> <span class="o">=</span> <span class="s2">"per-year"</span> <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">per_year</span> <span class="k">else</span> <span class="s2">"decade"</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Aggregation: </span><span class="si">{</span><span class="n">agg_mode</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="c1"># Print a summary table</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- Shares by Period ---&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">--- Shares by Period ---"</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="n">dataset</span><span class="o">.</span><span class="n">years</span><span class="p">:</span>
         <span class="n">shares</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">shares_at_year</span><span class="p">(</span><span class="n">year</span><span class="p">)</span>
-        <span class="n">parts</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">shares</span><span class="o">.</span><span class="n">items</span><span class="p">())]</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">year</span><span class="p">)</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">parts</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">shares</span><span class="o">.</span><span class="n">items</span><span class="p">())]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">year</span><span class="p">)</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Saved to </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">output</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Saved to </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">output</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_run_sensitivity</span><span class="p">(</span><span class="n">args</span><span class="p">:</span> <span class="n">argparse</span><span class="o">.</span><span class="n">Namespace</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">config</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loading config from </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">config</span><span class="si">}</span><span class="s2">...&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Loading config from </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">config</span><span class="si">}</span><span class="s2">..."</span><span class="p">)</span>
         <span class="n">config</span> <span class="o">=</span> <span class="n">load_config</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Using default config...&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Using default config..."</span><span class="p">)</span>
         <span class="n">config</span> <span class="o">=</span> <span class="n">make_default_config</span><span class="p">()</span>
 
     <span class="c1"># Validate config first</span>
     <span class="n">validation</span> <span class="o">=</span> <span class="n">validate_config</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">validation</span><span class="o">.</span><span class="n">is_valid</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Config validation FAILED:&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Config validation FAILED:"</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">validation</span><span class="o">.</span><span class="n">summary</span><span class="p">())</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
@@ -657,16 +658,16 @@
     <span class="n">deterministic</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">args</span><span class="o">.</span><span class="n">stochastic</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">run_oat_flag</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">run_lhs_flag</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ERROR: both --no-oat and --no-lhs specified; nothing to do.&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"ERROR: both --no-oat and --no-lhs specified; nothing to do."</span><span class="p">)</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
     <span class="n">analyses</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">if</span> <span class="n">run_oat_flag</span><span class="p">:</span>
-        <span class="n">analyses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;OAT (</span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">oat_steps</span><span class="si">}</span><span class="s2"> steps)&quot;</span><span class="p">)</span>
+        <span class="n">analyses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"OAT (</span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">oat_steps</span><span class="si">}</span><span class="s2"> steps)"</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">run_lhs_flag</span><span class="p">:</span>
-        <span class="n">analyses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;LHS (</span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">lhs_samples</span><span class="si">}</span><span class="s2"> samples)&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Running sensitivity analysis: </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">analyses</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Deterministic: </span><span class="si">{</span><span class="n">deterministic</span><span class="si">}</span><span class="s2">, Seed: </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">seed</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">analyses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"LHS (</span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">lhs_samples</span><span class="si">}</span><span class="s2"> samples)"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Running sensitivity analysis: </span><span class="si">{</span><span class="s1">', '</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">analyses</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  Deterministic: </span><span class="si">{</span><span class="n">deterministic</span><span class="si">}</span><span class="s2">, Seed: </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">seed</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
     <span class="n">result</span> <span class="o">=</span> <span class="n">run_sensitivity</span><span class="p">(</span>
@@ -682,20 +683,20 @@
 
     <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">json</span><span class="p">:</span>
         <span class="n">result_dict</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
-        <span class="n">result_dict</span><span class="p">[</span><span class="s2">&quot;elapsed_seconds&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">elapsed</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">result_dict</span><span class="p">[</span><span class="s2">"elapsed_seconds"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">elapsed</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">result_dict</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Done in </span><span class="si">{</span><span class="n">elapsed</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">s — </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">n_parameters</span><span class="si">}</span><span class="s2"> parameters analyzed.&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Done in </span><span class="si">{</span><span class="n">elapsed</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">s — </span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">n_parameters</span><span class="si">}</span><span class="s2"> parameters analyzed."</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">oat</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- OAT Results (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">oat</span><span class="p">)</span><span class="si">}</span><span class="s2"> parameters) ---&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">--- OAT Results (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">oat</span><span class="p">)</span><span class="si">}</span><span class="s2"> parameters) ---"</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">oat_param</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">oat</span><span class="p">:</span>
                 <span class="c1"># Show range of final shares for the dominant ideology</span>
                 <span class="k">if</span> <span class="n">oat_param</span><span class="o">.</span><span class="n">runs</span><span class="p">:</span>
                     <span class="c1"># Find ideology with highest variance across the sweep</span>
                     <span class="n">ideo_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">oat_param</span><span class="o">.</span><span class="n">runs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">final_shares</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
                     <span class="n">max_range</span> <span class="o">=</span> <span class="mf">0.0</span>
-                    <span class="n">max_range_name</span> <span class="o">=</span> <span class="n">ideo_names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">ideo_names</span> <span class="k">else</span> <span class="s2">&quot;unknown&quot;</span>
+                    <span class="n">max_range_name</span> <span class="o">=</span> <span class="n">ideo_names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">ideo_names</span> <span class="k">else</span> <span class="s2">"unknown"</span>
                     <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">ideo_names</span><span class="p">:</span>
                         <span class="n">vals</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span><span class="o">.</span><span class="n">final_shares</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">oat_param</span><span class="o">.</span><span class="n">runs</span><span class="p">]</span>
                         <span class="n">val_range</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span>
@@ -703,34 +704,34 @@
                             <span class="n">max_range</span> <span class="o">=</span> <span class="n">val_range</span>
                             <span class="n">max_range_name</span> <span class="o">=</span> <span class="n">name</span>
                     <span class="nb">print</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">oat_param</span><span class="o">.</span><span class="n">parameter_name</span><span class="si">}</span><span class="s2">: &quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;most affected = </span><span class="si">{</span><span class="n">max_range_name</span><span class="si">}</span><span class="s2"> &quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;(range </span><span class="si">{</span><span class="n">max_range</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">)&quot;</span>
+                        <span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">oat_param</span><span class="o">.</span><span class="n">parameter_name</span><span class="si">}</span><span class="s2">: "</span>
+                        <span class="sa">f</span><span class="s2">"most affected = </span><span class="si">{</span><span class="n">max_range_name</span><span class="si">}</span><span class="s2"> "</span>
+                        <span class="sa">f</span><span class="s2">"(range </span><span class="si">{</span><span class="n">max_range</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">)"</span>
                     <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">lhs_stats</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">--- LHS Summary (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">lhs_runs</span><span class="p">)</span><span class="si">}</span><span class="s2"> samples) ---&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">--- LHS Summary (</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">lhs_runs</span><span class="p">)</span><span class="si">}</span><span class="s2"> samples) ---"</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">stat</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">lhs_stats</span><span class="p">:</span>
                 <span class="nb">print</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">stat</span><span class="o">.</span><span class="n">metric_name</span><span class="si">}</span><span class="s2">: &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;mean=</span><span class="si">{</span><span class="n">stat</span><span class="o">.</span><span class="n">mean</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, std=</span><span class="si">{</span><span class="n">stat</span><span class="o">.</span><span class="n">std</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;range=[</span><span class="si">{</span><span class="n">stat</span><span class="o">.</span><span class="n">min</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">stat</span><span class="o">.</span><span class="n">max</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">]&quot;</span>
+                    <span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">stat</span><span class="o">.</span><span class="n">metric_name</span><span class="si">}</span><span class="s2">: "</span>
+                    <span class="sa">f</span><span class="s2">"mean=</span><span class="si">{</span><span class="n">stat</span><span class="o">.</span><span class="n">mean</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, std=</span><span class="si">{</span><span class="n">stat</span><span class="o">.</span><span class="n">std</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, "</span>
+                    <span class="sa">f</span><span class="s2">"range=[</span><span class="si">{</span><span class="n">stat</span><span class="o">.</span><span class="n">min</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">stat</span><span class="o">.</span><span class="n">max</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">]"</span>
                 <span class="p">)</span>
 
     <span class="c1"># Save full results to file</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">output</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">output</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(),</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Full results saved to </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">output</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Full results saved to </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">output</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="main">
 <a class="viewcode-back" href="../../api.html#ideasim.cli.main">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">argv</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span>
-        <span class="n">prog</span><span class="o">=</span><span class="s2">&quot;ideasim&quot;</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Ideological Dynamics Simulator — models competition between philosophical currents&quot;</span><span class="p">,</span>
+        <span class="n">prog</span><span class="o">=</span><span class="s2">"ideasim"</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"Ideological Dynamics Simulator — models competition between philosophical currents"</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">subparsers</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_subparsers</span><span class="p">(</span><span class="n">dest</span><span class="o">=</span><span class="s2">&quot;command&quot;</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">subparsers</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_subparsers</span><span class="p">(</span><span class="n">dest</span><span class="o">=</span><span class="s2">"command"</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="n">_add_simulate_parser</span><span class="p">(</span><span class="n">subparsers</span><span class="p">)</span>
     <span class="n">_add_default_config_parser</span><span class="p">(</span><span class="n">subparsers</span><span class="p">)</span>
@@ -742,33 +743,33 @@
 
     <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">(</span><span class="n">argv</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;default-config&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">"default-config"</span><span class="p">:</span>
         <span class="n">config</span> <span class="o">=</span> <span class="n">make_default_config</span><span class="p">()</span>
         <span class="n">save_config</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">output</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Default config written to </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">output</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Default config written to </span><span class="si">{</span><span class="n">args</span><span class="o">.</span><span class="n">output</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">return</span>
 
-    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;simulate&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">"simulate"</span><span class="p">:</span>
         <span class="n">_run_simulate</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;evaluate&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">"evaluate"</span><span class="p">:</span>
         <span class="n">_run_evaluate</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;validate&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">"validate"</span><span class="p">:</span>
         <span class="n">_run_validate</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;check&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">"check"</span><span class="p">:</span>
         <span class="n">_run_check</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;sensitivity&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">"sensitivity"</span><span class="p">:</span>
         <span class="n">_run_sensitivity</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">&quot;ingest-parlgov&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">command</span> <span class="o">==</span> <span class="s2">"ingest-parlgov"</span><span class="p">:</span>
         <span class="n">_run_ingest_parlgov</span><span class="p">(</span><span class="n">args</span><span class="p">)</span></div>
 
 
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
     <span class="n">main</span><span class="p">()</span>
 </pre></div>
 

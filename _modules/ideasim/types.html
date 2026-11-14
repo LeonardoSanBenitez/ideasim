@@ -8,6 +8,7 @@
   <title>ideasim.types &mdash; ideasim 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sphinx_autodoc_typehints.css?v=057ac668" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
@@ -73,12 +74,12 @@
            <div itemprop="articleBody">
              
   <h1>Source code for ideasim.types</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Core data types for the Ideological Dynamics Simulator.</span>
+<span></span><span class="sd">"""Core data types for the Ideological Dynamics Simulator.</span>
 
-<span class="sd">Based on Cidral&#39;s formal framework: replicator-mutator dynamics on the simplex,</span>
+<span class="sd">Based on Cidral's formal framework: replicator-mutator dynamics on the simplex,</span>
 <span class="sd">latent sympathy for dormancy/martyrdom, endogenous environment modification,</span>
 <span class="sd">hybridization as stochastic jump process. The full system is a PDMP.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -93,10 +94,10 @@
 <a class="viewcode-back" href="../../api.html#ideasim.types.Ideology">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">Ideology</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A single ideological current in the ecosystem.</span>
+<span class="w">    </span><span class="sd">"""A single ideological current in the ecosystem.</span>
 
 <span class="sd">    Attributes:</span>
-<span class="sd">        name: Human-readable name (e.g., &quot;liberalism&quot;, &quot;Marxism&quot;).</span>
+<span class="sd">        name: Human-readable name (e.g., "liberalism", "Marxism").</span>
 <span class="sd">        env_response: Weight vector w_i (length M) — how this ideology responds</span>
 <span class="sd">            to environmental conditions. Positive = thrives in that condition.</span>
 <span class="sd">        latent_conversion: gamma_i — rate at which latent sympathy converts</span>
@@ -109,7 +110,7 @@
 <span class="sd">        capture_threshold: theta_i — share above which institutional capture kicks in.</span>
 <span class="sd">        governance_threshold: theta_i^gov — share above which ideology can suppress others.</span>
 <span class="sd">        mutation_rate: nu_i — rate of parameter drift per year.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">env_response</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]</span>
@@ -128,7 +129,7 @@
 <a class="viewcode-back" href="../../api.html#ideasim.types.StochasticParams">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">StochasticParams</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parameters for stochastic event overlays.</span>
+<span class="w">    </span><span class="sd">"""Parameters for stochastic event overlays.</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        hybridization_rates: p_{ij} — rate of hybridization between i and j.</span>
@@ -141,7 +142,7 @@
 <span class="sd">        charisma_amplitude_std: Std of log-normal charisma amplitude.</span>
 <span class="sd">        mutation_step_size: sigma_mut — std of Gaussian mutation perturbation.</span>
 <span class="sd">        hybridization_seed_share: epsilon_h — initial share of new hybrid.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">hybridization_rates</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]</span>
     <span class="n">hybridization_thresholds</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]</span>
@@ -158,7 +159,7 @@
 <a class="viewcode-back" href="../../api.html#ideasim.types.EnvironmentSchedule">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">EnvironmentSchedule</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Exogenous environment trajectory and endogenous feedback.</span>
+<span class="w">    </span><span class="sd">"""Exogenous environment trajectory and endogenous feedback.</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        variable_names: Names of the M environmental variables.</span>
@@ -166,7 +167,7 @@
 <span class="sd">        exogenous_shocks: List of (time, variable_index, delta) — discrete shocks.</span>
 <span class="sd">        autonomous_decay: g_k decay rate toward baseline for each variable.</span>
 <span class="sd">        policy_influence: P matrix (N x M) — how ideologies change the environment.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">variable_names</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
     <span class="n">initial</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]</span>
@@ -180,7 +181,7 @@
 <a class="viewcode-back" href="../../api.html#ideasim.types.SimulationConfig">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">SimulationConfig</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Complete configuration for an ideological dynamics simulation.</span>
+<span class="w">    </span><span class="sd">"""Complete configuration for an ideological dynamics simulation.</span>
 
 <span class="sd">    Attributes:</span>
 <span class="sd">        ideologies: List of ideological types.</span>
@@ -196,7 +197,7 @@
 <span class="sd">        dt: Integration time step (years).</span>
 <span class="sd">        record_interval: How often to record state (in time steps).</span>
 <span class="sd">        seed: Random seed for reproducibility.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">ideologies</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Ideology</span><span class="p">]</span>
     <span class="n">interaction_matrix</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]</span>
@@ -232,7 +233,7 @@
 <a class="viewcode-back" href="../../api.html#ideasim.types.StateSnapshot">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">StateSnapshot</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Immutable snapshot of the system at a single point in time.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Immutable snapshot of the system at a single point in time."""</span>
 
     <span class="n">time</span><span class="p">:</span> <span class="nb">float</span>
     <span class="n">shares</span><span class="p">:</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]</span>
@@ -247,10 +248,10 @@
 <a class="viewcode-back" href="../../api.html#ideasim.types.SimulationEvent">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">SimulationEvent</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Record of a discrete stochastic event.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Record of a discrete stochastic event."""</span>
 
     <span class="n">time</span><span class="p">:</span> <span class="nb">float</span>
-    <span class="n">event_type</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># &quot;hybridization&quot;, &quot;mutation&quot;, &quot;charisma&quot;</span>
+    <span class="n">event_type</span><span class="p">:</span> <span class="nb">str</span>  <span class="c1"># "hybridization", "mutation", "charisma"</span>
     <span class="n">details</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span></div>
 
 
@@ -259,7 +260,7 @@
 <a class="viewcode-back" href="../../api.html#ideasim.types.SimulationResult">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">SimulationResult</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Complete result of a simulation run.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Complete result of a simulation run."""</span>
 
     <span class="n">config_summary</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span>
     <span class="n">history</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">StateSnapshot</span><span class="p">]</span>
@@ -300,7 +301,7 @@
 <div class="viewcode-block" id="SimulationResult.entropy_timeseries">
 <a class="viewcode-back" href="../../api.html#ideasim.types.SimulationResult.entropy_timeseries">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">entropy_timeseries</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Shannon entropy of ideological distribution over time.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Shannon entropy of ideological distribution over time."""</span>
         <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">history</span><span class="p">:</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">shares</span>

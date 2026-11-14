@@ -8,6 +8,7 @@
   <title>ideasim.health &mdash; ideasim 0.1.0 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sphinx_autodoc_typehints.css?v=057ac668" />
 
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
@@ -73,16 +74,16 @@
            <div itemprop="articleBody">
              
   <h1>Source code for ideasim.health</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Health checks for simulation results.</span>
+<span></span><span class="sd">"""Health checks for simulation results.</span>
 
 <span class="sd">Post-hoc sanity checks on simulation output to detect numerical</span>
 <span class="sd">issues, degenerate dynamics, or parameter tuning problems. These</span>
-<span class="sd">are the &quot;basic reporting metrics&quot; that help assess whether a</span>
+<span class="sd">are the "basic reporting metrics" that help assess whether a</span>
 <span class="sd">simulation run is producing sensible results.</span>
 
 <span class="sd">Designed to be run automatically after every simulation (e.g., in</span>
 <span class="sd">CI/CD or as part of a test harness) to flag problems early.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -97,16 +98,16 @@
 <a class="viewcode-back" href="../../api.html#ideasim.health.HealthCheck">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">HealthCheck</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;A single health check result.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""A single health check result."""</span>
 
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
     <span class="n">passed</span><span class="p">:</span> <span class="nb">bool</span>
     <span class="n">message</span><span class="p">:</span> <span class="nb">str</span>
-    <span class="n">severity</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;error&quot;</span>  <span class="c1"># &quot;error&quot;, &quot;warning&quot;, &quot;info&quot;</span>
+    <span class="n">severity</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"error"</span>  <span class="c1"># "error", "warning", "info"</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="n">status</span> <span class="o">=</span> <span class="s2">&quot;PASS&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">passed</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">severity</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
-        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2">] </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="si">}</span><span class="s2">&quot;</span></div>
+        <span class="n">status</span> <span class="o">=</span> <span class="s2">"PASS"</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">passed</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">severity</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">"[</span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2">] </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="si">}</span><span class="s2">"</span></div>
 
 
 
@@ -114,57 +115,57 @@
 <a class="viewcode-back" href="../../api.html#ideasim.health.HealthReport">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">HealthReport</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Aggregated health report for a simulation run.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Aggregated health report for a simulation run."""</span>
 
     <span class="n">checks</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">HealthCheck</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">all_passed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;True if all checks passed.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""True if all checks passed."""</span>
         <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">passed</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">checks</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">n_errors</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">checks</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">c</span><span class="o">.</span><span class="n">passed</span> <span class="ow">and</span> <span class="n">c</span><span class="o">.</span><span class="n">severity</span> <span class="o">==</span> <span class="s2">&quot;error&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">checks</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">c</span><span class="o">.</span><span class="n">passed</span> <span class="ow">and</span> <span class="n">c</span><span class="o">.</span><span class="n">severity</span> <span class="o">==</span> <span class="s2">"error"</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">n_warnings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">checks</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">c</span><span class="o">.</span><span class="n">passed</span> <span class="ow">and</span> <span class="n">c</span><span class="o">.</span><span class="n">severity</span> <span class="o">==</span> <span class="s2">&quot;warning&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">checks</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">c</span><span class="o">.</span><span class="n">passed</span> <span class="ow">and</span> <span class="n">c</span><span class="o">.</span><span class="n">severity</span> <span class="o">==</span> <span class="s2">"warning"</span><span class="p">)</span>
 
 <div class="viewcode-block" id="HealthReport.summary">
 <a class="viewcode-back" href="../../api.html#ideasim.health.HealthReport.summary">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">summary</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Human-readable summary.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Human-readable summary."""</span>
         <span class="n">lines</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">check</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">checks</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">check</span><span class="o">.</span><span class="n">passed</span><span class="p">:</span>
                 <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">check</span><span class="p">))</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_passed</span><span class="p">:</span>
-            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;All </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">checks</span><span class="p">)</span><span class="si">}</span><span class="s2"> health checks passed.&quot;</span><span class="p">)</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"All </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">checks</span><span class="p">)</span><span class="si">}</span><span class="s2"> health checks passed."</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">passed</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">checks</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">passed</span><span class="p">)</span>
             <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">passed</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">checks</span><span class="p">)</span><span class="si">}</span><span class="s2"> checks passed, &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">n_errors</span><span class="si">}</span><span class="s2"> error(s), </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">n_warnings</span><span class="si">}</span><span class="s2"> warning(s).&quot;</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">passed</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">checks</span><span class="p">)</span><span class="si">}</span><span class="s2"> checks passed, "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">n_errors</span><span class="si">}</span><span class="s2"> error(s), </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">n_warnings</span><span class="si">}</span><span class="s2"> warning(s)."</span>
             <span class="p">)</span>
-        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="HealthReport.to_dict">
 <a class="viewcode-back" href="../../api.html#ideasim.health.HealthReport.to_dict">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">object</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;JSON-serializable representation.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""JSON-serializable representation."""</span>
         <span class="k">return</span> <span class="p">{</span>
-            <span class="s2">&quot;all_passed&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_passed</span><span class="p">,</span>
-            <span class="s2">&quot;n_checks&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">checks</span><span class="p">),</span>
-            <span class="s2">&quot;n_errors&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_errors</span><span class="p">,</span>
-            <span class="s2">&quot;n_warnings&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_warnings</span><span class="p">,</span>
-            <span class="s2">&quot;checks&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">"all_passed"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">all_passed</span><span class="p">,</span>
+            <span class="s2">"n_checks"</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">checks</span><span class="p">),</span>
+            <span class="s2">"n_errors"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_errors</span><span class="p">,</span>
+            <span class="s2">"n_warnings"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_warnings</span><span class="p">,</span>
+            <span class="s2">"checks"</span><span class="p">:</span> <span class="p">[</span>
                 <span class="p">{</span>
-                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-                    <span class="s2">&quot;passed&quot;</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">passed</span><span class="p">,</span>
-                    <span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">message</span><span class="p">,</span>
-                    <span class="s2">&quot;severity&quot;</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">severity</span><span class="p">,</span>
+                    <span class="s2">"name"</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                    <span class="s2">"passed"</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">passed</span><span class="p">,</span>
+                    <span class="s2">"message"</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">message</span><span class="p">,</span>
+                    <span class="s2">"severity"</span><span class="p">:</span> <span class="n">c</span><span class="o">.</span><span class="n">severity</span><span class="p">,</span>
                 <span class="p">}</span>
                 <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">checks</span>
             <span class="p">],</span>
@@ -176,7 +177,7 @@
 <div class="viewcode-block" id="check_health">
 <a class="viewcode-back" href="../../api.html#ideasim.health.check_health">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">check_health</span><span class="p">(</span><span class="n">result</span><span class="p">:</span> <span class="n">SimulationResult</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">HealthReport</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Run all health checks on a simulation result.</span>
+<span class="w">    </span><span class="sd">"""Run all health checks on a simulation result.</span>
 
 <span class="sd">    Checks performed:</span>
 <span class="sd">    1. Simplex invariant: shares sum to ~1.0 at every recorded step.</span>
@@ -193,12 +194,12 @@
 
 <span class="sd">    Returns:</span>
 <span class="sd">        HealthReport with all check results.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">report</span> <span class="o">=</span> <span class="n">HealthReport</span><span class="p">()</span>
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">result</span><span class="o">.</span><span class="n">history</span><span class="p">:</span>
         <span class="n">report</span><span class="o">.</span><span class="n">checks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-            <span class="n">HealthCheck</span><span class="p">(</span><span class="s2">&quot;history_nonempty&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;No history snapshots.&quot;</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">)</span>
+            <span class="n">HealthCheck</span><span class="p">(</span><span class="s2">"history_nonempty"</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">"No history snapshots."</span><span class="p">,</span> <span class="s2">"error"</span><span class="p">)</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">report</span>
 
@@ -214,11 +215,11 @@
     <span class="n">simplex_ok</span> <span class="o">=</span> <span class="n">max_simplex_deviation</span> <span class="o">&lt;</span> <span class="mf">1e-6</span>
     <span class="n">report</span><span class="o">.</span><span class="n">checks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
         <span class="n">HealthCheck</span><span class="p">(</span>
-            <span class="s2">&quot;simplex_invariant&quot;</span><span class="p">,</span>
+            <span class="s2">"simplex_invariant"</span><span class="p">,</span>
             <span class="n">simplex_ok</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s2">&quot;Max deviation from simplex: </span><span class="si">{</span><span class="n">max_simplex_deviation</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2"> &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;(at t=</span><span class="si">{</span><span class="n">worst_time</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">).&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;error&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"Max deviation from simplex: </span><span class="si">{</span><span class="n">max_simplex_deviation</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2"> "</span>
+            <span class="sa">f</span><span class="s2">"(at t=</span><span class="si">{</span><span class="n">worst_time</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">)."</span><span class="p">,</span>
+            <span class="s2">"error"</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="p">)</span>
 
@@ -227,10 +228,10 @@
     <span class="n">shares_nonneg</span> <span class="o">=</span> <span class="n">min_share</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mf">1e-10</span>
     <span class="n">report</span><span class="o">.</span><span class="n">checks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
         <span class="n">HealthCheck</span><span class="p">(</span>
-            <span class="s2">&quot;shares_nonneg&quot;</span><span class="p">,</span>
+            <span class="s2">"shares_nonneg"</span><span class="p">,</span>
             <span class="n">shares_nonneg</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s2">&quot;Min share value: </span><span class="si">{</span><span class="n">min_share</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;error&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"Min share value: </span><span class="si">{</span><span class="n">min_share</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">."</span><span class="p">,</span>
+            <span class="s2">"error"</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="p">)</span>
 
@@ -238,10 +239,10 @@
     <span class="n">latent_nonneg</span> <span class="o">=</span> <span class="n">min_latent</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mf">1e-10</span>
     <span class="n">report</span><span class="o">.</span><span class="n">checks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
         <span class="n">HealthCheck</span><span class="p">(</span>
-            <span class="s2">&quot;latent_nonneg&quot;</span><span class="p">,</span>
+            <span class="s2">"latent_nonneg"</span><span class="p">,</span>
             <span class="n">latent_nonneg</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s2">&quot;Min latent value: </span><span class="si">{</span><span class="n">min_latent</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;error&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"Min latent value: </span><span class="si">{</span><span class="n">min_latent</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">."</span><span class="p">,</span>
+            <span class="s2">"error"</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="p">)</span>
 
@@ -260,18 +261,18 @@
 
     <span class="n">report</span><span class="o">.</span><span class="n">checks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
         <span class="n">HealthCheck</span><span class="p">(</span>
-            <span class="s2">&quot;no_nan&quot;</span><span class="p">,</span>
+            <span class="s2">"no_nan"</span><span class="p">,</span>
             <span class="ow">not</span> <span class="n">has_nan</span><span class="p">,</span>
-            <span class="s2">&quot;No NaN values.&quot;</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">has_nan</span> <span class="k">else</span> <span class="s2">&quot;NaN detected in history.&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;error&quot;</span><span class="p">,</span>
+            <span class="s2">"No NaN values."</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">has_nan</span> <span class="k">else</span> <span class="s2">"NaN detected in history."</span><span class="p">,</span>
+            <span class="s2">"error"</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="p">)</span>
     <span class="n">report</span><span class="o">.</span><span class="n">checks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
         <span class="n">HealthCheck</span><span class="p">(</span>
-            <span class="s2">&quot;no_inf&quot;</span><span class="p">,</span>
+            <span class="s2">"no_inf"</span><span class="p">,</span>
             <span class="ow">not</span> <span class="n">has_inf</span><span class="p">,</span>
-            <span class="s2">&quot;No Inf values.&quot;</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">has_inf</span> <span class="k">else</span> <span class="s2">&quot;Inf detected in history.&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;error&quot;</span><span class="p">,</span>
+            <span class="s2">"No Inf values."</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">has_inf</span> <span class="k">else</span> <span class="s2">"Inf detected in history."</span><span class="p">,</span>
+            <span class="s2">"error"</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="p">)</span>
 
@@ -282,11 +283,11 @@
     <span class="n">collapse_ok</span> <span class="o">=</span> <span class="n">n_above_threshold</span> <span class="o">&gt;=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">n_initial</span><span class="p">)</span>
     <span class="n">report</span><span class="o">.</span><span class="n">checks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
         <span class="n">HealthCheck</span><span class="p">(</span>
-            <span class="s2">&quot;no_collapse&quot;</span><span class="p">,</span>
+            <span class="s2">"no_collapse"</span><span class="p">,</span>
             <span class="n">collapse_ok</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n_above_threshold</span><span class="si">}</span><span class="s2"> ideology(ies) above 1% at end &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;(of </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">last</span><span class="o">.</span><span class="n">ideology_names</span><span class="p">)</span><span class="si">}</span><span class="s2"> total).&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;warning&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">n_above_threshold</span><span class="si">}</span><span class="s2"> ideology(ies) above 1% at end "</span>
+            <span class="sa">f</span><span class="s2">"(of </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">last</span><span class="o">.</span><span class="n">ideology_names</span><span class="p">)</span><span class="si">}</span><span class="s2"> total)."</span><span class="p">,</span>
+            <span class="s2">"warning"</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="p">)</span>
 
@@ -295,10 +296,10 @@
     <span class="n">dominance_ok</span> <span class="o">=</span> <span class="n">max_final_share</span> <span class="o">&lt;</span> <span class="mf">0.999</span>
     <span class="n">report</span><span class="o">.</span><span class="n">checks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
         <span class="n">HealthCheck</span><span class="p">(</span>
-            <span class="s2">&quot;no_total_dominance&quot;</span><span class="p">,</span>
+            <span class="s2">"no_total_dominance"</span><span class="p">,</span>
             <span class="n">dominance_ok</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s2">&quot;Max final share: </span><span class="si">{</span><span class="n">max_final_share</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;warning&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"Max final share: </span><span class="si">{</span><span class="n">max_final_share</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">."</span><span class="p">,</span>
+            <span class="s2">"warning"</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="p">)</span>
 
@@ -309,10 +310,10 @@
         <span class="n">entropy_ok</span> <span class="o">=</span> <span class="n">final_entropy</span> <span class="o">&gt;</span> <span class="mf">0.01</span> <span class="ow">or</span> <span class="n">n_initial</span> <span class="o">&lt;=</span> <span class="mi">1</span>
         <span class="n">report</span><span class="o">.</span><span class="n">checks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
             <span class="n">HealthCheck</span><span class="p">(</span>
-                <span class="s2">&quot;entropy_nonzero&quot;</span><span class="p">,</span>
+                <span class="s2">"entropy_nonzero"</span><span class="p">,</span>
                 <span class="n">entropy_ok</span><span class="p">,</span>
-                <span class="sa">f</span><span class="s2">&quot;Final Shannon entropy: </span><span class="si">{</span><span class="n">final_entropy</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;warning&quot;</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s2">"Final Shannon entropy: </span><span class="si">{</span><span class="n">final_entropy</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">."</span><span class="p">,</span>
+                <span class="s2">"warning"</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="p">)</span>
 
@@ -321,25 +322,25 @@
     <span class="n">history_ok</span> <span class="o">=</span> <span class="n">n_snaps</span> <span class="o">&gt;=</span> <span class="mi">10</span>
     <span class="n">report</span><span class="o">.</span><span class="n">checks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
         <span class="n">HealthCheck</span><span class="p">(</span>
-            <span class="s2">&quot;sufficient_history&quot;</span><span class="p">,</span>
+            <span class="s2">"sufficient_history"</span><span class="p">,</span>
             <span class="n">history_ok</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">n_snaps</span><span class="si">}</span><span class="s2"> snapshots recorded.&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;warning&quot;</span><span class="p">,</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">n_snaps</span><span class="si">}</span><span class="s2"> snapshots recorded."</span><span class="p">,</span>
+            <span class="s2">"warning"</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="p">)</span>
 
     <span class="c1"># 8. Event plausibility</span>
-    <span class="n">valid_event_types</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;hybridization&quot;</span><span class="p">,</span> <span class="s2">&quot;mutation&quot;</span><span class="p">,</span> <span class="s2">&quot;charisma&quot;</span><span class="p">}</span>
+    <span class="n">valid_event_types</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"hybridization"</span><span class="p">,</span> <span class="s2">"mutation"</span><span class="p">,</span> <span class="s2">"charisma"</span><span class="p">}</span>
     <span class="n">bad_events</span> <span class="o">=</span> <span class="p">[</span><span class="n">ev</span> <span class="k">for</span> <span class="n">ev</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">events</span> <span class="k">if</span> <span class="n">ev</span><span class="o">.</span><span class="n">event_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_event_types</span><span class="p">]</span>
     <span class="n">events_ok</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">bad_events</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
     <span class="n">report</span><span class="o">.</span><span class="n">checks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
         <span class="n">HealthCheck</span><span class="p">(</span>
-            <span class="s2">&quot;valid_event_types&quot;</span><span class="p">,</span>
+            <span class="s2">"valid_event_types"</span><span class="p">,</span>
             <span class="n">events_ok</span><span class="p">,</span>
-            <span class="sa">f</span><span class="s2">&quot;All </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">events</span><span class="p">)</span><span class="si">}</span><span class="s2"> events have valid types.&quot;</span>
+            <span class="sa">f</span><span class="s2">"All </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">events</span><span class="p">)</span><span class="si">}</span><span class="s2"> events have valid types."</span>
             <span class="k">if</span> <span class="n">events_ok</span>
-            <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">bad_events</span><span class="p">)</span><span class="si">}</span><span class="s2"> event(s) with unknown type.&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;warning&quot;</span><span class="p">,</span>
+            <span class="k">else</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">bad_events</span><span class="p">)</span><span class="si">}</span><span class="s2"> event(s) with unknown type."</span><span class="p">,</span>
+            <span class="s2">"warning"</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="p">)</span>
 
