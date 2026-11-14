@@ -375,6 +375,112 @@ def test_fitting_preserves_effective_epoch(
         assert result.train_metrics.mse == pytest.approx(losses[0], abs=1e-12)
 
 
+# --- Fitting a chosen subset of parameters ---
+
+
+class TestFreeParameters:
+    def test_select_none_keeps_every_parameter(self) -> None:
+        from ideasim.evaluation.fitting import build_parameter_spec, select_parameters
+
+        spec = build_parameter_spec(make_default_config())
+        assert select_parameters(spec, None) == spec
+
+    def test_select_keeps_spec_order(self) -> None:
+        from ideasim.evaluation.fitting import build_parameter_spec, select_parameters
+
+        spec = build_parameter_spec(make_default_config())
+        last, first = spec[-1].name, spec[0].name
+        chosen = select_parameters(spec, [last, first])
+        assert [p.name for p in chosen] == [first, last]
+
+    @pytest.mark.parametrize(
+        ("free", "message"),
+        [
+            ([], "at least one"),
+            (["rho", "rho"], "more than once"),
+            (["rho", "no_such_parameter"], "unknown parameters"),
+        ],
+    )
+    def test_select_refuses_a_bad_selection(
+        self, free: list[str], message: str
+    ) -> None:
+        from ideasim.evaluation.fitting import build_parameter_spec, select_parameters
+
+        spec = build_parameter_spec(make_default_config())
+        with pytest.raises(ValueError, match=message):
+            select_parameters(spec, free)
+
+    @staticmethod
+    def _fit_with_fake_optimizer(
+        monkeypatch: pytest.MonkeyPatch, free: list[str] | None
+    ) -> tuple[Any, list[int]]:
+        """Run fit_parameters with DE replaced by "return the upper bounds".
+
+        Returning the upper bounds (not x0) makes every free parameter move,
+        so a fixed parameter that changed would be visible.
+        """
+        from scipy.optimize import Bounds, OptimizeResult
+
+        from ideasim.evaluation import fitting
+
+        sizes: list[int] = []
+
+        def upper_bounds(
+            func: Callable[..., float],
+            bounds: Bounds,
+            args: tuple[Any, ...],
+            **kwargs: Any,
+        ) -> OptimizeResult:
+            sizes.append(len(bounds.ub))
+            assert len(kwargs["x0"]) == len(bounds.ub)
+            return OptimizeResult(
+                x=np.array(bounds.ub), fun=0.0, nfev=1, success=True, message="fake"
+            )
+
+        monkeypatch.setattr(fitting, "differential_evolution", upper_bounds)
+        config = make_default_config()
+        config.dt = 0.5
+        train = _make_test_dataset().filter_years(1850.0, 1870.0)
+        return fitting.fit_parameters(config, train, free=free), sizes
+
+    def test_only_the_free_parameters_change(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        from ideasim.evaluation.fitting import (
+            _extract_parameters,
+            build_parameter_spec,
+        )
+
+        base = make_default_config()
+        spec = build_parameter_spec(base)
+        free = ["rho", spec[0].name]
+        result, sizes = self._fit_with_fake_optimizer(monkeypatch, free)
+
+        assert sizes == [2]
+        assert sorted(result.parameter_values) == sorted(free)
+        before = _extract_parameters(base, spec)
+        after = _extract_parameters(result.best_config, spec)
+        for p, b, a in zip(spec, before, after, strict=True):
+            if p.name in free:
+                assert a == p.high
+                assert a != b
+            else:
+                assert a == b, p.name
+
+    def test_default_fits_every_parameter(
+        self, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        from ideasim.evaluation.fitting import build_parameter_spec
+
+        names = [p.name for p in build_parameter_spec(make_default_config())]
+        default, default_sizes = self._fit_with_fake_optimizer(monkeypatch, None)
+        explicit, explicit_sizes = self._fit_with_fake_optimizer(monkeypatch, names)
+
+        assert default_sizes == explicit_sizes == [len(names)]
+        assert list(default.parameter_values) == names
+        assert default.parameter_values == explicit.parameter_values
+
+
 # --- Fitting smoke test ---
 
 

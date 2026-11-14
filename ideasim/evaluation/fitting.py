@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import copy
 import logging
+from collections.abc import Sequence
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -170,6 +171,35 @@ def build_parameter_spec(
     return params
 
 
+def select_parameters(
+    params_spec: list[FittableParameter],
+    free: Sequence[str] | None,
+) -> list[FittableParameter]:
+    """Keep only the parameters named in ``free``, in spec order.
+
+    ``None`` keeps every parameter. A name that is not in the spec, a
+    repeated name, or an empty selection raises ``ValueError``, because a
+    silently ignored name would fit a different set than the caller asked for.
+    """
+    if free is None:
+        return list(params_spec)
+    names = list(free)
+    if not names:
+        raise ValueError("free must name at least one parameter, or be None.")
+    repeated = sorted({n for n in names if names.count(n) > 1})
+    if repeated:
+        raise ValueError(f"free names a parameter more than once: {repeated}")
+    known = {p.name for p in params_spec}
+    unknown = [n for n in names if n not in known]
+    if unknown:
+        raise ValueError(
+            f"free names unknown parameters {unknown}; "
+            f"fittable parameters are {[p.name for p in params_spec]}"
+        )
+    wanted = set(names)
+    return [p for p in params_spec if p.name in wanted]
+
+
 def _inject_parameters(
     config: SimulationConfig,
     params_spec: list[FittableParameter],
@@ -306,6 +336,7 @@ def fit_parameters(
     include_initial_latent: bool = False,
     align_t_start: bool = False,
     fit_dt: float | None = None,
+    free: Sequence[str] | None = None,
 ) -> FitResult:
     """Fit simulation parameters to observed training data.
 
@@ -339,6 +370,13 @@ def fit_parameters(
             config's dt. Larger dt (e.g., 0.5) speeds up fitting at
             the cost of integration accuracy. The final best_config
             retains the original dt.
+        free: Names of the parameters to optimize (as in
+            ``build_parameter_spec``, e.g. ``"rho"`` or
+            ``"liberalism.latent_decay"``). All others keep their values in
+            ``base_config``. ``None`` (the default) fits every parameter the
+            ``include_*`` flags select. Initial shares are renormalized to the
+            simplex after injection, so fitting some of them also rescales the
+            fixed ones.
 
     Returns:
         FitResult with optimized config and training metrics.
@@ -349,10 +387,13 @@ def fit_parameters(
     if len(observed_years) == 0:
         raise ValueError("Training dataset has no observations.")
 
-    params_spec = build_parameter_spec(
-        base_config,
-        include_initial_shares=include_initial_shares,
-        include_initial_latent=include_initial_latent,
+    params_spec = select_parameters(
+        build_parameter_spec(
+            base_config,
+            include_initial_shares=include_initial_shares,
+            include_initial_latent=include_initial_latent,
+        ),
+        free,
     )
     bounds = Bounds(
         lb=np.array([p.low for p in params_spec], dtype=np.float64),
