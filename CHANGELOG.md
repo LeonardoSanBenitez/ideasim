@@ -11,6 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - `fit_parameters(..., free=[...])` fits only the named parameters and keeps
   the rest at their configured values; `select_parameters` validates the names.
+- `ideasim.evaluation.recovery`, for parameter-recovery checks: `draw_truth`
+  draws known parameters within the fitter's bounds, `synthetic_dataset`
+  simulates observations from them (optionally noisy, deterministic like the
+  fitter), and `compare_to_truth` reports each fitted parameter's error, scaled
+  error and whether it ended at a bound.
 
 ### Fixed
 
