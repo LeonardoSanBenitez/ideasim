@@ -52,6 +52,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#parlgov-integration">ParlGov Integration</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#data-fetching">Data Fetching</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#fitted-initial-state-epochs">Fitted Initial-State Epochs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#fitting-a-subset-of-parameters">Fitting a Subset of Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#parameter-recovery">Parameter Recovery</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
@@ -121,6 +123,53 @@ the original trajectory from 1800.</p>
 returned configuration and reported training metrics retain the original
 evaluation step, so their loss can differ from the optimization loss when
 <code class="docutils literal notranslate"><span class="pre">fit_dt</span></code> is supplied.</p>
+</section>
+<section id="fitting-a-subset-of-parameters">
+<h2>Fitting a Subset of Parameters<a class="headerlink" href="#fitting-a-subset-of-parameters" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">fit_parameters(...,</span> <span class="pre">free=[...])</span></code> optimizes only the named parameters and
+keeps every other one at its value in the base configuration. The names are
+those of <code class="docutils literal notranslate"><span class="pre">build_parameter_spec</span></code> (for example <code class="docutils literal notranslate"><span class="pre">rho</span></code> or
+<code class="docutils literal notranslate"><span class="pre">liberalism.latent_decay</span></code>); an empty, repeated or unknown name raises
+<code class="docutils literal notranslate"><span class="pre">ValueError</span></code>. Without <code class="docutils literal notranslate"><span class="pre">free</span></code>, every parameter in the spec is fitted, as
+before.</p>
+</section>
+<section id="parameter-recovery">
+<h2>Parameter Recovery<a class="headerlink" href="#parameter-recovery" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">ideasim.evaluation.recovery</span></code> checks whether the fitter can find parameters
+that are known: draw a configuration, simulate data from it, fit, and compare.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">ideasim.defaults</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_default_config</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ideasim.evaluation.fitting</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">build_parameter_spec</span><span class="p">,</span>
+    <span class="n">fit_parameters</span><span class="p">,</span>
+    <span class="n">select_parameters</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ideasim.evaluation.recovery</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">compare_to_truth</span><span class="p">,</span>
+    <span class="n">draw_truth</span><span class="p">,</span>
+    <span class="n">synthetic_dataset</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">base</span> <span class="o">=</span> <span class="n">make_default_config</span><span class="p">()</span>
+<span class="n">base</span><span class="o">.</span><span class="n">t_start</span><span class="p">,</span> <span class="n">base</span><span class="o">.</span><span class="n">dt</span> <span class="o">=</span> <span class="mf">1890.0</span><span class="p">,</span> <span class="mf">0.5</span>
+<span class="n">spec</span> <span class="o">=</span> <span class="n">select_parameters</span><span class="p">(</span><span class="n">build_parameter_spec</span><span class="p">(</span><span class="n">base</span><span class="p">),</span> <span class="p">[</span><span class="s2">"rho"</span><span class="p">])</span>
+<span class="n">truth</span> <span class="o">=</span> <span class="n">draw_truth</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">spec</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="n">margin</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">synthetic_dataset</span><span class="p">(</span><span class="n">truth</span><span class="p">,</span> <span class="p">[</span><span class="mf">1900.0</span><span class="p">,</span> <span class="mf">1910.0</span><span class="p">,</span> <span class="mf">1920.0</span><span class="p">],</span> <span class="n">noise_sd</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+<span class="n">fit</span> <span class="o">=</span> <span class="n">fit_parameters</span><span class="p">(</span>
+    <span class="n">base</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">free</span><span class="o">=</span><span class="p">[</span><span class="s2">"rho"</span><span class="p">],</span> <span class="n">max_iterations</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">population_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">3</span>
+<span class="p">)</span>
+<span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">compare_to_truth</span><span class="p">(</span><span class="n">fit</span><span class="p">,</span> <span class="n">truth</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">true</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">fitted</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">scaled_error</span><span class="p">,</span> <span class="n">row</span><span class="o">.</span><span class="n">at_bound</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">synthetic_dataset</span></code> switches stochastic events and mutation off, as the
+fitter does, so noise-free data is data the fitter can reproduce exactly;
+<code class="docutils literal notranslate"><span class="pre">noise_sd</span></code> adds Gaussian noise clipped to [0, 1]. <code class="docutils literal notranslate"><span class="pre">scaled_error</span></code> is the
+error divided by the width of the parameter’s bounds, so errors of different
+parameters are comparable. <code class="docutils literal notranslate"><span class="pre">draw_truth(...,</span> <span class="pre">margin=m)</span></code> keeps drawn values a
+fraction <code class="docutils literal notranslate"><span class="pre">m</span></code> of the width away from each bound, so a fit that ends at a bound
+is always wrong.</p>
 </section>
 </section>
 

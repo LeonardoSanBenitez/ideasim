@@ -48,3 +48,54 @@ the original trajectory from 1800.
 returned configuration and reported training metrics retain the original
 evaluation step, so their loss can differ from the optimization loss when
 ``fit_dt`` is supplied.
+
+Fitting a Subset of Parameters
+------------------------------
+
+``fit_parameters(..., free=[...])`` optimizes only the named parameters and
+keeps every other one at its value in the base configuration. The names are
+those of ``build_parameter_spec`` (for example ``rho`` or
+``liberalism.latent_decay``); an empty, repeated or unknown name raises
+``ValueError``. Without ``free``, every parameter in the spec is fitted, as
+before.
+
+Parameter Recovery
+------------------
+
+``ideasim.evaluation.recovery`` checks whether the fitter can find parameters
+that are known: draw a configuration, simulate data from it, fit, and compare.
+
+.. code-block:: python
+
+    import numpy as np
+
+    from ideasim.defaults import make_default_config
+    from ideasim.evaluation.fitting import (
+        build_parameter_spec,
+        fit_parameters,
+        select_parameters,
+    )
+    from ideasim.evaluation.recovery import (
+        compare_to_truth,
+        draw_truth,
+        synthetic_dataset,
+    )
+
+    base = make_default_config()
+    base.t_start, base.dt = 1890.0, 0.5
+    spec = select_parameters(build_parameter_spec(base), ["rho"])
+    truth = draw_truth(base, spec, np.random.default_rng(0), margin=0.1)
+    data = synthetic_dataset(truth, [1900.0, 1910.0, 1920.0], noise_sd=0.0)
+    fit = fit_parameters(
+        base, data, free=["rho"], max_iterations=10, population_size=5, seed=3
+    )
+    for row in compare_to_truth(fit, truth):
+        print(row.name, row.true, row.fitted, row.scaled_error, row.at_bound)
+
+``synthetic_dataset`` switches stochastic events and mutation off, as the
+fitter does, so noise-free data is data the fitter can reproduce exactly;
+``noise_sd`` adds Gaussian noise clipped to [0, 1]. ``scaled_error`` is the
+error divided by the width of the parameter's bounds, so errors of different
+parameters are comparable. ``draw_truth(..., margin=m)`` keeps drawn values a
+fraction ``m`` of the width away from each bound, so a fit that ends at a bound
+is always wrong.
