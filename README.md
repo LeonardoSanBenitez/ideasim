@@ -76,13 +76,15 @@ docker compose run --rm simulator
 ### Python API
 
 ```python
-from ideasim.defaults import load_default_config
+from ideasim.defaults import make_default_config
 from ideasim.engine import simulate
 
-config = load_default_config()
-result = simulate(config, seed=42)
+config = make_default_config()
+config.seed = 42
+result = simulate(config)
 
-print(f"Final shares: {result.final_shares}")
+for name, share in zip(result.ideology_names, result.history[-1].shares):
+    print(f"{name}: {share:.2f}")
 print(f"Events triggered: {len(result.events)}")
 ```
 

@@ -16,12 +16,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   simulates observations from them (optionally noisy, deterministic like the
   fitter), and `compare_to_truth` reports each fitted parameter's error, scaled
   error and whether it ended at a bound.
+- `ideasim.cli.build_parser()` returns the command-line parser without running it.
+- A test runs every Python example in the documentation and parses every
+  `ideasim` command line it shows.
 
 ### Fixed
 
 - With `align_t_start=True`, the fitted `best_config` keeps the aligned start
   year its initial shares and latent values were fitted at. This changes
   reported training metrics and saved fits made with that option.
+- The documentation's examples run: the quick start (also in the README) used
+  `load_default_config`, `simulate(config, seed=...)` and `final_shares`, none of
+  which exist, and the ParlGov example called a missing `fetch_parlgov_data`.
+- The configuration reference lists the real, flat top-level keys and every
+  ideology, environment and stochastic field; the evaluation guide no longer
+  claims cabinet data is downloaded or that the ParlGov tests download anything.
 
 ## [0.1.0] - 2026-04-03
 
