@@ -10,28 +10,42 @@ ParlGov Integration
 The evaluation module fetches party-level electoral data from ParlGov and
 maps parties to ideological families for comparison with simulated trajectories.
 
-To run the evaluation (requires network access for initial data fetch)::
+To download the data and build the observed dataset from the command line::
 
-    python -m pytest tests/test_parlgov.py -v --run-slow
+    ideasim ingest-parlgov -o parlgov_dataset.json
 
-The data is cached locally in the ``data/`` directory after the first fetch.
+The first run needs network access. The two CSV files are cached in
+``data/parlgov_cache/`` (``--cache-dir`` changes it) and reused afterwards.
+
+The tests in ``tests/test_parlgov.py`` run offline on small hand-written files.
+The few that read the real data use ``data/parlgov_cache/`` in the repository
+when it exists and are skipped otherwise::
+
+    python -m pytest tests/test_parlgov.py -v
 
 Data Fetching
 -------------
 
 ParlGov data is not bundled with the package. To fetch it manually:
 
+.. docs-test: slow
+
 .. code-block:: python
 
-    from ideasim.evaluation.parlgov import fetch_parlgov_data
+    from pathlib import Path
 
-    data = fetch_parlgov_data(cache_dir="data/parlgov")
+    from ideasim.evaluation.parlgov import download_and_build
 
-The fetched data includes party positions, election results, and cabinet
-compositions across European democracies.
+    dataset = download_and_build(Path("data/parlgov_cache"))
+
+    print(f"Number of observations: {len(dataset.observations)}")
+
+This downloads the election results and the party table, which also carries
+the parties' positions. The dataset builder uses only each party's family,
+mapped to an ideology.
 
 Fitted Initial-State Epochs
---------------------------
+---------------------------
 
 When ``fit_parameters(..., align_t_start=True)`` advances the simulation start
 to ten years before the first training observation, the returned configuration
