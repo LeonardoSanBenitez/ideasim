@@ -648,7 +648,8 @@ def _run_sensitivity(args: argparse.Namespace) -> None:
     print(f"\nFull results saved to {args.output}")
 
 
-def main(argv: list[str] | None = None) -> None:
+def build_parser() -> argparse.ArgumentParser:
+    """Return the ``ideasim`` argument parser, with every subcommand."""
     parser = argparse.ArgumentParser(
         prog="ideasim",
         description="Ideological Dynamics Simulator — models competition between philosophical currents",
@@ -662,8 +663,11 @@ def main(argv: list[str] | None = None) -> None:
     _add_check_parser(subparsers)
     _add_sensitivity_parser(subparsers)
     _add_ingest_parlgov_parser(subparsers)
+    return parser
 
-    args = parser.parse_args(argv)
+
+def main(argv: list[str] | None = None) -> None:
+    args = build_parser().parse_args(argv)
 
     if args.command == "default-config":
         config = make_default_config()
